@@ -8,7 +8,7 @@
     "start": "nodemon --delay index",
     "test": "npm run jest",
     "build": "babel src/ --out-dir dist/ && webpack",
-    "build:watch": "babel src/ --out-dir dist/ --watch",
+    "dev": "babel src/ --out-dir dist/ --watch & webpack --watch",
     "webpack:watch": "webpack --watch",
     "lint": "eslint src/**/*.js"
   },
