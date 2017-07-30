@@ -7,7 +7,7 @@
     "postinstall": "mkdir -p dist/",
     "start": "nodemon --delay index",
     "test": "npm run jest",
-    "build": "babel src/ --out-dir dist/ && webpack",
+    "build": "rm -rf dist/* && babel src/ --out-dir dist/ && webpack",
     "dev": "babel src/ --out-dir dist/ --watch & webpack --watch",
     "webpack:watch": "webpack --watch",
     "lint": "eslint src/**/*.js"
