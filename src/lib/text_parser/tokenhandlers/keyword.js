@@ -3,17 +3,16 @@
  * the factory will produce tokenHandlers for a provided array of keywords
  * */
 
-function onMatch(match) {
-  return {
-    type: 'KEYWORD',
-    content: match[0],
-    index: match.index,
-  };
-}
 
-export default function factory(keyword) {
+export default function factory(keyword, type = 'KEYWORD') {
   return {
     pattern: new RegExp(`${keyword}`, 'gi'),
-    onMatch
+    onMatch: function onMatch(match) {
+      return {
+        type,
+        content: match[0],
+        index: match.index,
+      };
+    }
   };
 }
