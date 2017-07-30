@@ -20,38 +20,18 @@ class ParsedText {
     this.text = text;
     this.tokens = tokens;
     this.normalizedText = this.text.toLowerCase();
-    this.lines = this.normalizedText.split('\n');
     this.tree = {};
     this.markers = [];
   }
 
-  markPattern(regex) {
-    if (!regex) return;
-
-    let match = regex.exec(this.normalizedText);
-    while (match) {
-      if (match) {
-        this.markers.push({
-          content: match[0],
-          index: match.index,
-        });
-      }
-      match = regex.exec(this.normalizedText);
-    }
-  }
-
   buildMarkers() {
-    // this.markPattern(boldPattern);
-    this.markers.push(...parseTokens(this.normalizedText, boldTokenHandler));
-    this.markers.push(...parseTokens(this.normalizedText, urlTokenHandler));
-    this.markers.push(...parseTokens(this.normalizedText, underlineTokenHandler));
+    this.markers = Array.concat(
+      parseTokens(this.normalizedText, boldTokenHandler),
+      parseTokens(this.normalizedText, urlTokenHandler),
+      parseTokens(this.normalizedText, underlineTokenHandler)
+    );
     this.markers.sort((a, b) => a.index > b.index);
     console.log('markers', this.markers);
-    // this.markers.push(...parseBold(this.normalizedText));
-    // this.markers.push(...parseURLs(this.normalizedText));
-
-    // this.markPattern(underlinePattern);
-    // this.markPattern(urlPattern);
   }
 
   buildTree() {
