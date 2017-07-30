@@ -1,13 +1,14 @@
 import { makeSimpleTagRegex } from '../utils';
 
-const token = '*';
-const pattern = makeSimpleTagRegex(token);
+const delimiters = { open: '*', close: '*' };
+const pattern = makeSimpleTagRegex(delimiters);
 
 function onMatch(match) {
   return {
     type: 'BOLD',
     content: match[1],
     index: match.index,
+    delimiters
   };
 }
 

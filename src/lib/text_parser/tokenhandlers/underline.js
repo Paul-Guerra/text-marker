@@ -1,13 +1,14 @@
 import { makeSimpleTagRegex } from '../utils';
 
-const token = '_';
-const pattern = makeSimpleTagRegex(token);
+const delimiters = { open: '_', close: '_' };
+const pattern = makeSimpleTagRegex(delimiters);
 
 function onMatch(match) {
   return {
     type: 'UNDERLINE',
     content: match[1],
     index: match.index,
+    delimiters
   };
 }
 
