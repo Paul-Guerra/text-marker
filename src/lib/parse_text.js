@@ -23,8 +23,10 @@ class ParsedText {
     this.buildTree();
   }
 
-  findBold() {
-    let match = boldPattern.exec(this.normalizedText);
+  markPattern(regex) {
+    if (!regex) return;
+
+    let match = regex.exec(this.normalizedText);
     while (match) {
       if (match) {
         this.markers.push({
@@ -33,28 +35,14 @@ class ParsedText {
           index: match.index,
         });
       }
-      match = boldPattern.exec(this.normalizedText);
-    }
-  }
-
-
-  findUnderline() {
-    let match = underlinePattern.exec(this.normalizedText);
-    while (match) {
-      if (match) {
-        this.markers.push({
-          tag: match[0],
-          content: match[1],
-          index: match.index,
-        });
-      }
-      match = underlinePattern.exec(this.normalizedText);
+      match = regex.exec(this.normalizedText);
     }
   }
 
   buildMarkers() {
-    this.findBold();
-    this.findUnderline();
+    this.markPattern(boldPattern);
+    // this.markPattern(underlinePattern);
+    this.markPattern(urlPattern);
     console.log(this.markers);
   }
 

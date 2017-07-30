@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Parser from '../lib/parser';
+import Parser from '../lib/parse_text';
 
 function bold(text) {
   return (<strong>{text}</strong>);
