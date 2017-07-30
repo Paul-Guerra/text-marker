@@ -1,10 +1,11 @@
 import * as React from 'react';
+import Parser from '../lib/parser';
 
 function bold(text) {
   return (<strong>{text}</strong>);
 }
 
-function parser(text) {
+function test(text) {
   let key = 'bold';
   let keyPos = text.indexOf(key);
   let prefix;
@@ -22,11 +23,9 @@ function parser(text) {
   );
 }
 
+// export default data => test(data.text);
 export default (data) => {
-  let output = parser(data.text);
-  return (
-    <span>
-      {output}
-    </span>
-  );
+  let p = new Parser(data);
+  p.parse();
+  return test(data.text);
 };
