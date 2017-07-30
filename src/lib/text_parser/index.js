@@ -1,5 +1,5 @@
 import boldTokenHandler from './tokenhandlers/bold';
-import urlTokenHandler from './tokenhandlers/url';
+import { pattern as urlPattern, type as urlTokenType } from './tokenhandlers/url';
 import underlineTokenHandler from './tokenhandlers/underline';
 import keywordTokenHandlerFactory from './tokenhandlers/keyword';
 
@@ -28,8 +28,8 @@ class ParsedText {
   buildMarkers() {
     this.markers = Array.concat(
       parseTokens(this.normalizedText, boldTokenHandler),
-      parseTokens(this.normalizedText, urlTokenHandler),
       parseTokens(this.normalizedText, underlineTokenHandler),
+      parseTokens(this.normalizedText, keywordTokenHandlerFactory(urlPattern, urlTokenType)),
       parseTokens(this.normalizedText, keywordTokenHandlerFactory('google.com . . .  or'))
     );
     this.markers.sort((a, b) => a.index > b.index);
