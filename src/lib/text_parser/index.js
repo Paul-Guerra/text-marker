@@ -1,6 +1,7 @@
 import boldTokenHandler from './tokenhandlers/bold';
 import urlTokenHandler from './tokenhandlers/url';
 import underlineTokenHandler from './tokenhandlers/underline';
+import keywordTokenHandlerFactory from './tokenhandlers/keyword';
 
 function parseTokens(text, { pattern, onMatch }) {
   if (!text || !pattern || !onMatch) return [];
@@ -28,7 +29,8 @@ class ParsedText {
     this.markers = Array.concat(
       parseTokens(this.normalizedText, boldTokenHandler),
       parseTokens(this.normalizedText, urlTokenHandler),
-      parseTokens(this.normalizedText, underlineTokenHandler)
+      parseTokens(this.normalizedText, underlineTokenHandler),
+      parseTokens(this.normalizedText, keywordTokenHandlerFactory('google.com . . .  or'))
     );
     this.markers.sort((a, b) => a.index > b.index);
     console.log('markers', this.markers);
