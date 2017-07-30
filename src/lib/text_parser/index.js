@@ -45,6 +45,7 @@ class ParsedText {
     this.markers.push(...parseTokens(this.normalizedText, boldTokenHandler));
     this.markers.push(...parseTokens(this.normalizedText, urlTokenHandler));
     this.markers.push(...parseTokens(this.normalizedText, underlineTokenHandler));
+    this.markers.sort((a, b) => a.index > b.index);
     console.log('markers', this.markers);
     // this.markers.push(...parseBold(this.normalizedText));
     // this.markers.push(...parseURLs(this.normalizedText));
