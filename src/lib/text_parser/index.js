@@ -16,33 +16,15 @@ function parseTokens(text, { pattern, onMatch }) {
   return markers;
 }
 
-class ParsedText {
-  constructor({ text }, tokens = []) {
-    this.text = text;
-    this.tokens = tokens;
-    this.normalizedText = this.text.toLowerCase();
-    this.tree = {};
-    this.markers = [];
-  }
-
-  buildMarkers() {
-    this.markers = Array.concat(
-      parseTokens(this.normalizedText, boldTokenHandler),
-      parseTokens(this.normalizedText, underlineTokenHandler),
-      parseTokens(this.normalizedText, keywordTokenHandlerFactory(urlPattern, urlTokenType)),
-      parseTokens(this.normalizedText, keywordTokenHandlerFactory('google.com . . .  or'))
-    );
-    this.markers.sort((a, b) => a.index > b.index);
-    console.log('markers', this.markers);
-  }
-
-  buildTree() {
-    this.buildMarkers();
-  }
-
-  parse() {
-    this.buildTree();
-  }
+export function findTokens(text) {
+  return Array.concat(
+    parseTokens(text, boldTokenHandler),
+    parseTokens(text, underlineTokenHandler),
+    parseTokens(text, keywordTokenHandlerFactory(urlPattern, urlTokenType)),
+    parseTokens(text, keywordTokenHandlerFactory('google.com . . .  or'))
+  ).sort((a, b) => a.index > b.index);
 }
 
-export default ParsedText;
+export function parse(text) {
+  return findTokens(text);
+}

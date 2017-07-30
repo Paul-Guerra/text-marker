@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Parser from '../lib/text_parser';
+import Parser, { parse } from '../lib/text_parser';
 
 function bold(text) {
   return (<strong>{text}</strong>);
@@ -25,7 +25,6 @@ function test(text) {
 
 // export default data => test(data.text);
 export default (data) => {
-  let p = new Parser(data);
-  p.parse();
+  console.log(parse(data.text));
   return test(data.text);
 };
