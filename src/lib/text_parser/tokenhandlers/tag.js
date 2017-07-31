@@ -14,10 +14,8 @@ export function makeTagRegex({ open, close = open }) {
 }
 
 export default function factory(tags, name) {
-  let pattern = makeTagRegex(tags);
-
   return {
-    pattern,
+    pattern: makeTagRegex(tags),
     onMatch: function onMatch(match) {
       return {
         name,
