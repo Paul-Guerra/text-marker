@@ -9,12 +9,12 @@
 // a simpler expression for matching single character delimters was originally used. See below
 // new RegExp(`[${open}]([^${close}]+)[${close}]`, 'gi');
 
-export function makeSimpleTagRegex({ open, close = open }) {
+export function makeTagRegex({ open, close = open }) {
   return new RegExp(`\\${open}(?!\\${open})(.+?)\\${close}`, 'gi');
 }
 
 export default function factory(tags, name) {
-  let pattern = makeSimpleTagRegex(tags);
+  let pattern = makeTagRegex(tags);
 
   return {
     pattern,
