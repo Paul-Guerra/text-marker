@@ -1,7 +1,6 @@
-import boldTokenHandler from './tokenhandlers/bold';
 import { pattern as urlPattern, type as urlTokenType } from './tokenhandlers/url';
-import underlineTokenHandler from './tokenhandlers/underline';
 import keywordTokenHandlerFactory from './tokenhandlers/keyword';
+import tagTokenHandlerFactory from './tokenhandlers/tag';
 
 function parseTokens(text, { pattern, onMatch }) {
   if (!text || !pattern || !onMatch) return [];
@@ -18,8 +17,8 @@ function parseTokens(text, { pattern, onMatch }) {
 
 export function findTokens(text) {
   return Array.concat(
-    parseTokens(text, boldTokenHandler),
-    parseTokens(text, underlineTokenHandler),
+    parseTokens(text, tagTokenHandlerFactory({ open: '*', close: '*' }, 'BOLD')),
+    parseTokens(text, tagTokenHandlerFactory({ open: '_', close: '_' }, 'UNDERLINE')),
     parseTokens(text, keywordTokenHandlerFactory(urlPattern, urlTokenType)),
     parseTokens(text, keywordTokenHandlerFactory('google.com . . .  or'))
   ).sort((a, b) => a.index > b.index);

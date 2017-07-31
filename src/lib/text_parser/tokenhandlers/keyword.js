@@ -8,6 +8,7 @@ export default function factory(token, type = 'KEYWORD') {
   if (token instanceof RegExp) pattern = token;
   if (typeof token === 'string') pattern = new RegExp(`${token}`, 'gi');
   if (!pattern) return {};
+
   return {
     pattern,
     onMatch: function onMatch(match) {

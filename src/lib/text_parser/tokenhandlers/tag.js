@@ -1,3 +1,4 @@
+
 // makeSimpleTagRegex MUST match text  surrounded by the provided open and close tags
 // this text MAY span more than one line and include white space
 // open and close tags MAY contain multiple characters and not be identical to each other
@@ -12,6 +13,18 @@ export function makeSimpleTagRegex({ open, close = open }) {
   return new RegExp(`\\${open}(?!\\${open})(.+?)\\${close}`, 'gi');
 }
 
-export default {
-  makeSimpleTagRegex
-};
+export default function factory(tags, name) {
+  let pattern = makeSimpleTagRegex(tags);
+
+  return {
+    pattern,
+    onMatch: function onMatch(match) {
+      return {
+        name,
+        type: 'TAG',
+        content: match[1],
+        index: match.index,
+      };
+    }
+  };
+}
