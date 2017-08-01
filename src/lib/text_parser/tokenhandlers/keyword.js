@@ -3,7 +3,7 @@
  * the factory will produce tokenHandlers for a provided array of keywords
  * */
 
-export default function factory(token, type = 'KEYWORD') {
+export default function factory(token, name) {
   let pattern;
   if (token instanceof RegExp) pattern = token;
   if (typeof token === 'string') pattern = new RegExp(`${token}`, 'gi');
@@ -11,11 +11,12 @@ export default function factory(token, type = 'KEYWORD') {
 
   return {
     pattern,
-    onMatch: function onMatch(match) {
+    tokenizer: function tokenizer(match) {
       return {
-        type,
-        content: match[0],
-        index: match.index,
+        name,
+        type: 'KEYWORD',
+        token: match[0],
+        start: match.index,
       };
     }
   };

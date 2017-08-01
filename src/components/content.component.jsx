@@ -25,6 +25,6 @@ function test(text) {
 
 // export default data => test(data.text);
 export default (data) => {
-  console.log(parse(data.text));
+  parse(data.text);
   return test(data.text);
 };
