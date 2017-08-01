@@ -3,11 +3,14 @@
  * the factory will produce tokenHandlers for a provided array of keywords
  * */
 
-export default function factory(token, name) {
+export default function factory(symbol, name) {
   let pattern;
-  if (token instanceof RegExp) pattern = token;
-  if (typeof token === 'string') pattern = new RegExp(`${token}`, 'gi');
-  if (!pattern) return {};
+  if (symbol instanceof RegExp) pattern = symbol;
+  if (typeof symbol === 'string') pattern = new RegExp(`${symbol}`, 'gi');
+  if (!pattern) {
+    console.error('Cannot create a keyword token without a pattern');
+    return {};
+  }
 
   return {
     pattern,
@@ -15,7 +18,7 @@ export default function factory(token, name) {
       return {
         name,
         type: 'KEYWORD',
-        token: match[0],
+        chars: match[0],
         start: match.index,
       };
     }

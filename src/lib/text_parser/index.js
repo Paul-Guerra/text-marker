@@ -23,14 +23,70 @@ function parseTokens(text, { pattern, tokenizer }) {
   return tokens;
 }
 
+function printTokens(tokens) {
+  tokens.forEach((token) => {
+    console.log(token.start, token.type, token.name, token);
+  });
+}
+// buffer for tokens waiting to be inserted when lexer is fixing overlapping tokens
+let tokensForIndex = {};
+function setTokensForIndex(index, token) {
+  let key = `${index}`;
+  if (tokensForIndex[key] instanceof Array === false) tokensForIndex[key] = [];
+  tokensForIndex[key].push(token);
+}
+
+function getTokensForIndex(index) {
+  if (!tokensForIndex[`${index}`]) return [];
+  return tokensForIndex[`${index}`];
+}
+
 // Split tokens to elimnate any cases where they overLap
 // eg. turn tokens like this <b>this is <ul>my text</b> over here</u>
 //  into <b>this is <ul>my text</ul></b><u> over here</u>
-function fixOverlappingTokens(tokens) {
-  let fixedTokens = tokens.map((token, index) => {
-    // if the next token starts after me bail
-    // if the next token ends after me bails
-    return;
+function fixOverlappingBlocks(tokens) {
+  let blocks = [];
+  let currentBlock;
+  let fixedTokens = [];
+  // let danglingBlocks = [];
+  tokens.forEach((token, index) => {
+    let bufferedTokens = getTokensForIndex(index);
+    if (bufferedTokens.length > 0) {
+      fixedTokens.push(...bufferedTokens);
+    }
+    if (token.type !== 'BLOCK_END') {
+      if (token.type === 'BLOCK_START') {
+        blocks.push(token);
+      }
+      fixedTokens.push(token);
+      return;
+    }
+
+    // At this point we have rules out all types except BLOCK_END
+    currentBlock = blocks[blocks.length - 1] || null;
+
+    // if the current open block token doesnt match the current end token
+    if (currentBlock && token.name !== currentBlock.name) {
+      for (let i = blocks.length - 1; i >= 0; i--) {
+        if (token.name !== blocks[i].name) {
+          // create a closing token and push to fixed token 
+          fixedTokens.push(
+            Object.assign({}, blocks[i], { start: null, token: currentBlock.delimiters.close, type: 'BLOCK_END' })
+          );
+          setTokensForIndex(index + 1, Object.assign({ start: null }, blocks[i]));
+          blocks.pop();
+        } else {
+          // everything looks good go ahead and push the token
+          // fixedTokens.push(token);
+          blocks.pop();
+          break;
+        }
+      }
+    } else {
+      // fixedTokens.push(token);
+      blocks.pop();
+    }
+    fixedTokens.push(token);
   });
   return fixedTokens;
 }
@@ -48,30 +104,22 @@ export function findSymbols(text) {
 }
 
 export function findLiterals(text, symbols) {
-  // if (symbols.length === 0) return [text];
+  if (symbols.length === 0) return [literalTokenizer(text, 0)];
   let readIndex = 0;
   let literal;
   let literals = symbols.map((symbol) => {
     literal = literalTokenizer(text.substring(readIndex, symbol.start), readIndex);
-    readIndex = symbol.start + symbol.token.length;
+    readIndex = symbol.start + symbol.chars.length;
     return literal;
   });
   return literals;
 }
-
-
-function analyze(symbols) {
-  let symbolLocations = symbols.map((symbol) => {
-    let start = symbol.index;
-    let end = symbol.content.length;
-  });
-}
 export function tokenize(text) {
   let symbols = findSymbols(text);
   console.log('symbols', symbols);
-  let literals = findLiterals(text, symbols);
-  console.log('literals', literals);
-  // let tokens = analyze(symbols);
+  // fixOverlappingBlocks(symbols);
+  printTokens(fixOverlappingBlocks(symbols));
+  // let literals = findLiterals(text, symbols);
   // return tokens;
 }
 

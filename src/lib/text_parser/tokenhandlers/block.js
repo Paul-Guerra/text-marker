@@ -20,20 +20,24 @@ export function makeBlockRegex({ open, close = open }) {
  * we use the regex to find the text with delimeters and determine the delimeter 
  * characters locations from the match
 */
-export default function factory(tags, name) {
+export default function factory(delimiters, name = 'DEFAULT') {
   return {
-    pattern: makeBlockRegex(tags),
+    pattern: makeBlockRegex(delimiters),
     tokenizer: function tokenizer(match) {
       return [
         {
-          start: match.index,
+          name,
           type: 'BLOCK_START',
-          token: match[1]
+          start: match.index,
+          chars: match[1],
+          delimiters
         },
         {
+          name,
           start: match.index + match[1].length + match[2].length,
           type: 'BLOCK_END',
-          token: match[3]
+          chars: match[3],
+          delimiters
         }
       ];
     }
