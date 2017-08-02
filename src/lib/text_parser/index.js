@@ -39,7 +39,7 @@ function setTokensForIndex(index, token) {
 
 function getTokensForIndex(index) {
   if (!tokensForIndex[`${index}`]) return [];
-  return tokensForIndex[`${index}`];
+  return tokensForIndex[`${index}`].reverse();
 }
 
 // Split tokens to eliminate any cases where they overLap
