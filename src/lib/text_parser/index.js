@@ -42,9 +42,11 @@ function getTokensForIndex(index) {
   return tokensForIndex[`${index}`];
 }
 
-// Split tokens to elimnate any cases where they overLap
+// Split tokens to eliminate any cases where they overLap
 // eg. turn tokens like this <b>this is <ul>my text</b> over here</u>
 //  into <b>this is <ul>my text</ul></b><u> over here</u>
+// The regular expressions SHOULD be finding only block with matching
+// open and close pairs so there SHOULD NOT be any dangling end blocks, etc
 function fixOverlappingBlocks(tokens) {
   let blocks = [];
   let currentBlock;
@@ -94,11 +96,8 @@ function fixOverlappingBlocks(tokens) {
 
 export function findSymbols(text) {
   let tokens = Array.concat(
-    parseTokens(text, blockTokenHandlerFactory({ open: '*', close: '*' }, 'BOLD')),
-    parseTokens(text, blockTokenHandlerFactory({ open: '_', close: '_' }, 'UNDERLINE')),
-    parseTokens(text, keywordTokenHandlerFactory(urlPattern, urlTokenName)),
-    parseTokens(text, keywordTokenHandlerFactory(newlinePattern, newlineTokenName)),
-    parseTokens(text, keywordTokenHandlerFactory('google.com . . .  or', 'HIGHLIGHT'))
+    parseTokens(text, blockTokenFactory({ open: '*', close: '*' }, 'BOLD')),
+    parseTokens(text, blockTokenFactory({ open: '_', close: '_' }, 'UNDERLINE')),
     parseTokens(text, textRangeTokenFactory(urlPattern, urlTokenName)),
     parseTokens(text, keywordTokenFactory('/buzz', 'BUZZ')),
     parseTokens(text, textRangeTokenFactory('google.com . . .  or', 'HIGHLIGHT'))
