@@ -1,9 +1,9 @@
-import { pattern as urlPattern, name as urlTokenName } from './tokenhandlers/url';
-import { pattern as newlinePattern, name as newlineTokenName } from './tokenhandlers/newline';
-import literalTokenizer from './tokenhandlers/literal';
-import keywordTokenFactory from './tokenhandlers/keyword';
-import textRangeTokenFactory from './tokenhandlers/text_range';
-import blockTokenFactory from './tokenhandlers/block';
+import { pattern as urlPattern, name as urlTokenName } from './tokens/url';
+import { pattern as newlinePattern, name as newlineTokenName } from './tokens/newline';
+import literalTokenizer from './tokens/types/literal';
+import keywordTokenizer from './tokens/types/keyword';
+import textRangeTokenizer from './tokens/types/text_range';
+import blockTokenizer from './tokens/types/block';
 
 function parseTokens(text, { pattern, tokenizer }) {
   if (!text || !pattern || !tokenizer) return [];
@@ -96,14 +96,13 @@ function fixOverlappingBlocks(tokens) {
 
 export function findSymbols(text) {
   let tokens = Array.concat(
-    parseTokens(text, blockTokenFactory({ open: '*', close: '*' }, 'BOLD')),
-    parseTokens(text, blockTokenFactory({ open: '_', close: '_' }, 'UNDERLINE')),
-    parseTokens(text, blockTokenFactory({ open: '-', close: '-' }, 'STRIKETHROUGH')),
-    parseTokens(text, textRangeTokenFactory(urlPattern, urlTokenName)),
-    parseTokens(text, keywordTokenFactory('/buzz', 'BUZZ')),
-    parseTokens(text, textRangeTokenFactory('google.com . . .  or', 'HIGHLIGHT'))
+    parseTokens(text, blockTokenizer({ open: '*', close: '*' }, 'BOLD')),
+    parseTokens(text, blockTokenizer({ open: '_', close: '_' }, 'UNDERLINE')),
+    parseTokens(text, blockTokenizer({ open: '-', close: '-' }, 'STRIKETHROUGH')),
+    parseTokens(text, textRangeTokenizer(urlPattern, urlTokenName)),
+    parseTokens(text, keywordTokenizer('/buzz', 'BUZZ')),
+    parseTokens(text, textRangeTokenizer('google.com . . .  or', 'HIGHLIGHT'))
   ).sort((a, b) => a.start > b.start);
-  // return fixOverlappingTokens(tokens);
   return tokens;
 }
 
@@ -120,14 +119,14 @@ export function findLiterals(text, symbols) {
 }
 export function tokenize(text) {
   let symbols = findSymbols(text);
+  if (symbols.length === 0) return symbols;
   // console.log('symbols', symbols);
-  fixOverlappingBlocks(symbols);
   // printTokens(fixOverlappingBlocks(symbols));
+  return fixOverlappingBlocks(symbols);
   // let literals = findLiterals(text, symbols);
   // return tokens;
 }
 
 export function parse(text) {
-  let tokens = tokenize(text);
-
+  return tokenize(text);
 }
