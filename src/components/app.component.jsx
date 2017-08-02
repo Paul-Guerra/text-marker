@@ -3,7 +3,7 @@ import Content from './content.component';
 
 export default () => {
   let times = 'once';
-  let text = 'i am *bold _and_ underline_* and **you** are not at http://www.google.com . . .  or are you?';
+  let text = 'i am *bold _and_ underline_* and **you** are /buzz not at http://www.google.com . . .  or are you?';
   // let text = 'i am *bold _and underline* and _ ?';
   return (
     <div>

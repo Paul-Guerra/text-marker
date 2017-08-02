@@ -9,7 +9,7 @@ export default function factory(symbol, name) {
   if (typeof symbol === 'string') pattern = new RegExp(`${symbol}`, 'gi');
   if (!pattern) {
     console.error('Cannot create a keyword token without a pattern');
-    return {};
+    return null;
   }
 
   return {
