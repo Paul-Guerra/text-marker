@@ -1,8 +1,9 @@
 import { pattern as urlPattern, name as urlTokenName } from './tokenhandlers/url';
 import { pattern as newlinePattern, name as newlineTokenName } from './tokenhandlers/newline';
 import literalTokenizer from './tokenhandlers/literal';
-import keywordTokenHandlerFactory from './tokenhandlers/keyword';
-import blockTokenHandlerFactory from './tokenhandlers/block';
+import keywordTokenFactory from './tokenhandlers/keyword';
+import textRangeTokenFactory from './tokenhandlers/text_range';
+import blockTokenFactory from './tokenhandlers/block';
 
 function parseTokens(text, { pattern, tokenizer }) {
   if (!text || !pattern || !tokenizer) return [];
@@ -98,6 +99,9 @@ export function findSymbols(text) {
     parseTokens(text, keywordTokenHandlerFactory(urlPattern, urlTokenName)),
     parseTokens(text, keywordTokenHandlerFactory(newlinePattern, newlineTokenName)),
     parseTokens(text, keywordTokenHandlerFactory('google.com . . .  or', 'HIGHLIGHT'))
+    parseTokens(text, textRangeTokenFactory(urlPattern, urlTokenName)),
+    parseTokens(text, keywordTokenFactory('/buzz', 'BUZZ')),
+    parseTokens(text, textRangeTokenFactory('google.com . . .  or', 'HIGHLIGHT'))
   ).sort((a, b) => a.start > b.start);
   // return fixOverlappingTokens(tokens);
   return tokens;
