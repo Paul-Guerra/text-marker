@@ -120,9 +120,9 @@ export function findLiterals(text, symbols) {
 }
 export function tokenize(text) {
   let symbols = findSymbols(text);
-  console.log('symbols', symbols);
-  // fixOverlappingBlocks(symbols);
-  printTokens(fixOverlappingBlocks(symbols));
+  // console.log('symbols', symbols);
+  fixOverlappingBlocks(symbols);
+  // printTokens(fixOverlappingBlocks(symbols));
   // let literals = findLiterals(text, symbols);
   // return tokens;
 }
