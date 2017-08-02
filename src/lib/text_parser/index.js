@@ -98,6 +98,7 @@ export function findSymbols(text) {
   let tokens = Array.concat(
     parseTokens(text, blockTokenFactory({ open: '*', close: '*' }, 'BOLD')),
     parseTokens(text, blockTokenFactory({ open: '_', close: '_' }, 'UNDERLINE')),
+    parseTokens(text, blockTokenFactory({ open: '-', close: '-' }, 'STRIKETHROUGH')),
     parseTokens(text, textRangeTokenFactory(urlPattern, urlTokenName)),
     parseTokens(text, keywordTokenFactory('/buzz', 'BUZZ')),
     parseTokens(text, textRangeTokenFactory('google.com . . .  or', 'HIGHLIGHT'))
