@@ -1,7 +1,7 @@
 {
-  "name": "luthor",
+  "name": "Otis",
   "version": "1.0.0",
-  "description": "",
+  "description": "A lexical analyzer for parsing user text input",
   "main": "index.js",
   "scripts": {
     "postinstall": "mkdir -p dist/",
