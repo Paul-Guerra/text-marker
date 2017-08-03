@@ -16,13 +16,6 @@ export function tokenize(text) {
     keywordTokenizer('/buzz', 'BUZZ'),
     textRangeTokenizer('google.com . . .  or', 'HIGHLIGHT')
   );
-
-  // if (tokens.length === 0) return tokens;
-  // console.log('tokens', tokens);
-  // printTokens(fixOverlappingBlocks(tokens));
-  // return fixOverlappingBlocks(tokens);
-  // let literals = findLiterals(text, tokens);
-  // return tokens;
 }
 
 export function parse(text) {
