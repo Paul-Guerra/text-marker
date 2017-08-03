@@ -7,7 +7,7 @@ import textRangeTokenizer from './tokens/types/text_range';
 import blockTokenizer from './tokens/types/block';
 
 export function tokenize(text) {
-  let symbols = lex(
+  let tokens = lex(
     text,
     blockTokenizer({ open: '*', close: '*' }, 'BOLD'),
     blockTokenizer({ open: '_', close: '_' }, 'UNDERLINE'),
@@ -17,11 +17,11 @@ export function tokenize(text) {
     textRangeTokenizer('google.com . . .  or', 'HIGHLIGHT')
   );
 
-  if (symbols.length === 0) return symbols;
-  // console.log('symbols', symbols);
-  // printTokens(fixOverlappingBlocks(symbols));
-  // return fixOverlappingBlocks(symbols);
-  // let literals = findLiterals(text, symbols);
+  // if (tokens.length === 0) return tokens;
+  // console.log('tokens', tokens);
+  // printTokens(fixOverlappingBlocks(tokens));
+  // return fixOverlappingBlocks(tokens);
+  // let literals = findLiterals(text, tokens);
   // return tokens;
 }
 
