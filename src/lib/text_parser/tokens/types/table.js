@@ -4,7 +4,6 @@
 // export const rowStart = /(\n)[^\t]+\t/g; // matches a row start containing tab seperated values
 // export const cellsInRow = /(^.)|\t|(.$)/g; // for a given row  string find the cell delimiters
 
-
 export default function (seperator) {
   const rowStart = new RegExp(`.+${seperator}.+`, 'g'); // matches a row containing tab seperated values. 
   const cellsInRow = new RegExp(`[^${seperator}]+`, 'g'); // for a given row string find the cell contents
@@ -13,7 +12,7 @@ export default function (seperator) {
     tokenizer: function tokenizer(match) {
       let tokens = [
         {
-          name: 'TABLE_ROW_START',
+          name: 'TABLE_ROW',
           type: 'BLOCK_START',
           start: match.index,
           chars: null,
@@ -25,14 +24,14 @@ export default function (seperator) {
       while (cellData) {
         tokens.push(
           {
-            name: 'TABLE_CELL_START',
+            name: 'TABLE_CELL',
             type: 'BLOCK_START',
             start: cellData.index + match.index,
             chars: null,
             delimiters: { open: null, close: null }
           },
           {
-            name: 'TABLE_CELL_END',
+            name: 'TABLE_CELL',
             type: 'BLOCK_END',
             start: match.index + cellData.index + cellData[0].length,
             chars: null,
@@ -42,7 +41,7 @@ export default function (seperator) {
         cellData = cellsInRow.exec(text);
       }
       tokens.push({
-        name: 'TABLE_ROW_END',
+        name: 'TABLE_ROW',
         type: 'BLOCK_END',
         start: match.index + match[0].length,
         chars: null,
