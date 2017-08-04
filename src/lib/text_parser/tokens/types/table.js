@@ -2,13 +2,11 @@
 // export const row = /([^\n\t]+(?=\t))+[^\n]+/gm; // matches a row containing tab seperated values. 
 // export const row = /[^\n\t].*\t[^\n]+/gm; // matches a row containing tab seperated values. 
 // export const rowStart = /(\n)[^\t]+\t/g; // matches a row start containing tab seperated values
-
 // export const cellsInRow = /(^.)|\t|(.$)/g; // for a given row  string find the cell delimiters
 
 
 export default function (seperator) {
-  // const rowStart = new RegExp(`[^\n].*${seperator}[^\n]*`, 'g'); // matches a row containing tab seperated values. 
-  const rowStart = new RegExp(`${seperator}`, 'g'); // matches a row containing tab seperated values. 
+  const rowStart = new RegExp(`.+${seperator}.+`, 'g'); // matches a row containing tab seperated values. 
   const cellsInRow = new RegExp(`[^${seperator}]+`, 'g'); // for a given row string find the cell contents
   return {
     pattern: rowStart,
@@ -50,6 +48,7 @@ export default function (seperator) {
         chars: null,
         delimiters: { open: null, close: null }
       });
+
       return tokens;
     }
   };
