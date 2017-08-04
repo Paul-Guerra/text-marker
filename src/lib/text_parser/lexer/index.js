@@ -33,6 +33,11 @@ export default function lex(text, tokenizers) {
   while (count--) {
     tokens.push(...parseTokens(text, tokenizers[count]));
   }
+  tokens = tokens.sort((a, b) => {
+    if (a.start < b.start) return -1;
+    if (a.start > b.start) return 1;
+    return 0;
+  });
   tokens = fixOverlappingBlocks(tokens);
   console.log(tokens);
   return tokens;
