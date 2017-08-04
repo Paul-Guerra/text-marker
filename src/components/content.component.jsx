@@ -1,5 +1,6 @@
 import * as React from 'react';
-import Parser, { parse } from '../lib/text_parser';
+import { parse } from '../lib/text_parser';
+import { printTokens } from '../lib/text_parser/lexer';
 
 function bold(text) {
   return (<strong>{text}</strong>);
@@ -18,7 +19,7 @@ function test(text) {
   }
   return (
     <span>
-      {prefix}{bold(target)}{postfix}
+      {prefix}{text}{postfix}
     </span>
   );
 }
@@ -26,7 +27,7 @@ function test(text) {
 // export default data => test(data.text);
 export default (data) => {
   console.profile('parse');
-  parse(data.text);
+  let tokens = parse(data.text);
   console.profileEnd('parse');
   return test(data.text);
 };

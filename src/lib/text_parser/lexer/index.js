@@ -19,17 +19,21 @@ export function parseTokens(text, { pattern, tokenizer }) {
   return tokens;
 }
 
-function printTokens(tokens) {
+export function printTokens(tokens) {
+  let output = '';
   tokens.forEach((token) => {
-    console.log(token.start, token.type, token.name, token);
+    output += `${token.start}, ${token.type}, ${token.name}\n`;
   });
+  console.log(output);
 }
 
 export default function lex(text, tokenizers) {
   let count = tokenizers.length;
   let tokens = [];
   while (count--) {
-    tokens.push(parseTokens(text, tokenizers[count]));
+    tokens.push(...parseTokens(text, tokenizers[count]));
   }
-  return fixOverlappingBlocks(tokens);
+  tokens = fixOverlappingBlocks(tokens);
+  console.log(tokens);
+  return tokens;
 }
