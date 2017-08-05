@@ -13,16 +13,17 @@ export function tokenize(text) {
     [
       blockTokenizer({ open: '*', close: '*' }, 'BOLD'),
       blockTokenizer({ open: '_', close: '_' }, 'UNDERLINE'),
-      blockTokenizer({ open: '-', close: '-' }, 'STRIKETHROUGH'),
+      // blockTokenizer({ open: '-', close: '-' }, 'STRIKETHROUGH'),
       tableTokenizer('\t'),
-      textRangeTokenizer(urlPattern, urlTokenName),
-      keywordTokenizer('/buzz', 'BUZZ'),
-      textRangeTokenizer('google.com . . .  or', 'HIGHLIGHT')
+      // textRangeTokenizer(urlPattern, urlTokenName),
+      // keywordTokenizer('/buzz', 'BUZZ'),
+      // textRangeTokenizer('google.com . . .  or', 'HIGHLIGHT')
     ]
   );
   // let tokens = lex(text, [tableTokenizer('\t')]);
 }
 
 export function parse(text) {
+  console.log(text);
   return tokenize(text);
 }

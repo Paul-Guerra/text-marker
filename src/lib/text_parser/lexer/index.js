@@ -13,6 +13,7 @@ export function parseTokens(text, { pattern, tokenizer }) {
     } else {
       tokens.push(token);
     }
+    // }
     match = pattern.exec(text);
   }
   return tokens;
@@ -38,6 +39,6 @@ export default function lex(text, tokenizers) {
     return 0;
   });
   tokens = fixOverlappingBlocks(tokens);
-  console.log(tokens);
+  printTokens(tokens);
   return tokens;
 }
