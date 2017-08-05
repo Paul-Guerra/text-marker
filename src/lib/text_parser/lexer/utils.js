@@ -96,7 +96,7 @@ export function fixOverlappingBlocks(tokens) {
           fixedTokens.push(
             Object.assign({}, blocks[i], { start: null, token: currentBlock.delimiters.close, type: 'BLOCK_END' })
           );
-          setTokensForIndex(index + 1, Object.assign({ start: null }, blocks[i]));
+          setTokensForIndex(index + 1, Object.assign({}, blocks[i], { start: null }));
           blocks.pop();
         } else {
           blocks.pop();
