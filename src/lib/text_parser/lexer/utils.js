@@ -1,3 +1,4 @@
+import TokenStack, { isInTable } from './token_stack';
 
 // buffer for tokens waiting to be inserted when lexer is fixing overlapping tokens
 let tokensForIndex = {};
@@ -41,7 +42,8 @@ function bufferTokenFor(when = 'BEFORE', selector, token) {
   tokenBuffer[type][name][when].push(token);
 }
 
-function flushBufferTokens(now = 'BEFORE', selector) {
+
+function getBufferTokens(now = 'BEFORE', selector) {
   let index = `${selector.index}`;
   let { type, name } = selector;
   if (!name && !type && !index) {
@@ -59,20 +61,35 @@ function flushBufferTokens(now = 'BEFORE', selector) {
   if (!(tokenBuffer[type] && tokenBuffer[type][name])) {
     return [];
   }
-  return tokenBuffer[type][name][now];
+  return tokenBuffer[type][name][now] || [];
 }
 
-// Split tokens to eliminate any cases where they overLap
-// eg. turn tokens like this <b>this is <ul>my text</b> over here</u>
-//  into <b>this is <ul>my text</ul></b><u> over here</u>
-// The regular expressions SHOULD be finding only block with matching
-// open and close pairs so there SHOULD NOT be any dangling end blocks at this point
+
+function flushBufferTokens(now = 'BEFORE', token, index) {
+  let indexBuffer = getBufferTokens(now, { index });
+  let typeBuffer = getBufferTokens(now, { name: token.name, type: token.type });
+  return Array.concat(typeBuffer, indexBuffer);
+}
+
+/**
+ * Split tokens to eliminate any cases where they overLap
+ * eg. turn tokens like this <b>BOLD<ul>BOLD AND UNDERLINE</b>UNDERLINE</u>
+ * into <b>BOLD<ul>BOLD AND UNDERLINE</ul></b><u>UNDERLINE</u>
+ * The regular expressions SHOULD be finding only block with matching
+ * open and close pairs so there SHOULD NOT be any dangling end blocks at this point
+ * 
+ * Tables are a special case. In the event that delimiters overlap table cells 
+ * the currently open delimiters started in a cell will be given artifical closing delimiters. 
+ * in the same cell. The original closing tag, when found will be dropped.
+ */
 export function fixOverlappingBlocks(tokens) {
-  let blocks = [];
+  let blocks = new TokenStack();
+  // let blocks = [];
   let currentBlock;
   let fixedTokens = [];
   tokens.forEach((token, index) => {
     let bufferedTokens = getTokensForIndex(index);
+    // let bufferedTokens = flushBufferTokens('BEFORE', token, index);
     if (bufferedTokens.length > 0) {
       fixedTokens.push(...bufferedTokens);
     }
@@ -85,29 +102,63 @@ export function fixOverlappingBlocks(tokens) {
     }
 
     // At this point we have ruled out all types except BLOCK_END
-    currentBlock = blocks[blocks.length - 1] || null;
+    currentBlock = blocks.at(blocks.length - 1) || null;
 
     // if the current open block token doesnt match the current end token
     if (currentBlock && token.name !== currentBlock.name) {
       // close open blocks w/ different name until you find the match
       for (let i = blocks.length - 1; i >= 0; i--) {
-        if (token.name !== blocks[i].name) {
-          // create a closing token and push to fixed token 
-          fixedTokens.push(
-            Object.assign({}, blocks[i], { start: null, token: currentBlock.delimiters.close, type: 'BLOCK_END' })
-          );
-          setTokensForIndex(index + 1, Object.assign({}, blocks[i], { start: null }));
+        if (token.name !== blocks.at(i).name) {
+          // Tables will not try to completely match overlapping tokens between cells. 
+          // When overlapping tokens are found in a table just close the blocks in the current cell
+          // Do not create fake tokens to be inserted later
+          if (!isInTable(blocks)) {
+            // create a closing token and push to fixed tokens
+            // if (blocks.at(i).name !== 'TABLE_ROW' && blocks.at(i).name !== 'TABLE'){}
+            fixedTokens.push(
+              Object.assign(
+                {},
+                blocks.at(i),
+                { start: null, token: currentBlock.delimiters.close, type: 'BLOCK_END' })
+            );
+            setTokensForIndex(
+              index + 1,
+              Object.assign({}, blocks.at(i), { start: null })
+            );
+          } else {
+            // if we are closing a table cell then push the new closing tokens
+            if (token.name === 'TABLE_CELL' && token.type === 'BLOCK_END') {
+              fixedTokens.push(
+                Object.assign(
+                  {},
+                  blocks.at(i),
+                  { start: null, token: currentBlock.delimiters.close, type: 'BLOCK_END' })
+              );
+            } else {
+              // we are an unmatched END delimiter in a table. Bail.
+              return;
+            }
+          }
           blocks.pop();
         } else {
+          // found the matching delimeter. update the block stack and move on
           blocks.pop();
           break;
         }
-      }
+      } // end for loop
     } else {
+      if (!currentBlock) return; // we are an unmatched END delimiter NOT in a table. Bail.
+      // we are the matching close block token to the current open block token
       blocks.pop();
     }
     // everything looks good go ahead and push the token
+    // blocks.pop();
     fixedTokens.push(token);
+
+    // bufferedTokens = flushBufferTokens('AFTER', { index });
+    // if (bufferedTokens.length > 0) {
+    //   fixedTokens.push(...bufferedTokens);
+    // }
   });
   return fixedTokens;
 }
