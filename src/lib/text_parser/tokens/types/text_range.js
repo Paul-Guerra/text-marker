@@ -5,7 +5,7 @@
  * they have only their text to delineate where they begin and end
  * */
 
-export default function factory(symbol, name) {
+export default function factory(symbol, name, priority = 50) {
   let pattern;
   if (symbol instanceof RegExp) pattern = symbol;
   if (typeof symbol === 'string') pattern = new RegExp(`${symbol}`, 'gi');
@@ -24,6 +24,7 @@ export default function factory(symbol, name) {
           chars: null,
           start: match.index,
           delimiters: { open: null, close: null },
+          priority: priority * -1
         },
         {
           name,
@@ -31,6 +32,7 @@ export default function factory(symbol, name) {
           chars: null,
           start: match.index + match[0].length,
           delimiters: { open: null, close: null },
+          priority
         },
       ];
     }

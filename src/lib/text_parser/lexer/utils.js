@@ -83,7 +83,6 @@ function flushBufferTokens(now = 'BEFORE', token, index) {
  */
 export function parseBlocks(tokens) {
   let blocks = new TokenStack();
-  // let blocks = [];
   let currentBlock;
   let fixedTokens = [];
   tokens.forEach((token, index) => {

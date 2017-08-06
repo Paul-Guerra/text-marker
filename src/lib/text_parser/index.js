@@ -14,10 +14,10 @@ export function tokenize(text) {
       blockTokenizer({ open: '*', close: '*' }, 'BOLD'),
       blockTokenizer({ open: '_', close: '_' }, 'UNDERLINE'),
       // blockTokenizer({ open: '-', close: '-' }, 'STRIKETHROUGH'),
-      tableTokenizer('\t'),
-      // textRangeTokenizer(urlPattern, urlTokenName),
+      tableTokenizer('\t', 100),
+      // textRangeTokenizer(urlPattern, urlTokenName, 50),
       // keywordTokenizer('/buzz', 'BUZZ'),
-      // textRangeTokenizer('google.com . . .  or', 'HIGHLIGHT')
+      // textRangeTokenizer('google.com . . .  or', 'HIGHLIGHT', 25)
     ]
   );
   // let tokens = lex(text, [tableTokenizer('\t')]);
