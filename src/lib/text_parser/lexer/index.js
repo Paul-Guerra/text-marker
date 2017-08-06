@@ -34,6 +34,11 @@ export default function lex(text, tokenizers) {
   tokens = tokens.sort((a, b) => {
     if (a.start < b.start) return -1;
     if (a.start > b.start) return 1;
+
+    let aPriority = a.priority || 0;
+    let bPriority = b.priority || 0;
+    if (aPriority < bPriority) return -1;
+    if (aPriority > bPriority) return 1;
     return 0;
   });
   tokens = fixOverlappingBlocks(tokens);

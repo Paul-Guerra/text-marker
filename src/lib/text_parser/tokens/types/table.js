@@ -16,7 +16,8 @@ export default function (seperator) {
           type: 'BLOCK_START',
           start: match.index,
           chars: null,
-          delimiters: { open: null, close: null }
+          delimiters: { open: null, close: null },
+          priority: -9
         }
       ];
       let text = match[0];
@@ -28,14 +29,17 @@ export default function (seperator) {
             type: 'BLOCK_START',
             start: cellData.index + match.index,
             chars: null,
-            delimiters: { open: null, close: null }
+            delimiters: { open: null, close: null },
+            priority: -8
+            
           },
           {
             name: 'TABLE_CELL',
             type: 'BLOCK_END',
             start: match.index + cellData.index + cellData[0].length,
             chars: null,
-            delimiters: { open: null, close: null }
+            delimiters: { open: null, close: null },
+            priority: 8
           }
         );
         cellData = cellsInRow.exec(text);
@@ -45,7 +49,8 @@ export default function (seperator) {
         type: 'BLOCK_END',
         start: match.index + match[0].length,
         chars: null,
-        delimiters: { open: null, close: null }
+        delimiters: { open: null, close: null },
+        priority: 9
       });
 
       return tokens;
