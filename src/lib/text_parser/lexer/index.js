@@ -45,6 +45,7 @@ export default function lex(text, tokenizers) {
   // printTokens(tokens);
   // tokens = fixOverlappingBlocks(tokens);
   // console.log("AFTER");
-  printTokens(parseBlocks(tokens));
+  tokens = parseBlocks(tokens);
+  printTokens(tokens);
   return tokens;
 }
