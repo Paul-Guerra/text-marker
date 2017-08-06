@@ -4,11 +4,11 @@ import Content from './content.component';
 export default () => {
   let times = 'once';
   let text = 'i am *bold _and_ underline_* and **you** are /buzz not at http://www.google.com . . .  or are you?';
-  // let text = 'i am *bold _and underline* and _ ?';
+  text = 'i am *bold _and underline* and _ ?';
   // text = `foo *bar
   
   // foo *baz`;
-  // let text = `n*lkk*
+//   text = `n*lkk*
 
 // Step 1	Log*in to Eikon	User should be lo*gged into Eikon
 // Step 2	Launch "My Profile & Directory" app	My Profile should be shown
@@ -22,9 +22,9 @@ export default () => {
   // text = 'Step 1	*Login _to_ Eikon*	User should be logged into Eikon';
   // text = 'Step 1	*Login _to_ Eikon*';
   // text = 'Step 1	Log*in to Eikon	User should be lo*gged into Eikon';
-  text = `
-Step 1	Log*in to Eikon	User should be logged into Eikon
-Step 2	Launch "My Profile & Directory" app	My Profile should be shown
+  text = `f*oo _bar foo baz_
+Step 1	Login to Eikon	User should be logged into Eikon
+Step 2	_Launch_ "My Profile & Directory" app	My Profile should be shown
 Step 3	Click on "Edit" button on the top right of profile image section	Image Upload dialog should be shown
   
   foo bar* baz`;

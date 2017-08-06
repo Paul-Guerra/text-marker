@@ -147,12 +147,15 @@ export function fixOverlappingBlocks(tokens) {
         }
       } // end for loop
     } else {
-      if (!currentBlock) return; // we are an unmatched END delimiter NOT in a table. Bail.
+      if (!currentBlock) {
+        let prevFixedToken = fixedTokens[fixedTokens.length - 1];
+        // we are an unmatched END delimiter NOT in a table and our fixed token is not waiting for us. Bail.
+        if (!(prevFixedToken.name === token.name && prevFixedToken.type === 'BLOCK_START')) return;
+      }
       // we are the matching close block token to the current open block token
       blocks.pop();
     }
     // everything looks good go ahead and push the token
-    // blocks.pop();
     fixedTokens.push(token);
 
     // bufferedTokens = flushBufferTokens('AFTER', { index });
