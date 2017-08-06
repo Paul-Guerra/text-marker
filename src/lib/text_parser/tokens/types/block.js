@@ -1,28 +1,18 @@
-
-// makeSimpleTagRegex MUST match text  surrounded by the provided open and close tags
-// this text MAY span more than one line and include white space
-// open and close tags MAY contain multiple characters and not be identical to each other
-// Text surrounded by multiple instances of the same tag type MUST only match one copy of the tag
-// eg <b><b>text is here</b></b> would only return <b>text is here</b> as a token
-// 
-// regex based on https://stackoverflow.com/questions/11592033/regex-match-text-between-tags
-// a simpler expression for matching single character delimters was originally used. See below
-// new RegExp(`[${open}]([^${close}]+)[${close}]`, 'gi');
+// (\*)\**[^*]+\**(\*)
+/**
+ * Intended to produce a basic block patterns from simple characters
+ * for example. if open and close are * then it will match *lorem ipsum*
+ * In the event of multiple delimiters surounding text it will treat 
+ * the outer most delimiters as the token. The others will not be marked as
+ * tokens and later treated as literals
+ */
 export function makeBlockRegex({ open, close = open }) {
-  return new RegExp(`(\\${open})(?!\\${open})(.+?)(\\${close})`, 'gi');
+  return new RegExp(`(\\${open})\\${open}*[^${open}]+\\${close}*(\\${close})`, 'g');
 }
 
-/**
- * normally in a lex parser we would have clearly defined openening and closing symbols
- * since the source is plain english (not code) and we need to support 
- * markdown style tag where opening and closing delimeters look exactly alike
- * eg *i am bold*
- * we use the regex to find the text with delimeters and determine the delimeter 
- * characters locations from the match
-*/
-export default function factory(delimiters, name = 'DEFAULT') {
+export default function factory(delimiters, name = 'DEFAULT', regex) {
   return {
-    pattern: makeBlockRegex(delimiters),
+    pattern: regex || makeBlockRegex(delimiters),
     tokenizer: function tokenizer(match) {
       return [
         {
@@ -34,7 +24,7 @@ export default function factory(delimiters, name = 'DEFAULT') {
         },
         {
           name,
-          start: match.index + match[1].length + match[2].length,
+          start: match.index + match[0].length - match[2].length,
           type: 'BLOCK_END',
           chars: match[3],
           delimiters
