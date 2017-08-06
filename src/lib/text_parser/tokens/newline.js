@@ -1,4 +1,4 @@
-export const pattern = /\\n/gim;
+export const pattern = /\\n/g;
 export const name = 'NEWLINE';
 
 export default {
