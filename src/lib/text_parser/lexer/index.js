@@ -6,14 +6,12 @@ export function parseTokens(text, { pattern, tokenizer }) {
   let token;
   let match = pattern.exec(text);
   while (match) {
-    // if (match) {
     token = tokenizer(match);
     if (token instanceof Array) {
       tokens.push(...token);
     } else {
       tokens.push(token);
     }
-    // }
     match = pattern.exec(text);
   }
   return tokens;
