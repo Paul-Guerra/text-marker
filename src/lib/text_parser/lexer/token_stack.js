@@ -7,18 +7,18 @@ export default class TokenStack {
     return this.stack[name] && this.stack[name][index];
   }
 
-  push(block) {
-    this.stack.all.push(block);
-    if (this.stack[block.name] instanceof Array === false) {
-      this.stack[block.name] = [];
+  push(token) {
+    this.stack.all.push(token);
+    if (this.stack[token.name] instanceof Array === false) {
+      this.stack[token.name] = [];
     }
-    this.stack[block.name].push(block);
+    this.stack[token.name].push(token);
   }
 
   pop() {
-    let block = this.stack.all.pop();
-    if (block) this.stack[block.name].pop();
-    return block;
+    let token = this.stack.all.pop();
+    if (token) this.stack[token.name].pop();
+    return token;
   }
 
   contains(name) {
@@ -31,4 +31,8 @@ export default class TokenStack {
   get length() {
     return this.stack.all.length;
   }
+}
+
+export function isInTable(blocks) {
+  return blocks.contains('TABLE') || blocks.contains('TABLE_ROW') || blocks.contains('TABLE_CELL');
 }
