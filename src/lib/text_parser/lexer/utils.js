@@ -64,7 +64,6 @@ function getBufferTokens(now = 'BEFORE', selector) {
   return tokenBuffer[type][name][now] || [];
 }
 
-
 function flushBufferTokens(now = 'BEFORE', token, index) {
   let indexBuffer = getBufferTokens(now, { index });
   let typeBuffer = getBufferTokens(now, { name: token.name, type: token.type });
@@ -72,7 +71,7 @@ function flushBufferTokens(now = 'BEFORE', token, index) {
 }
 
 /**
- * Split tokens to eliminate any cases where they overLap
+ * Split delimiters to eliminate any cases where they overLap
  * eg. turn tokens like this <b>BOLD<ul>BOLD AND UNDERLINE</b>UNDERLINE</u>
  * into <b>BOLD<ul>BOLD AND UNDERLINE</ul></b><u>UNDERLINE</u>
  * The regular expressions SHOULD be finding only block with matching
@@ -82,7 +81,7 @@ function flushBufferTokens(now = 'BEFORE', token, index) {
  * the currently open delimiters started in a cell will be given artifical closing delimiters. 
  * in the same cell. The original closing tag, when found will be dropped.
  */
-export function fixOverlappingBlocks(tokens) {
+export function parseBlocks(tokens) {
   let blocks = new TokenStack();
   // let blocks = [];
   let currentBlock;

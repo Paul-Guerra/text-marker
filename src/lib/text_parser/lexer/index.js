@@ -1,4 +1,4 @@
-import { fixOverlappingBlocks } from './utils';
+import { parseBlocks } from './utils';
 
 export function parseTokens(text, { pattern, tokenizer }) {
   if (!text || !pattern || !tokenizer) return [];
@@ -41,7 +41,10 @@ export default function lex(text, tokenizers) {
     if (aPriority > bPriority) return 1;
     return 0;
   });
-  tokens = fixOverlappingBlocks(tokens);
-  printTokens(tokens);
+  // console.log("BEFORE");
+  // printTokens(tokens);
+  // tokens = fixOverlappingBlocks(tokens);
+  // console.log("AFTER");
+  printTokens(parseBlocks(tokens));
   return tokens;
 }
