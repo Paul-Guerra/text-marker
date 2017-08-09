@@ -12,8 +12,6 @@ function test(text) {
 
 // export default data => test(data.text);
 export default (data) => {
-  // console.profile('parse');
   let tokens = parse(data.text);
-  // console.profileEnd('parse');
   return test(data.text);
 };

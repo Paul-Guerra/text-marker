@@ -24,7 +24,6 @@ export function tokenize(text) {
     ]
   );
   console.profileEnd('lex');
-  // let tokens = lex(text, [tableTokenizer('\t')]);
 }
 
 export function parse(text) {
