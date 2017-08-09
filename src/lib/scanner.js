@@ -14,20 +14,20 @@ export default class Scanner {
     let after;
     let at;
     let i;
-    let count = this.patternMatches.offsets;
+    let offsets = this.patternMatches.getOffsets();
+    let count = offsets.length;
     for (i = 0; i < count; i++) {
-      this.text.substr(1, 1000);
-      // char = this.next();
-      // before = this.patternMatches.on('before', i);
-      // if (before && before.length) tokens.push(...before);
+      // this.text.substr(1, 1000);
+      before = this.patternMatches.on('before', offsets[i]);
+      if (before && before.length) tokens.push(...before);
 
       // at = this.patternMatches.on('at', i);
       // if (at && at.length) {
       //   tokens.push(at.pop());
       // }
 
-      // after = this.patternMatches.on('after', i);
-      // if (after && after.length) tokens.push(...after);
+      after = this.patternMatches.on('after', offsets[i]);
+      if (after && after.length) tokens.push(...after);
     }
     return tokens;
   }

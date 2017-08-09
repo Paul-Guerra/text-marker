@@ -1,6 +1,4 @@
-// Manages queues of tokens to be flushed when scanning a specific index OR character
-
-
+// sorting function for an array of tokens
 export function tokenSort(a, b) {
   let aPriority = a.priority || 0;
   let bPriority = b.priority || 0;
@@ -9,10 +7,19 @@ export function tokenSort(a, b) {
   return 0;
 }
 
+export function offsetSort(a, b) {
+  if (a < b) return -1;
+  if (a > b) return 1;
+  return 0;
+}
+
+// Manages queues of tokens to be flushed when scanning a specific index OR character
 export default class PatternBuffer {
   constructor() {
-    this.atOffset = {}; // used for looking up tokens by the string index they are associated with
-    this.offsets = []; // used for looking up tokens by the string index they are associated with
+    // used for looking up tokens by the string index they are associated with
+    this.atOffset = {};
+    // the string offsets that are associated  with tokens
+    this.offsets = [];
   }
 
   on(when, index) {
@@ -21,18 +28,23 @@ export default class PatternBuffer {
     return this.atOffset[key][when].sort(tokenSort);
   }
 
+  getOffsets() {
+    return this.offsets.sort(offsetSort);
+  }
+
   push(matches) {
     let count;
-    let matchIndex;
+    let index;
     if (matches instanceof Array === false) {
-      this.getTokenIndex(matches.index)[matches.handle].push(matches);
+      index = this.getTokenIndex(matches.index);
+      index[matches.handle].push(matches);
       this.offsets.push(matches.index);
     } else {
       count = matches.length;
       while (count--) {
-        matchIndex = `${matches[count].index}`;
-        this.getTokenIndex(matchIndex)[matches[count].handle].push(matches[count]);
-        this.offsets.push(matchIndex);
+        index = this.getTokenIndex(matches[count].index);    
+        index[matches[count].handle].push(matches[count]);
+        this.offsets.push(matches[count].index);
       }
     }
   }
