@@ -1,20 +1,18 @@
 import { parseBlocks } from './utils';
+import PatternBuffer from './pattern_buffer';
+import CharIndex from './char_index';
+import Scanner from './scanner';
 
-export function parseTokens(text, { pattern, tokenizer }) {
-  if (!text || !pattern || !tokenizer) return [];
-  let tokens = [];
-  let token;
+export function findPatterns(text, buffer, { pattern, onMatch }) {
+  if (!text || !pattern || !onMatch) return [];
+  let tokens;
   let match = pattern.exec(text);
   while (match) {
-    token = tokenizer(match);
-    if (token instanceof Array) {
-      tokens.push(...token);
-    } else {
-      tokens.push(token);
-    }
+    tokens = onMatch(match);
+    buffer.push(tokens);
     match = pattern.exec(text);
   }
-  return tokens;
+  return buffer;
 }
 
 export function printTokens(tokens) {
@@ -25,27 +23,31 @@ export function printTokens(tokens) {
   console.log(output);
 }
 
-export default function lex(text, tokenizers) {
-  let count = tokenizers.length;
-  let tokens = [];
+export default function lex(text, patterns) {
+  let count = patterns.length;
+  // initialize buffer
+  let buffer = new PatternBuffer();
   while (count--) {
-    tokens.push(...parseTokens(text, tokenizers[count]));
+    findPatterns(text, buffer, patterns[count]);
   }
-  tokens = tokens.sort((a, b) => {
-    if (a.start < b.start) return -1;
-    if (a.start > b.start) return 1;
+  let scanner = new Scanner(text, buffer);
+  let tokens = scanner.scan();
+  console.log(tokens);
+  // tokens = tokens.sort((a, b) => {
+  //   if (a.start < b.start) return -1;
+  //   if (a.start > b.start) return 1;
 
-    let aPriority = a.priority || 0;
-    let bPriority = b.priority || 0;
-    if (aPriority < bPriority) return -1;
-    if (aPriority > bPriority) return 1;
-    return 0;
-  });
+  //   let aPriority = a.priority || 0;
+  //   let bPriority = b.priority || 0;
+  //   if (aPriority < bPriority) return -1;
+  //   if (aPriority > bPriority) return 1;
+  //   return 0;
+  // });
   // console.log("BEFORE");
   // printTokens(tokens);
   // tokens = fixOverlappingBlocks(tokens);
   // console.log("AFTER");
-  tokens = parseBlocks(tokens);
-  printTokens(tokens);
-  return tokens;
+  // tokens = parseBlocks(tokens);
+  // printTokens(tokens);
+  // return tokens;
 }

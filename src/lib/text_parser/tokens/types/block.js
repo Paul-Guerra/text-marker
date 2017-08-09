@@ -10,23 +10,25 @@ export function makeBlockRegex({ open, close = open }) {
   return new RegExp(`(\\${open})\\${open}*[^${open}]+\\${close}*(\\${close})`, 'g');
 }
 
-export default function factory(delimiters, name = 'DEFAULT', regex) {
+export default function search(delimiters, name = 'DEFAULT', regex) {
   return {
     pattern: regex || makeBlockRegex(delimiters),
-    tokenizer: function tokenizer(match) {
+    onMatch: function onMatch(match) {
       return [
         {
           name,
           type: 'BLOCK_START',
-          start: match.index,
+          index: match.index,
           chars: match[1],
+          handle: 'at',
           delimiters
         },
         {
           name,
-          start: match.index + match[0].length - match[2].length,
+          index: match.index + match[0].length - match[2].length,
           type: 'BLOCK_END',
           chars: match[3],
+          handle: 'at',
           delimiters
         }
       ];

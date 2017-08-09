@@ -1,58 +1,16 @@
-// export const table = /(^)(\t|$)/gm; // matches a table as an entire blow. Does not distinguish rows or cells
-// export const row = /([^\n\t]+(?=\t))+[^\n]+/gm; // matches a row containing tab seperated values. 
-// export const row = /[^\n\t].*\t[^\n]+/gm; // matches a row containing tab seperated values. 
-// export const rowStart = /(\n)[^\t]+\t/g; // matches a row start containing tab seperated values
-// export const cellsInRow = /(^.)|\t|(.$)/g; // for a given row  string find the cell delimiters
-
 export default function (seperator, priority = 100) {
-  const rowStart = new RegExp(`.+${seperator}.+`, 'g'); // matches a row containing tab seperated values. 
-  const cellsInRow = new RegExp(`[^${seperator}]+`, 'g'); // for a given row string find the cell contents
+  const seperatorValue = new RegExp(`${seperator}`, 'g'); // matches a row containing tab seperated values. 
   return {
-    pattern: rowStart,
-    tokenizer: function tokenizer(match) {
-      let tokens = [
-        {
-          name: 'TABLE_ROW',
-          type: 'BLOCK_START',
-          start: match.index,
-          chars: null,
-          delimiters: { open: null, close: null },
-          priority: (priority + 0.03) * -1
-        }
-      ];
-      let text = match[0];
-      let cellData = cellsInRow.exec(text);
-      while (cellData) {
-        tokens.push(
-          {
-            name: 'TABLE_CELL',
-            type: 'BLOCK_START',
-            start: cellData.index + match.index,
-            chars: null,
-            delimiters: { open: null, close: null },
-            priority: (priority + 0.02) * -1
-          },
-          {
-            name: 'TABLE_CELL',
-            type: 'BLOCK_END',
-            start: match.index + cellData.index + cellData[0].length,
-            chars: null,
-            delimiters: { open: null, close: null },
-            priority: (priority + 0.02)
-          }
-        );
-        cellData = cellsInRow.exec(text);
-      }
-      tokens.push({
-        name: 'TABLE_ROW',
-        type: 'BLOCK_END',
-        start: match.index + match[0].length,
-        chars: null,
-        delimiters: { open: null, close: null },
-        priority: (priority + 0.03)
-      });
-
-      return tokens;
+    pattern: seperatorValue,
+    onMatch: function onMatch(match) {
+      return {
+        name: 'TABLE_SEPERATOR',
+        type: 'TABLE',
+        index: match.index,
+        chars: match[0],
+        priority: (priority + 0.03) * -1,
+        handle: 'at'
+      };
     }
   };
 }
