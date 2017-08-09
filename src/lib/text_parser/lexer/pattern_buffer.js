@@ -11,13 +11,14 @@ export function tokenSort(a, b) {
 
 export default class PatternBuffer {
   constructor() {
-    this.byOffset = {}; // used for looking up tokens by the string index they are associated with
+    this.atOffset = {}; // used for looking up tokens by the string index they are associated with
+    this.offsets = []; // used for looking up tokens by the string index they are associated with
   }
 
   on(when, index) {
     let key = `${index}`;
-    if (!this.byOffset[key]) return;
-    return this.byOffset[key][when].sort(tokenSort);
+    if (!this.atOffset[key]) return;
+    return this.atOffset[key][when].sort(tokenSort);
   }
 
   push(matches) {
@@ -25,25 +26,27 @@ export default class PatternBuffer {
     let matchIndex;
     if (matches instanceof Array === false) {
       this.getTokenIndex(matches.index)[matches.handle].push(matches);
+      this.offsets.push(matches.index);
     } else {
       count = matches.length;
       while (count--) {
         matchIndex = `${matches[count].index}`;
         this.getTokenIndex(matchIndex)[matches[count].handle].push(matches[count]);
+        this.offsets.push(matchIndex);
       }
     }
   }
 
   getTokenIndex(key) {
-    let index = this.byOffset;
+    let index = this.atOffset;
     let i = typeof index === 'number' ? `${key}` : key;
     if (!index[i]) {
-      this.byOffset[i] = {
+      this.atOffset[i] = {
         before: [], // tokens intended to be inserted before a char at index is processed
         at: [], // tokens intended to replace char at index 
         after: [] // tokens intended to be inserted before a char at index is processed
       };
     }
-    return this.byOffset[i];
+    return this.atOffset[i];
   }
 }
