@@ -1,7 +1,7 @@
 import { pattern as urlPattern, name as urlTokenName } from './tokens/url';
 import { pattern as newlinePattern, name as newlineTokenName } from './tokens/newline';
 import tableTokenizer from './tokens/types/table';
-import lex from './lexer/';
+import lex from './lexer';
 // import literalTokenizer from './tokens/types/literal';
 // import keywordTokenizer from './tokens/types/keyword';
 import textRangeSearch from './tokens/types/text_range';
