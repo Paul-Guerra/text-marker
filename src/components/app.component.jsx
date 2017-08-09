@@ -29,7 +29,7 @@ _plain_`;
 // Step 3	Click on "Edit" button on the top right of profile image section	Image Upload dialog should be shown
   
 // 	foo bar* baz`;
-  text = largeText;
+  text = largeText + largeText + largeText;
   window.text = text;
   return (
     <div>
