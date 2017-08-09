@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { parse } from '../lib/text_parser';
-import { printTokens } from '../lib/text_parser/lexer';
+import { parse } from '../lib';
+import { printTokens } from '../lib/lexer';
 
 function test(text) {
   return (

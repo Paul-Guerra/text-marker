@@ -32,7 +32,7 @@ export default function lex(text, patterns) {
   }
   let scanner = new Scanner(text, buffer);
   let tokens = scanner.scan();
-  console.log(tokens);
+  console.log(buffer);
   // tokens = tokens.sort((a, b) => {
   //   if (a.start < b.start) return -1;
   //   if (a.start > b.start) return 1;
