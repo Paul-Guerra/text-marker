@@ -6,18 +6,17 @@ export default () => {
   let text = 'i am *bold _and_ underline_* and **you** are /buzz not at http://www.google.com . . .  or are you?';
   text = 'i am *bold _and underline* and _ ?';
   text = 'i am *bold http://www.google.com underline* and ?';
-  // text = `foo *bar
-  
-  // foo *baz`;
-  text = `n*lkk*
+  // text = `foo *bar foo* baz`;
+  text = `foo bar foo baz`;
+//   text = `n*lkk*
 
-Step 1	Log*in to Eikon	User should be lo*gged into Eikon
-Step 2	Launch "My Profile & Directory" app	My Profile should be shown
-Step 3	Click on "Edit" button on the top right of profile image section	Image Upload dialog should be shown
-Step 4	From "Set a profile photo" dialog click on "Choose File" image upload and select an image.	The image should be displayed for cropping
-Step 5	Select cropping area in the image and click "Crop" button.	Image should be set as profile image
+// Step 1	Log*in to Eikon	User should be lo*gged into Eikon
+// Step 2	Launch "My Profile & Directory" app	My Profile should be shown
+// Step 3	Click on "Edit" button on the top right of profile image section	Image Upload dialog should be shown
+// Step 4	From "Set a profile photo" dialog click on "Choose File" image upload and select an image.	The image should be displayed for cropping
+// Step 5	Select cropping area in the image and click "Crop" button.	Image should be set as profile image
 
-_plain_`;
+// _plain_`;
   // text = 'go to google.com  to find stuff';
   // text = 'Step 2	Launch "My Profile & Directory" app	My Profile should be shown';
   // text = 'Step 1	*Login _to_ Eikon*	User should be logged into Eikon';
@@ -29,7 +28,7 @@ _plain_`;
 // Step 3	Click on "Edit" button on the top right of profile image section	Image Upload dialog should be shown
   
 // 	foo bar* baz`;
-  text = largeText + largeText + largeText;
+  // text = largeText + largeText + largeText;
   window.text = text;
   return (
     <div>

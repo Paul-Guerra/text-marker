@@ -18,8 +18,7 @@ export function tokenize(text) {
       tableTokenizer('\t', 100),
       textRangeSearch(urlPattern, urlTokenName, 50),
       // keywordTokenizer('/buzz', 'BUZZ'),
-      textRangeSearch('google.com', 'HIGHLIGHT', 20),
-      textRangeSearch('i am', 'HIGHLIGHT', 20),
+      textRangeSearch('bar foo', 'HIGHLIGHT', 20),
       textRangeSearch('Step 1', 'HIGHLIGHT', 25)
     ]
   );
