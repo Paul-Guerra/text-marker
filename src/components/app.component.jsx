@@ -6,8 +6,8 @@ export default () => {
   let text = 'i am *bold _and_ underline_* and **you** are /buzz not at http://www.google.com . . .  or are you?';
   text = 'i am *bold _and underline* and _ ?';
   text = 'i am *bold http://www.google.com underline* and ?';
-  // text = `foo *bar foo* baz`;
-  text = `foo bar foo baz`;
+  text = `foo *bar foo* baz`;
+  // text = `foo bar foo baz`;
 //   text = `n*lkk*
 
 // Step 1	Log*in to Eikon	User should be lo*gged into Eikon

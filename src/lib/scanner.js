@@ -1,18 +1,5 @@
 import CharIndex from './char_index';
 
-// function hasVisibleToken(tokens) {
-//   let hasVisible = false;
-//   let i;
-//   let tokenCount = tokens.length;
-//   for (i = 0; i < tokenCount; i++) {
-//     if (tokens[i].chars && tokens[i].chars.length) {
-//       hasVisible = true;
-//       break;
-//     }
-//   }
-//   return hasVisible;
-// }
-
 // Manages queues of tokens to be flushed when scanning a specific index or character
 export default class Scanner {
   constructor(text, patternMatches) {
@@ -33,14 +20,15 @@ export default class Scanner {
     let count = offsets.length;
     let start = 0;
     let end = offsets[0];
-    let removeCharAtindex; // used to determine if we need to include all text chars when creating token or remove eg, *bold* => bold
+    // removeCharAtindex used to determine if we need to include all 
+    // text chars when creating token or remove them eg, *bold* => bold
+    let removeCharAtindex;
+
     for (i = 0; i <= count; i++) {
       tokenAt = null;
       before = this.patternMatches.on('before', offsets[i]);
       after = this.patternMatches.on('after', offsets[i]);
       at = this.patternMatches.on('at', offsets[i]);
-
-      
 
       // if there are tokens that will replace the current character
       if (at && at.length) {
@@ -69,12 +57,10 @@ export default class Scanner {
           end = offsets[0];
           break;
         case count:
-          // start = offsets[i - 1] + 1;
           start = offsets[i - 1] + offsetDelta;
           end = this.text.length;
           break;
         default:
-          // start = offsets[i - 1] + 1;
           if (removeCharAtindex) {
             start = offsets[i - 1] + offsetDelta;
             end = offsets[i];
