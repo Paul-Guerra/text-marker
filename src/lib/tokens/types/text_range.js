@@ -32,10 +32,10 @@ export default function factory(symbol, name, priority = 50) {
           name,
           type: 'RANGE_END',
           chars: null,
-          index: match.index + match[0].length - 1,
+          index: match.index + match[0].length,
           delimiters: { open: null, close: null },
           priority,
-          handle: 'after',
+          handle: 'before',
         },
       ];
     }
