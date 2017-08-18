@@ -8,8 +8,7 @@ import textRangeSearch from './tokens/types/text_range';
 import blockSearch from './tokens/types/block';
 
 export function tokenize(text) {
-  console.profile('lex');
-  let tokens = lex(
+  return lex(
     text,
     [
       blockSearch({ open: '*', close: '*' }, 'BOLD'),
@@ -19,10 +18,10 @@ export function tokenize(text) {
       textRangeSearch(urlPattern, urlTokenName, 50),
       // keywordTokenizer('/buzz', 'BUZZ'),
       textRangeSearch('bar foo', 'HIGHLIGHT', 20),
+      textRangeSearch('bar', 'FIND', 20),
       textRangeSearch('Step 1', 'HIGHLIGHT', 25)
     ]
   );
-  console.profileEnd('lex');
 }
 
 export function parse(text) {

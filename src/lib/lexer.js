@@ -32,12 +32,5 @@ export default function lex(text, patterns) {
   }
   let scanner = new Scanner(text, buffer);
   let tokens = scanner.scan();
-  console.log(tokens);
-  // console.log("BEFORE");
-  // printTokens(tokens);
-  // tokens = fixOverlappingBlocks(tokens);
-  // console.log("AFTER");
-  // tokens = parseBlocks(tokens);
-  // printTokens(tokens);
-  // return tokens;
+  return tokens;
 }
