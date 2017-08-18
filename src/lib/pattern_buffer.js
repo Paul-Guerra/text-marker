@@ -29,7 +29,7 @@ export default class PatternBuffer {
   }
 
   getOffsets() {
-    return this.offsets.sort(offsetSort);
+    return Array.concat([], this.offsets.sort(offsetSort));
   }
 
   push(matches) {
