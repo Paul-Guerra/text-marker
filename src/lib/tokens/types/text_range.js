@@ -17,22 +17,26 @@ export default function factory(symbol, name, priority = 50) {
   return {
     pattern,
     onMatch: function onMatch(match) {
+
+      let start = match.index;
+      let end = match.index + match[0].length;
       return [
         {
           name,
           type: 'RANGE_START',
           chars: null,
-          index: match.index,
+          index: start,
+          pairedWith: end,
           delimiters: { open: null, close: null },
           priority: priority * -1,
           handle: 'before',
-
         },
         {
           name,
           type: 'RANGE_END',
           chars: null,
-          index: match.index + match[0].length,
+          index: end,
+          pairedWith: start,
           delimiters: { open: null, close: null },
           priority,
           handle: 'before',

@@ -18,18 +18,22 @@ export default function search(delimiters, name = 'DEFAULT', regex) {
   return {
     pattern: regex || makeBlockRegex(delimiters),
     onMatch: function onMatch(match) {
+      let start = match.index;
+      let end = match.index + match[0].length - match[2].length;
       return [
         {
           name,
           type: 'BLOCK_START',
-          index: match.index,
+          index: start,
+          pairedWith: end,
           chars: match[1],
           handle: 'at',
           delimiters
         },
         {
           name,
-          index: match.index + match[0].length - match[2].length,
+          index: end,
+          pairedWith: start,
           type: 'BLOCK_END',
           chars: match[2],
           handle: 'at',
