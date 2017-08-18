@@ -1,5 +1,6 @@
 // sorting function for an array of tokens
-export function tokenSort(a, b) {
+// used to sort tokens assign to the same string index
+export function sortByPriority(a, b) {
   let aPriority = a.priority || 0;
   let bPriority = b.priority || 0;
   if (aPriority < bPriority) return -1;
@@ -25,7 +26,7 @@ export default class PatternBuffer {
   on(when, index) {
     let key = `${index}`;
     if (!this.atOffset[key]) return;
-    return this.atOffset[key][when].sort(tokenSort);
+    return this.atOffset[key][when].sort(sortByPriority);
   }
 
   getOffsets() {

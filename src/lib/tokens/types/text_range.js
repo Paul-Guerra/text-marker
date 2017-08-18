@@ -28,7 +28,7 @@ export default function factory(symbol, name, priority = 50) {
           index: start,
           pairedWith: end,
           delimiters: { open: null, close: null },
-          priority: priority * -1,
+          priority: start + end,
           handle: 'before',
         },
         {
@@ -38,7 +38,7 @@ export default function factory(symbol, name, priority = 50) {
           index: end,
           pairedWith: start,
           delimiters: { open: null, close: null },
-          priority,
+          priority: (start + end) * -1,
           handle: 'before',
         },
       ];
