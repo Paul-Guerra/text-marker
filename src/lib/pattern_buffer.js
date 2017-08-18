@@ -36,17 +36,22 @@ export default class PatternBuffer {
     let count;
     let index;
     if (matches instanceof Array === false) {
+      if (!this.hasIndexAtOffset(matches.index)) this.offsets.push(matches.index);
       index = this.getTokenIndex(matches.index);
       index[matches.handle].push(matches);
-      this.offsets.push(matches.index);
     } else {
       count = matches.length;
       while (count--) {
-        index = this.getTokenIndex(matches[count].index);    
+        if (!this.hasIndexAtOffset(matches[count].index)) this.offsets.push(matches[count].index);
+        index = this.getTokenIndex(matches[count].index);
         index[matches[count].handle].push(matches[count]);
-        this.offsets.push(matches[count].index);
       }
     }
+  }
+
+  hasIndexAtOffset(key) {
+    let i = typeof index === 'number' ? `${key}` : key;
+    return !!this.atOffset[key];
   }
 
   getTokenIndex(key) {
