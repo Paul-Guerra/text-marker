@@ -43,7 +43,7 @@ export default class Scanner {
 
     // add the beginning and end of string to the offsets the text literla substrings are based on
     if (offsets[0] !== 0) offsets.unshift(0);
-    if (offsets[offsets.length - 1] !== this.text.length - 1) offsets.push(this.text.length - 1);
+    if (offsets[offsets.length - 1] !== this.text.length) offsets.push(this.text.length);
     count = offsets.length;
 
     while (offsets.length) {
@@ -52,11 +52,7 @@ export default class Scanner {
       start = start || offsets.shift();
       let literalStart = start;
       end = offsets.shift();
-      // tokenAtStart = this.patternMatches.on('at', start);
-      // if the offset has a visible token move start to after the token
-      // if (tokenAtStart && tokenAtStart.length) {
-      //   literalStart += getTokenLength(tokenAtStart[tokenAtStart.length - 1]);
-      // }
+
       if (start > end) continue;
       before = this.patternMatches.on('before', start);
       after = this.patternMatches.on('after', start);
