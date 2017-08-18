@@ -1,6 +1,13 @@
 import 'babel-polyfill';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+
+import { pattern as urlPattern, name as urlTokenName } from './lib/tokens/url';
+import { pattern as newlinePattern, name as newlineTokenName } from './lib/tokens/newline';
+import tableTokenizer from './lib/tokens/types/table';
+import textRangeSearch from './lib/tokens/types/text_range';
+import blockSearch from './lib/tokens/types/block';
+
 import App from './components/app.component';
 
 import { parse } from './lib';
@@ -12,8 +19,20 @@ setTimeout(() => {
   console.log('parsing');
   console.profile('lex');
 
-  let sample = largeText + largeText + largeText;
-  let tokens = parse(sample);
+  let patterns = [
+    blockSearch({ open: '*', close: '*' }, 'BOLD'),
+    blockSearch({ open: '_', close: '_' }, 'UNDERLINE'),
+    blockSearch({ open: '-', close: '-' }, 'STRIKETHROUGH'),
+    tableTokenizer('\t', 100),
+    textRangeSearch(urlPattern, urlTokenName),
+    // keywordTokenizer('/buzz', 'BUZZ'),
+    textRangeSearch('yar ', 'FIND'),
+    textRangeSearch('foo', 'FIND'),
+    textRangeSearch('bar foo', 'HIGHLIGHT'),
+    textRangeSearch('Step 1', 'HIGHLIGHT')
+  ];
+  let sample = text; // largeText + largeText + largeText;
+  let tokens = parse(sample, patterns);
   console.profileEnd('lex');
   console.log('tokens: ', tokens);
 }, 0);
@@ -23,6 +42,7 @@ text = 'i am *bold _and_ underline_* and **you** are /buzz not at http://www.goo
 text = 'i am *bold _and underline* and _ ?';
 text = 'i am *bold http://www.google.com underline* and ?';
 text = 'foo *-bar foo-* baz';
+text = 'yar bar foo baz';
 window.text = text;
 
 let largeText = `
