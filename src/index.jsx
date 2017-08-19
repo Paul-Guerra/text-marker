@@ -10,8 +10,8 @@ import blockSearch from './lib/tokens/types/block';
 
 import App from './components/app.component';
 
-import { parse } from './lib';
-import { printTokens } from './lib/lexer';
+// import { parse } from './lib';
+import lex, { printTokens } from './lib/lexer';
 
 let text;
 
@@ -32,7 +32,7 @@ setTimeout(() => {
     textRangeSearch('Step 1', 'HIGHLIGHT')
   ];
   let sample = text; // largeText + largeText + largeText;
-  let tokens = parse(sample, patterns);
+  let tokens = lex(sample, patterns);
   console.profileEnd('lex');
   console.log('tokens: ', tokens);
 }, 0);
@@ -43,6 +43,10 @@ text = 'i am *bold _and underline* and _ ?';
 text = 'i am *bold http://www.google.com underline* and ?';
 text = 'foo *-bar foo-* baz';
 text = 'yar bar foo baz';
+text = `Step 1	Login to Eikon	User should be logged into Eikon
+Step 2	_Launch_ "My Profile & Directory" app	My Profile should be shown
+Step 3	Click on "Edit" button on the top right of profile image section	Image Upload dialog should be shown
+`;
 window.text = text;
 
 let largeText = `
