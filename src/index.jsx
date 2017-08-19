@@ -16,9 +16,6 @@ import lex, { printTokens } from './lib/lexer';
 let text;
 
 setTimeout(() => {
-  console.log('parsing');
-  console.profile('lex');
-
   let patterns = [
     blockSearch({ open: '*', close: '*' }, 'BOLD'),
     blockSearch({ open: '_', close: '_' }, 'UNDERLINE'),
@@ -31,9 +28,23 @@ setTimeout(() => {
     textRangeSearch('bar foo', 'HIGHLIGHT'),
     textRangeSearch('Step 1', 'HIGHLIGHT')
   ];
-  let sample = text; // largeText + largeText + largeText;
-  let tokens = lex(sample, patterns);
-  console.profileEnd('lex');
+  let sample = largeText + largeText + largeText;
+  console.log('parsing ', sample.length, 'characters');
+  let start;
+  let end;
+  let sum = 0;
+  let avg;
+  let tokens;
+  let count = 1000;
+  tokens = lex(sample, patterns);
+  // for (let i = 0; i < count; i++) {
+
+  //   start =  performance.now();
+  //   tokens = lex(sample, patterns);
+  //   end =  performance.now();
+  //   sum += end - start;
+  // }
+  // console.log('parsing average over',count,'times:', sum / count, 'ms');
   console.log('tokens: ', tokens);
 }, 0);
 
@@ -42,11 +53,11 @@ text = 'i am *bold _and_ underline_* and **you** are /buzz not at http://www.goo
 text = 'i am *bold _and underline* and _ ?';
 text = 'i am *bold http://www.google.com underline* and ?';
 text = 'foo *-bar foo-* baz';
-text = 'yar bar foo baz';
-text = `Step 1	Login to Eikon	User should be logged into Eikon
-Step 2	_Launch_ "My Profile & Directory" app	My Profile should be shown
-Step 3	Click on "Edit" button on the top right of profile image section	Image Upload dialog should be shown
-`;
+// text = 'yar bar foo baz';
+// text = `Step 1	Login to Eikon	User should be logged into Eikon
+// Step 2	_Launch_ "My Profile & Directory" app	My Profile should be shown
+// Step 3	Click on "Edit" button on the top right of profile image section	Image Upload dialog should be shown
+// `;
 window.text = text;
 
 let largeText = `
