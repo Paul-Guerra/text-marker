@@ -1,5 +1,5 @@
 // sorting function for an array of tokens
-// used to sort tokens assign to the same string index
+// used to sort tokens assigned to the same string index
 export function sortByPriority(a, b) {
   let aPriority = a.priority || 0;
   let bPriority = b.priority || 0;
