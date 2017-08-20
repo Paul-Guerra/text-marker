@@ -34,18 +34,13 @@ export default class Scanner {
   scan() {
     let tokens = [];
     let tokenAt;
-    let nextStartOffset = 0;
-    let tokenAtStart;
-    let tokenAtEnd;
     let offsets = this.patternMatches.getOffsets();
-    let count;
     let start;
     let end;
     let literal;
     let before;
     let after;
     let at;
-    let i;
 
     // add the beginning and end of string to the offsets the text literla substrings are based on
     if (offsets[0] !== 0) offsets.unshift(0);
@@ -54,7 +49,6 @@ export default class Scanner {
 
     while (offsets.length) {
       tokenAt = null;
-      nextStartOffset = 0;
       start = start || offsets.shift();
       let literalStart = start;
       end = offsets.shift();
