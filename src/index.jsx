@@ -23,26 +23,26 @@ setTimeout(() => {
     textRangeSearch('yar ', 'FIND'),
     textRangeSearch('foo', 'FIND'),
     textRangeSearch('bar foo', 'HIGHLIGHT'),
-    textRangeSearch('Launch', 'HIGHLIGHT')
+    textRangeSearch('baz', 'MARK')
   ];
-  let sample = largeText + largeText + largeText;
+  let sample = text; // largeText + largeText + largeText;
   console.log('parsing ', sample.length, 'characters');
   let start;
   let end;
   let sum = 0;
   let avg;
   let tokens;
-  let count = 1000;
+  let count = 1;
   console.profile('lex');
-  tokens = lex(sample, patterns);
+  // tokens = lex(sample, patterns);
   // for (let i = 0; i < count; i++) {
 
-  //   start =  performance.now();
-  //   tokens = lex(sample, patterns);
-  //   end =  performance.now();
-  //   sum += end - start;
+  start =  performance.now();
+  tokens = lex(sample, patterns);
+  end =  performance.now();
+  sum += end - start;
   // }
-  // console.log('parsing average over',count,'times:', sum / count, 'ms');
+  console.log('parsing average over',count,'times:', sum / count, 'ms');
   console.profileEnd('lex');
   console.log('tokens: ', tokens);
 }, 0);
