@@ -89,7 +89,16 @@ export function parseBlocks(tokens) {
     let bufferedTokens = getTokensForIndex(index);
     // let bufferedTokens = flushBufferTokens('BEFORE', token, index);
     if (bufferedTokens.length > 0) {
-      fixedTokens.push(...bufferedTokens);
+      bufferedTokens.forEach((token) => {
+        if (token.type === 'BLOCK_START') {
+          blocks.push(token);
+        }
+        if (token.type === 'BLOCK_END') {
+          blocks.pop();
+        }
+        fixedTokens.push(token);
+      });
+      // fixedTokens.push(...bufferedTokens);
     }
     if (token.type !== 'BLOCK_END') {
       if (token.type === 'BLOCK_START') {
