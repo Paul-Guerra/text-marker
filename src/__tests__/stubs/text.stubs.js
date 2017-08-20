@@ -1,12 +1,8 @@
 import largeText from './large_text.stubs';
-
-const table  = `Step 1	foo bar baz	lorem ipsum
-Step 2	foo2 bar2 baz2	lorem2 ipsum2
-Step 3	foo3 bar3 baz3	lorem3 ipsum3
-`;
+import tables from './tables.stubs';
 
 export default {
-  table,
+  tables,
   largeText,
   text: 'yar bar foo baz',
   mismatchedMarkup: 'i am *bold _and underline* and _ ?',

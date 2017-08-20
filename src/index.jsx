@@ -10,7 +10,9 @@ import App from './components/app.component';
 import lex, { printTokens } from './lib/lexer';
 import stubs from './__tests__/stubs/text.stubs';
 
-let text = stubs.table;
+let text;
+text = stubs.tables.twoColumn;
+text = stubs.largeText;
 window.text = text;
 
 setTimeout(() => {
@@ -22,12 +24,12 @@ setTimeout(() => {
     textRangeSearch(urlPattern, urlTokenName),
     // keywordTokenizer('/buzz', 'BUZZ'),
     textRangeSearch('yar bar', 'FIND'),
-    // textRangeSearch('foo', 'FIND'),
+    textRangeSearch('Step 1', 'FIND'),
     textRangeSearch('bar foo', 'HIGHLIGHT'),
     textRangeSearch('foo baz', 'MARK'),
     textRangeSearch('Aenean', 'IPSUM')
   ];
-  let sample = text; // largeText + largeText + largeText;
+  let sample = text;
   console.log('parsing ', sample.length, 'characters');
   let start;
   let end;
