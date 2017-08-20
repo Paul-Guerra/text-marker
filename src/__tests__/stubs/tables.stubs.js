@@ -7,7 +7,16 @@ Step 2	foo2 bar2 baz2	lorem2 ipsum2
 Step 3	foo3 bar3 baz3	lorem3 ipsum3
 `;
 
-const markUp  = `Step 1	*foo bar baz*	lorem ipsum
+
+const markUpAroundTable = `
+*bold starts before the table
+Step 1	foo bar baz	lorem ipsum
+Step 2	foo2 bar2 baz2	lorem2 ipsum2
+Step 3	foo3 bar3 baz3	lorem3 ipsum3
+and ends after the table*
+`;
+
+const markUpInCell  = `Step 1	*foo bar baz*	lorem ipsum
 Step 2	foo2 bar2 baz2	lorem2 *ips*um2
 *Step 3*	foo3 bar3 baz3	lorem3 ipsum3
 `;
@@ -33,7 +42,8 @@ export default {
   oneRow,
   oneColumn,
   twoColumn,
-  markUp,
+  markUpInCell,
+  markUpAroundTable,
   markUpBetweenCells,
   overlappingMarkUpInCell,
   overlappingMarkUpBetweenCells
