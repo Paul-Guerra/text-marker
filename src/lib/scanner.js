@@ -35,6 +35,7 @@ export default class Scanner {
     let tokens = [];
     let tokenAt;
     let offsets = this.patternMatches.getOffsets();
+    let count;
     let start;
     let end;
     let literal;
@@ -45,15 +46,17 @@ export default class Scanner {
     // add the beginning and end of string to the offsets the text literla substrings are based on
     if (offsets[0] !== 0) offsets.unshift(0);
     if (offsets[offsets.length - 1] !== this.text.length) offsets.push(this.text.length);
-    count = offsets.length;
+    // process index one gretter because there may be tokens that need to be processed 
+    // bef ore the end of the string
+    count = offsets.length + 1;
 
-    while (offsets.length) {
+    while (count--) {
       tokenAt = null;
       start = start || offsets.shift();
       let literalStart = start;
       end = offsets.shift();
 
-      if (start > end) continue;
+      if (start >= end) continue;
       before = this.patternMatches.on('before', start);
       after = this.patternMatches.on('after', start);
       at = this.patternMatches.on('at', start);
@@ -64,9 +67,11 @@ export default class Scanner {
 
       if (before && before.length) tokens.push(...before);
       if (tokenAt) tokens.push(tokenAt);
-
-      literal = { value: this.text.substring(literalStart, end), index: literalStart };
-      if (literal.value) tokens.push(literal);
+      if (literalStart < this.text.length) {
+        // there are no literals after the end of the string.
+        literal = { value: this.text.substring(literalStart, end), index: literalStart };
+        if (literal.value) tokens.push(literal);
+      }
 
       if (after && after.length) tokens.push(...after);
 
