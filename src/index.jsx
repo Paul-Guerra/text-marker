@@ -1,7 +1,6 @@
 import 'babel-polyfill';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-
 import { pattern as urlPattern, name as urlTokenName } from './lib/tokens/url';
 import { pattern as newlinePattern, name as newlineTokenName } from './lib/tokens/newline';
 import tableTokenizer from './lib/tokens/types/table';
@@ -9,8 +8,6 @@ import textRangeSearch from './lib/tokens/types/text_range';
 import blockSearch from './lib/tokens/types/block';
 
 import App from './components/app.component';
-
-// import { parse } from './lib';
 import lex, { printTokens } from './lib/lexer';
 
 let text;
@@ -26,7 +23,7 @@ setTimeout(() => {
     textRangeSearch('yar ', 'FIND'),
     textRangeSearch('foo', 'FIND'),
     textRangeSearch('bar foo', 'HIGHLIGHT'),
-    textRangeSearch('Step 1', 'HIGHLIGHT')
+    textRangeSearch('Launch', 'HIGHLIGHT')
   ];
   let sample = largeText + largeText + largeText;
   console.log('parsing ', sample.length, 'characters');
@@ -36,6 +33,7 @@ setTimeout(() => {
   let avg;
   let tokens;
   let count = 1000;
+  console.profile('lex');
   tokens = lex(sample, patterns);
   // for (let i = 0; i < count; i++) {
 
@@ -45,6 +43,7 @@ setTimeout(() => {
   //   sum += end - start;
   // }
   // console.log('parsing average over',count,'times:', sum / count, 'ms');
+  console.profileEnd('lex');
   console.log('tokens: ', tokens);
 }, 0);
 
@@ -53,11 +52,11 @@ text = 'i am *bold _and_ underline_* and **you** are /buzz not at http://www.goo
 text = 'i am *bold _and underline* and _ ?';
 text = 'i am *bold http://www.google.com underline* and ?';
 text = 'foo *-bar foo-* baz';
-// text = 'yar bar foo baz';
-// text = `Step 1	Login to Eikon	User should be logged into Eikon
-// Step 2	_Launch_ "My Profile & Directory" app	My Profile should be shown
-// Step 3	Click on "Edit" button on the top right of profile image section	Image Upload dialog should be shown
-// `;
+text = 'yar bar foo baz';
+text = `Step 1	Login to Eikon	User should be logged into Eikon
+Step 2	_Launch_ "My Profile & Directory" app	My Profile should be shown
+Step 3	Click on "Edit" button on the top right of profile image section	Image Upload dialog should be shown
+`;
 window.text = text;
 
 let largeText = `
