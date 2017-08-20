@@ -32,5 +32,6 @@ export default function lex(text, patterns) {
   }
   let scanner = new Scanner(text, buffer);
   let tokens = scanner.scan();
-  return tokens;
+
+  return parseBlocks(tokens);
 }
