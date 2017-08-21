@@ -32,13 +32,9 @@ setTimeout(() => {
   ];
   let sample = text;
   console.log('parsing ', sample.length, 'characters');
-  let start;
-  let end;
   let sum = 0;
-  let avg;
   let tokens;
   let count = 100;
-  // console.profile('lex');
   for (let i = 0; i < count; i++) {
     // sample = Date.now() + ' ' + sample + ' ' + Date.now();
     performance.mark('parse-start');
@@ -51,7 +47,6 @@ setTimeout(() => {
   });
 
   console.log('parsing average over', count, 'times:', sum / count, 'ms');
-  // console.profileEnd('lex');
   console.log('tokens: ', tokens);
 }, 0);
 
