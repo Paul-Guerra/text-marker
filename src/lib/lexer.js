@@ -14,13 +14,15 @@ export function findPatterns(text, buffer, { pattern, onMatch }) {
   }
   return buffer;
 }
-
-export function printTokens(tokens) {
+export function tokensToString(tokens) {
   let output = '';
   tokens.forEach((token) => {
     output += `${token.start}, ${token.type}, ${token.name}\n`;
   });
-  console.log(output);
+  return output;
+}
+export function printTokens(tokens) {
+  console.log(tokensToString(tokens));
 }
 
 export default function lex(text, patterns) {
