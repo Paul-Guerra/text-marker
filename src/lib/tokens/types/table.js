@@ -20,7 +20,7 @@ export default function (seperator, priority = 100) {
       let tokens = [
         {
           name: 'TABLE_ROW',
-          type: 'BLOCK_START',
+          type: 'RANGE_START',
           index: match.index,
           chars: null,
           handle: 'before',
@@ -34,7 +34,7 @@ export default function (seperator, priority = 100) {
         tokens.push(
           {
             name: 'TABLE_CELL',
-            type: 'BLOCK_START',
+            type: 'RANGE_START',
             index: cellData.index + match.index,
             chars: null,
             handle: 'before',
@@ -43,7 +43,7 @@ export default function (seperator, priority = 100) {
           },
           {
             name: 'TABLE_CELL',
-            type: 'BLOCK_END',
+            type: 'RANGE_END',
             index: match.index + cellData.index + cellData[0].length,
             chars: null,
             handle: 'before',
@@ -55,7 +55,7 @@ export default function (seperator, priority = 100) {
       }
       tokens.push({
         name: 'TABLE_ROW',
-        type: 'BLOCK_END',
+        type: 'RANGE_END',
         index: match.index + match[0].length,
         chars: null,
         handle: 'before',
@@ -64,14 +64,6 @@ export default function (seperator, priority = 100) {
       });
 
       return tokens;
-      // return {
-      //   name: 'TABLE_SEPERATOR',
-      //   type: 'TABLE',
-      //   index: match.index,
-      //   chars: match[0],
-      //   priority: (priority + 0.03) * -1,
-      //   handle: 'at'
-      // };
     }
   };
 }
