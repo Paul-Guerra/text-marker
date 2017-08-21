@@ -13,6 +13,7 @@ import stubs from './__tests__/stubs/text.stubs';
 let text;
 text = stubs.tables.twoColumn;
 text = stubs.largeText;
+text = stubs.tables.markUpBetweenCells;
 window.text = text;
 
 setTimeout(() => {
@@ -36,19 +37,21 @@ setTimeout(() => {
   let sum = 0;
   let avg;
   let tokens;
-  let count = 1;
-  console.profile('lex');
-  // tokens = lex(sample, patterns);
-  // for (let i = 0; i < count; i++) {
+  let count = 100;
+  // console.profile('lex');
+  for (let i = 0; i < count; i++) {
+    // sample = Date.now() + ' ' + sample + ' ' + Date.now();
+    performance.mark('parse-start');
+    tokens = lex(sample, patterns);
+    performance.mark('parse-end');
+    performance.measure('parse', 'parse-start', 'parse-end');
+  }
+  performance.getEntriesByName('parse').forEach((timing) => {
+    sum += timing.duration;
+  });
 
-  start =  performance.now();
-  tokens = lex(sample, patterns);
-  end =  performance.now();
-  sum += end - start;
-  console.log('parsing time:', end - start, 'ms');
-  // }
-  // console.log('parsing average over',count,'times:', sum / count, 'ms');
-  console.profileEnd('lex');
+  console.log('parsing average over', count, 'times:', sum / count, 'ms');
+  // console.profileEnd('lex');
   console.log('tokens: ', tokens);
 }, 0);
 
