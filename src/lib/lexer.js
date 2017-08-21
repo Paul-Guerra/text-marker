@@ -14,6 +14,7 @@ export function findPatterns(text, buffer, { pattern, onMatch }) {
   }
   return buffer;
 }
+
 export function tokensToString(tokens) {
   let output = '';
   tokens.forEach((token) => {
@@ -21,6 +22,7 @@ export function tokensToString(tokens) {
   });
   return output;
 }
+
 export function printTokens(tokens) {
   console.log(tokensToString(tokens));
 }

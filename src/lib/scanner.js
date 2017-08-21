@@ -1,4 +1,5 @@
 import CharIndex from './char_index';
+import newLiteral from './tokens/types/literal';
 
 export function getTokenLength(token) {
   let length = 0;
@@ -69,8 +70,8 @@ export default class Scanner {
       if (tokenAt) tokens.push(tokenAt);
       if (literalStart < this.text.length) {
         // there are no literals after the end of the string.
-        literal = { value: this.text.substring(literalStart, end), index: literalStart };
-        if (literal.value) tokens.push(literal);
+        literal = newLiteral(this.text.substring(literalStart, end), literalStart);
+        if (literal.chars) tokens.push(literal);
       }
 
       if (after && after.length) tokens.push(...after);
