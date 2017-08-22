@@ -1,4 +1,3 @@
-// (\*)\**[^*]+\**(\*)
 /**
  * Intended to produce a basic block patterns from simple characters
  * for example. if open and close are * then it will match *lorem ipsum*
@@ -14,7 +13,7 @@ export function makeBlockRegex({ open, close = open }) {
   return new RegExp(`(\\${open})\\${open}*[^${open}]+\\${close}*(\\${close})`, 'g');
 }
 
-export default function search(delimiters, name = 'DEFAULT', regex) {
+export default function block(delimiters, name = 'DEFAULT', regex) {
   return {
     pattern: regex || makeBlockRegex(delimiters),
     onMatch: function onMatch(match) {

@@ -27,7 +27,7 @@ export default class Scanner {
 
   /**
    * Does 4 things.
-   * Creates a string literal for all the characters between the last token and this one
+   * Creates a string literal for all the characters between the tokens
    * Takes all tokens queued for BEFORE this index and adds them to tokens. 
    * Inserts the last token assigned AT this index and replaces the character in the string.
    * Takes all tokens queued for AFTER this index and adds them to tokens. 
