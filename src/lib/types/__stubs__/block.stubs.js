@@ -4,6 +4,10 @@ matchData.index = 0;
 export default {
   delimiter: { open: '*' },
   delimiters: { open: '*', close: '*' },
+  mismatchedDelimiters: { open: '*', close: '-' },
   matchData,
-  repeatedDelimiters: 'foo ***bar*** foo baz'
+  text: {
+    mismatchedDelimiters: 'foo *bar- foo baz',
+    repeatedDelimiters: 'foo ***bar*** foo baz'
+  }
 };

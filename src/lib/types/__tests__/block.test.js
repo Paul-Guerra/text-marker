@@ -16,13 +16,21 @@ describe('makeBlockRegex', () => {
   it('matches the outer most delimiters when repeated', () => {
     let result;
     let pattern = makeBlockRegex(stubs.delimiters);
-    result = pattern.exec(stubs.repeatedDelimiters);
+    result = pattern.exec(stubs.text.repeatedDelimiters);
     expect(result[0]).toBe('***bar***');
+  });
+
+
+  it('block starts where at the location of the first delimiter', () => {
+    let result;
+    let pattern = makeBlockRegex(stubs.mismatchedDelimiters);
+    result = pattern.exec(stubs.text.mismatchedDelimiters);
+    expect(result[0]).toBe('*bar-');
   });
 });
 
 describe('Block factory', () => {
-  it('creates a regex from a delimiter object ', () => {
+  it('creates a regex from a delimiter object', () => {
     let newBlock = block(stubs.delimiters);
     expect(newBlock.pattern instanceof RegExp).toBe(true);
   });
@@ -68,7 +76,6 @@ describe('onMatch', () => {
     let result = block(stubs.delimiters).onMatch(stubs.matchData);
     expect(result[0].index).toBe(0);
   });
-
 
   it('block ends where at the location of the first delimiter', () => {
     let result = block(stubs.delimiters).onMatch(stubs.matchData);
