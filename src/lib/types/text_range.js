@@ -5,19 +5,18 @@
  * they have only their text to delineate where they begin and end
  * */
 
-export default function factory(symbol, name, priority = 50) {
+export default function range(symbol, name, priority = 50) {
   let pattern;
   if (symbol instanceof RegExp) pattern = symbol;
   if (typeof symbol === 'string') pattern = new RegExp(`${symbol}`, 'gi');
   if (!pattern) {
     console.error('Cannot create a text range token without a pattern');
-    return [];
+    return false;
   }
 
   return {
     pattern,
     onMatch: function onMatch(match) {
-
       let start = match.index;
       let end = match.index + match[0].length;
       return [

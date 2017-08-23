@@ -6,19 +6,18 @@
  * tokens and later treated as literals
  */
 export function makeBlockRegex({ open, close = open }) {
-  // let escapedOpen = '\\' + open.split('').join('\\');
-  // let escapedClose = '\\' + open.split('').join('\\');
-  // return new RegExp(`(${escapedOpen}).+?(${escapedClose})`, 'g'); // works for multichar delimiters but not single char. make conditional?
-  // return new RegExp(`(${escapedOpen})${escapedOpen}*[^${escapedOpen}]+${escapedClose}*(${escapedClose})`, 'g');
   return new RegExp(`(\\${open})\\${open}*[^${open}]+\\${close}*(\\${close})`, 'g');
 }
 
 export default function block(delimiters, name = 'DEFAULT') {
+  let start;
+  let end;
+
   return {
     pattern: delimiters instanceof RegExp ? delimiters : makeBlockRegex(delimiters),
     onMatch: function onMatch(match) {
-      let start = match.index;
-      let end = match.index + match[0].length - match[2].length;
+      start = match.index;
+      end = match.index + match[0].length - match[2].length;
       return [
         {
           name,
