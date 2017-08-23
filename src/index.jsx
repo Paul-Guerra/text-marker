@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom';
 import { pattern as urlPattern, name as urlTokenName } from './lib/url';
 import { pattern as newlinePattern, name as newlineTokenName } from './lib/newline';
 import tableTokenizer from './lib/types/table';
-import textRangeSearch from './lib/types/text_range';
+import textRangeSearch from './lib/types/range';
 import blockSearch from './lib/types/block';
 import App from './components/app.component';
 import lex, { printTokens } from './lib/lexer';
