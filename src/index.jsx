@@ -8,12 +8,13 @@ import textRangeSearch from './lib/types/text_range';
 import blockSearch from './lib/types/block';
 import App from './components/app.component';
 import lex, { printTokens } from './lib/lexer';
-import stubs from './lib/__tests__/stubs/text.stubs';
+import stubs from './lib/types/__stubs__/text.stubs';
 
 let text;
 text = stubs.tables.twoColumn;
 text = stubs.largeText;
 text = stubs.tables.markUpBetweenCells;
+text = stubs.markUp;
 window.text = text;
 
 setTimeout(() => {
