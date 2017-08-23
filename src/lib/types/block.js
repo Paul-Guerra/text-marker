@@ -13,9 +13,9 @@ export function makeBlockRegex({ open, close = open }) {
   return new RegExp(`(\\${open})\\${open}*[^${open}]+\\${close}*(\\${close})`, 'g');
 }
 
-export default function block(delimiters, name = 'DEFAULT', regex) {
+export default function block(delimiters, name = 'DEFAULT') {
   return {
-    pattern: regex || makeBlockRegex(delimiters),
+    pattern: delimiters instanceof RegExp ? delimiters : makeBlockRegex(delimiters),
     onMatch: function onMatch(match) {
       let start = match.index;
       let end = match.index + match[0].length - match[2].length;
