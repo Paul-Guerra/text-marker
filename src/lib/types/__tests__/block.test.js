@@ -7,6 +7,18 @@ describe('makeBlockRegex', () => {
     let pattern = makeBlockRegex(stubs.delimiters);
     expect(pattern instanceof RegExp).toBe(true);
   });
+
+  it('has a default close delimiter', () => {
+    let pattern = makeBlockRegex(stubs.delimiter);
+    expect(pattern instanceof RegExp).toBe(true);
+  });
+
+  it('matches the outer most delimiters when repeated', () => {
+    let result;
+    let pattern = makeBlockRegex(stubs.delimiters);
+    result = pattern.exec(stubs.repeatedDelimiters);
+    expect(result[0]).toBe('***bar***');
+  });
 });
 
 describe('Block factory', () => {
@@ -46,8 +58,20 @@ describe('onMatch', () => {
     expect(result[0].name).toBe('NAME');
   });
 
-  it('delimiter strings should be handled/replaced ', () => {
+  it('delimiter strings should be handled/replaced', () => {
     let result = block(stubs.delimiters, 'NAME').onMatch(stubs.matchData);
-    expect(result[0].handle === 'at' && result[1].handle === 'at').toBe(true);
+    expect(result[0].handle).toBe('at');
+    expect(result[1].handle).toBe('at');
+  });
+
+  it('block starts where at the location of the first delimiter', () => {
+    let result = block(stubs.delimiters).onMatch(stubs.matchData);
+    expect(result[0].index).toBe(0);
+  });
+
+
+  it('block ends where at the location of the first delimiter', () => {
+    let result = block(stubs.delimiters).onMatch(stubs.matchData);
+    expect(result[1].index).toBe(16);
   });
 });

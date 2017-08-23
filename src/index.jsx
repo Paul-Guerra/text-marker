@@ -15,6 +15,7 @@ text = stubs.tables.twoColumn;
 text = stubs.largeText;
 text = stubs.tables.markUpBetweenCells;
 text = stubs.markUp;
+text = '**foo bar foo baz**';
 window.text = text;
 
 setTimeout(() => {
