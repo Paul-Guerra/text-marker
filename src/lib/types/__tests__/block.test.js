@@ -29,7 +29,7 @@ describe('makeBlockRegex', () => {
   });
 });
 
-describe('Block factory', () => {
+describe('Block tokenizer', () => {
   it('creates a regex from a delimiter object', () => {
     let newBlock = block(stubs.delimiters);
     expect(newBlock.pattern instanceof RegExp).toBe(true);
@@ -37,15 +37,15 @@ describe('Block factory', () => {
 
   it('accepts a regex as a delimiter', () => {
     let regex = new RegExp('.*', 'g');
-    expect(block(regex).pattern === regex).toBe(true);
+    expect(block(regex).pattern).toBe(regex);
   });
 
   it('has an onMatch function', () => {
-    expect(typeof block(stubs.delimiters).onMatch === 'function').toBe(true);
+    expect(typeof block(stubs.delimiters).onMatch).toBe('function');
   });
 });
 
-describe('onMatch', () => {
+describe('Block onMatch handler', () => {
   it('returns an array', () => {
     let result = block(stubs.delimiters).onMatch(stubs.matchData);
     expect(result instanceof Array).toBe(true);
@@ -66,9 +66,14 @@ describe('onMatch', () => {
     expect(result[0].name).toBe('NAME');
   });
 
-  it('delimiter strings should be handled/replaced', () => {
+  it('open delimiter strings should be handled/replaced', () => {
     let result = block(stubs.delimiters, 'NAME').onMatch(stubs.matchData);
     expect(result[0].handle).toBe('at');
+    expect(result[1].handle).toBe('at');
+  });
+
+  it('close delimiter strings should be handled/replaced', () => {
+    let result = block(stubs.delimiters, 'NAME').onMatch(stubs.matchData);
     expect(result[1].handle).toBe('at');
   });
 
