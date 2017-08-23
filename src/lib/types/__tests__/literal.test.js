@@ -32,14 +32,4 @@ describe('Literal tokenizer', () => {
     let newLiteral = literal('TEST', '0');
     expect(newLiteral).toBe(false);
   });
-
-  // it('accepts a regex as an argument', () => {
-  //   let pattern = new RegExp('.*', 'g');
-  //   let newRange = range(pattern);
-  //   expect(newRange.pattern).toBe(pattern);
-  // });
-
-  // it('has an onMatch function', () => {
-  //   expect(typeof range('TEST').onMatch).toBe('function');
-  // });
 });
