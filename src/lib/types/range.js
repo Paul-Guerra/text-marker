@@ -5,12 +5,12 @@
  * they have only their text to delineate where they begin and end
  * */
 
-export default function range(symbol, name, priority = 50) {
+export default function range(symbol, name) {
   let pattern;
   if (symbol instanceof RegExp) pattern = symbol;
   if (typeof symbol === 'string') pattern = new RegExp(`${symbol}`, 'gi');
   if (!pattern) {
-    console.error('Cannot create a text range token without a pattern');
+    console.error('Cannot create a text range token without a string or regex. Cannot use:', typeof symbol);
     return false;
   }
 
