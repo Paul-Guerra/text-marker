@@ -1,5 +1,5 @@
 import CharIndex from './char_index';
-import newLiteral from './tokens/types/literal';
+import newLiteral from './types/literal';
 
 export function getTokenLength(token) {
   let length = 0;
