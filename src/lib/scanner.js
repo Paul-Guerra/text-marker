@@ -1,4 +1,3 @@
-import CharIndex from './char_index';
 import newLiteral from './types/literal';
 
 export function getTokenLength(token) {
@@ -11,7 +10,7 @@ export function getTokenLength(token) {
       length = token.delimiters.close.length;
       break;
     default:
-      length = token.chars.length || 0;
+      length = token.chars ? token.chars.length : 0;
       break;
   }
   return length;
@@ -22,7 +21,6 @@ export default class Scanner {
   constructor(text, patternMatches) {
     this.text = text;
     this.patternMatches = patternMatches;
-    this.newLines = new CharIndex('\n');
   }
 
   /**
