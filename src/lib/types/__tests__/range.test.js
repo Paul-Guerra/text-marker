@@ -24,7 +24,6 @@ describe('Range tokenizer', () => {
     expect(range(3)).toBe(false);
   });
 
-
   it('logs an error if no pattern isnt a string or regex', () => {
     range(3);
     expect(console.error).toBeCalled();
