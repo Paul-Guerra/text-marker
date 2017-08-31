@@ -1,6 +1,5 @@
 import { parseBlocks } from './utils';
 import PatternBuffer from './pattern_buffer';
-import CharIndex from './char_index';
 import Scanner from './scanner';
 
 export function findPatterns(text, buffer, { pattern, onMatch }) {
