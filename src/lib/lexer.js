@@ -4,7 +4,7 @@ import CharIndex from './char_index';
 import Scanner from './scanner';
 
 export function findPatterns(text, buffer, { pattern, onMatch }) {
-  if (!text || !pattern || !onMatch) return [];
+  if (!text || !pattern || !onMatch) return;
   let tokens;
   let match = pattern.exec(text);
   while (match) {
@@ -12,7 +12,6 @@ export function findPatterns(text, buffer, { pattern, onMatch }) {
     buffer.push(tokens);
     match = pattern.exec(text);
   }
-  return buffer;
 }
 
 export function tokensToString(tokens) {
