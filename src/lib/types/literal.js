@@ -15,6 +15,7 @@ export default function literal(text, start) {
   }
   return {
     type: 'LITERAL',
+    name: 'TEXT',
     chars: text,
     index: start,
   };

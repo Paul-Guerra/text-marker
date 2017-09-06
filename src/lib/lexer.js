@@ -16,7 +16,7 @@ export function findPatterns(text, buffer, { pattern, onMatch }) {
 export function tokensToString(tokens) {
   let output = '';
   tokens.forEach((token) => {
-    output += `${token.start}, ${token.type}, ${token.name}\n`;
+    output += `${token.index}, ${token.type}, ${token.name}\n`;
   });
   return output;
 }
@@ -32,8 +32,8 @@ export default function lex(text, patterns) {
   while (count--) {
     findPatterns(text, buffer, patterns[count]);
   }
-  let scanner = new Scanner(text, buffer);
-  let tokens = scanner.scan();
-
-  return parseBlocks(tokens);
+  let tokens = new Scanner(text, buffer).scan();
+  printTokens(tokens);
+  return tokens;
+  // return parseBlocks(tokens);
 }

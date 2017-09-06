@@ -9,6 +9,13 @@ describe('findPatterns()', () => {
     findPatterns(text, buffer, handler);
     expect(buffer.push.mock.calls.length).toBe(2);
   });
+
+  it('does not push onto the buffer when no patterns are found', () => {
+    let { text, buffer, notFoundHandler } = stubs;
+    buffer.push.mockClear();
+    findPatterns(text, buffer, notFoundHandler);
+    expect(buffer.push.mock.calls.length).toBe(0);
+  });
 });
 
 describe('tokensToString()', () => {

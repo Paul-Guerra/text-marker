@@ -1,4 +1,4 @@
-/* global jest, describe, it, expect */
+/* global describe, it, expect */
 import Scanner, { getTokenLength } from '../scanner';
 import stubs from '../__stubs__/scanner.stubs';
 
@@ -33,5 +33,12 @@ describe('Scanner constructor', () => {
     let scanner = new Scanner('a', 'b');
     expect(scanner.text).toBe('a');
     expect(scanner.patternMatches).toBe('b');
+  });
+});
+
+
+describe('Scanner scan method', () => {
+  it('always works', () => {
+    expect(1).toBe(1);
   });
 });

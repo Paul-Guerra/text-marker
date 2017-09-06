@@ -55,4 +55,22 @@ describe('Table onMatch handler', () => {
     let tokens = table('\t').onMatch(stubs.twoColumnMatch);
     expect(tokens[5].priority > tokens[4].priority).toBe(true);
   });
+
+
+  it('should have negative values for TABLE_ROW starts and TABLE_CELL starts', () => {
+    // negative values for the starting tokens ensures that table tokens surround text ranges
+    // that may start on the same index since text ranges have positive start values
+    let tokens = table('\t').onMatch(stubs.twoColumnMatch);
+    expect(tokens[0].priority).toBeLessThan(0);
+    expect(tokens[1].priority).toBeLessThan(0);
+  });
+
+
+  it('should have positive values for TABLE_ROW ends and TABLE_CELL ends', () => {
+    // negative values for the starting tokens ensures that table tokens surround text ranges
+    // that may start on the same index since text ranges have positive start values
+    let tokens = table('\t').onMatch(stubs.twoColumnMatch);
+    expect(tokens[5].priority).toBeGreaterThan(0);
+    expect(tokens[4].priority).toBeGreaterThan(0);
+  });
 });

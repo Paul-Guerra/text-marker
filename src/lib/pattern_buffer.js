@@ -8,7 +8,7 @@ export function sortByPriority(a, b) {
   return 0;
 }
 
-export function offsetSort(a, b) {
+export function offsetSort(a = 0, b = 0) {
   if (a < b) return -1;
   if (a > b) return 1;
   return 0;

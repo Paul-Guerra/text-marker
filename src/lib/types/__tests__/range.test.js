@@ -75,4 +75,12 @@ describe('Range onMatch handler', () => {
     let result = range('foo').onMatch(stubs.matchResult);
     expect(result[1].priority).toBe(-23);
   });
+
+
+  it('has a positive priority value', () => {
+    let result = range('foo').onMatch(stubs.matchResult);
+    expect(result[0].priority).toBeGreaterThan(0);
+    expect(result[1].priority).toBeLessThan(0);
+  });
+
 });
