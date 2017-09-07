@@ -30,7 +30,7 @@ export default class PatternBuffer {
   }
 
   getOffsets() {
-    return Array.concat([], this.offsets.sort(offsetSort));
+    return [].concat(this.offsets.sort(offsetSort));
   }
 
   push(matches) {
@@ -51,13 +51,14 @@ export default class PatternBuffer {
   }
 
   hasIndexAtOffset(key) {
-    let i = typeof index === 'number' ? `${key}` : key;
-    return !!this.atOffset[key];
+    let i = typeof key !== 'string' ? `${key}` : key;
+    return !!this.atOffset[i];
   }
 
   getTokenIndex(key) {
     let index = this.atOffset;
-    let i = typeof index === 'number' ? `${key}` : key;
+    // let i = typeof index === 'number' ? `${key}` : key;
+    let i = typeof key !== 'string' ? `${key}` : key;
     if (!index[i]) {
       this.atOffset[i] = {
         before: [], // tokens intended to be inserted before a char at index is processed
