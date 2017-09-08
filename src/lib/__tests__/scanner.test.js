@@ -1,5 +1,9 @@
 /* global describe, it, expect */
 import Scanner, { getTokenLength } from '../scanner';
+import PatternBuffer from '../pattern_buffer';
+import blockSearch from '../../lib/types/block';
+import textRangeSearch from '../../lib/types/range';
+import { findPatterns } from '../lexer';
 import stubs from '../__stubs__/scanner.stubs';
 
 describe('getTokenLength()', () => {
@@ -38,7 +42,41 @@ describe('Scanner constructor', () => {
 
 
 describe('Scanner scan method', () => {
-  it('always works', () => {
-    expect(1).toBe(1);
+  // technically I suppose these are really more integrations tests than they are unit tests
+  it('pushes "before" and "after" tokens', () => {
+    let buffer;
+    let { text, expected } = stubs.insertBeforeAndAfterTokens;
+    let patterns = [textRangeSearch('foo', 'FIND')];
+    let count = patterns.length;
+    buffer = new PatternBuffer();
+    while (count--) {
+      findPatterns(text, buffer, patterns[count]);
+    }
+    let tokens = new Scanner(text, buffer).scan();
+    expect(JSON.stringify(tokens)).toBe(expected);
+  });
+  it('replaces characters "at" a specific index with a token', () => {
+    let buffer;
+    let { text, expected } = stubs.replaceAtTokens;
+    let patterns = [blockSearch({ open: '*', close: '*' }, 'BOLD')];
+    let count = patterns.length;
+    buffer = new PatternBuffer();
+    while (count--) {
+      findPatterns(text, buffer, patterns[count]);
+    }
+    let tokens = new Scanner(text, buffer).scan();
+    expect(JSON.stringify(tokens)).toBe(expected);
+  });
+  it('creates a literal tokens', () => {
+    let buffer;
+    let { text, expected } = stubs.createsLiteralTokens;
+    let patterns = [blockSearch({ open: '*', close: '*' }, 'BOLD')];
+    let count = patterns.length;
+    buffer = new PatternBuffer();
+    while (count--) {
+      findPatterns(text, buffer, patterns[count]);
+    }
+    let tokens = new Scanner(text, buffer).scan();
+    expect(JSON.stringify(tokens)).toBe(expected);
   });
 });
