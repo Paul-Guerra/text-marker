@@ -12,7 +12,6 @@ export default {
   },
   tableInputs: {
     markUpInCell: 'Step 1\t*foo bar baz*\tlorem ipsum',
-    markUpSpansCells: 'Step 1\tfoo2 *bar2 baz2\tlorem2 ipsum2*',
     overlappingMarkUpInCell: 'Step 1\t*foo2 _bar2* baz2_\tlorem2 ipsum2',
     overlappingMarkUpSpansCell:'Step 1\t*foo2 _bar2 baz2\tlorem2* ipsum2_',
   }
