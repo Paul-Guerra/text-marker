@@ -3,71 +3,15 @@ import TokenStack, { isInTable } from './token_stack';
 // buffer for tokens waiting to be inserted when lexer is fixing overlapping tokens
 let tokensForIndex = {};
 
-export function setTokensForIndex(index, token) {
+export function setTokensForIndex(index, token, tokens) {
   let key = `${index}`;
-  if (tokensForIndex[key] instanceof Array === false) tokensForIndex[key] = [];
-  tokensForIndex[key].push(token);
+  if (tokens[key] instanceof Array === false) tokens[key] = [];
+  return tokens[key].push(token);
 }
 
-export function getTokensForIndex(index) {
-  if (!tokensForIndex[`${index}`]) return [];
-  return tokensForIndex[`${index}`].reverse();
-}
-let tokenBuffer = { indexes: {} };
-
-function bufferTokenFor(when = 'BEFORE', selector, token) {
-  let index = `${selector.index}`;
-  let { type, name } = selector;
-
-  if (!token) {
-    console.warn('No token. Bailing.');
-    return;
-  }
-  if (!name && !type && !index) {
-    console.warn('Cannot buffer a token without a name and type or index property. Bailing.');
-    return;
-  }
-  if (index) {
-    if (!tokenBuffer.indexes[index]) tokenBuffer.indexes[index] = {};
-    if (tokenBuffer.indexes[index][when] instanceof Array === false) {
-      tokenBuffer.indexes[index][when] = [];
-    }
-    tokenBuffer.indexes[index][when].push(token);
-    return;
-  }
-
-  if (!tokenBuffer[type]) tokenBuffer[type] = {};
-  if (!tokenBuffer[type][name]) tokenBuffer[type][name] = {};
-  if (tokenBuffer[type][name][when] instanceof Array === false) tokenBuffer[type][name][when] = [];
-  tokenBuffer[type][name][when].push(token);
-}
-
-
-function getBufferTokens(now = 'BEFORE', selector) {
-  let index = `${selector.index}`;
-  let { type, name } = selector;
-  if (!name && !type && !index) {
-    console.warn('Cannot flush buffer without a name and type or index property. Bailing.');
-    return [];
-  }
-  if (index) {
-    if (!tokenBuffer.indexes[index]) tokenBuffer.indexes[index] = {};
-    if (tokenBuffer.indexes[index][now] instanceof Array === false) {
-      tokenBuffer.indexes[index][now] = [];
-    }
-    return tokenBuffer.indexes[index][now].reverse();
-  }
-
-  if (!(tokenBuffer[type] && tokenBuffer[type][name])) {
-    return [];
-  }
-  return tokenBuffer[type][name][now] || [];
-}
-
-function flushBufferTokens(now = 'BEFORE', token, index) {
-  let indexBuffer = getBufferTokens(now, { index });
-  let typeBuffer = getBufferTokens(now, { name: token.name, type: token.type });
-  return Array.concat(typeBuffer, indexBuffer);
+export function getTokensForIndex(index, tokens) {
+  if (!tokens[`${index}`]) return [];
+  return tokens[`${index}`].reverse();
 }
 
 /**
@@ -86,7 +30,7 @@ export function parseBlocks(tokens) {
   let currentBlock;
   let fixedTokens = [];
   tokens.forEach((token, index) => {
-    let bufferedTokens = getTokensForIndex(index);
+    let bufferedTokens = getTokensForIndex(index, tokensForIndex);
     // let bufferedTokens = flushBufferTokens('BEFORE', token, index);
     if (bufferedTokens.length > 0) {
       bufferedTokens.forEach((token) => {
@@ -130,7 +74,8 @@ export function parseBlocks(tokens) {
             );
             setTokensForIndex(
               index + 1,
-              Object.assign({}, blocks.at(i), { start: null })
+              Object.assign({}, blocks.at(i), { start: null }),
+              tokensForIndex
             );
           } else {
             // if we are closing a table cell then push the new closing tokens
@@ -156,7 +101,8 @@ export function parseBlocks(tokens) {
     } else {
       if (!currentBlock) {
         let prevFixedToken = fixedTokens[fixedTokens.length - 1];
-        // we are an unmatched END delimiter NOT in a table and our fixed token is not waiting for us. Bail.
+        // we are an unmatched END delimiter NOT in a table and 
+        // our fixed token is not waiting for us. Bail.
         if (!(prevFixedToken.name === token.name && prevFixedToken.type === 'BLOCK_START')) return;
       }
       // we are the matching close block token to the current open block token

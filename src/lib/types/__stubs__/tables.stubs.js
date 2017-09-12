@@ -19,20 +19,13 @@ Step 3	foo3 bar3 baz3	lorem3 ipsum3
 and ends after the table*
 `;
 
-const markUpInCell  = `Step 1	*foo bar baz*	lorem ipsum
-Step 2	foo2 bar2 baz2	lorem2 *ips*um2
-*Step 3*	foo3 bar3 baz3	lorem3 ipsum3
-`;
+const markUpInCell  = 'Step 1	*foo bar baz*	lorem ipsum';
 
-const markUpBetweenCells  = `Step 1	foo bar baz	lorem ipsum
-Step 2	foo2 *bar2 baz2	lorem2 ipsum2*
-Step 3	foo3 bar3 baz3	lorem3 ipsum3
-`;
+const markUpSpansCells = 'Step 1	foo2 *bar2 baz2	lorem2 ipsum2*';
 
-const overlappingMarkUpInCell  = `Step 1	foo bar baz	lorem ipsum
-Step 2	*foo2 _bar2* baz2_	lorem2 ipsum2
-Step 3	foo3 bar3 baz3	lorem3 ipsum3
-`;
+const overlappingMarkUpInCell = 'Step 1	*foo2 _bar2* baz2_	lorem2 ipsum2';
+
+const overlappingMarkUpSpansCell = 'Step 1	*foo2 _bar2 baz2	lorem2* ipsum2_';
 
 
 const overlappingMarkUpBetweenCells  = `Step 1	foo bar baz	lorem ipsum
@@ -48,7 +41,7 @@ export default {
   twoColumnMatch,
   markUpInCell,
   markUpAroundTable,
-  markUpBetweenCells,
+  markUpSpansCells,
   overlappingMarkUpInCell,
   overlappingMarkUpBetweenCells
 };

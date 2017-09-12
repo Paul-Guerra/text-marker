@@ -15,8 +15,10 @@ export function findPatterns(text, buffer, { pattern, onMatch }) {
 
 export function tokensToString(tokens) {
   let output = '';
+  let content;
   tokens.forEach((token) => {
-    output += `${token.index}, ${token.type}, ${token.name}\n`;
+    content = token.type === 'LITERAL' ? `, ${token.chars}` : '';
+    output += `${token.index}, ${token.type}, ${token.name}${content}\n`;
   });
   return output;
 }
@@ -33,7 +35,12 @@ export default function lex(text, patterns) {
     findPatterns(text, buffer, patterns[count]);
   }
   let tokens = new Scanner(text, buffer).scan();
-  printTokens(tokens);
-  return tokens;
-  // return parseBlocks(tokens);
+  // printTokens(tokens);
+  // printTokens(parseBlocks(tokens));
+  window.input = tokens;
+  console.log(window.input);
+  window.expected = parseBlocks(tokens);
+  console.log(window.expected);
+  // return tokens;
+  return parseBlocks(tokens);
 }
