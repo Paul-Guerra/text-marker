@@ -1,8 +1,5 @@
 import TokenStack, { isInTable } from './token_stack';
 
-// buffer for tokens waiting to be inserted when lexer is fixing overlapping tokens
-let tokensForIndex = {};
-
 export function setTokensForIndex(index, token, tokens) {
   let key = `${index}`;
   if (tokens[key] instanceof Array === false) tokens[key] = [];
@@ -26,6 +23,8 @@ export function getTokensForIndex(index, tokens) {
  * in the same cell. The original closing tag, when found will be dropped.
  */
 export function parseBlocks(tokens) {
+
+  let tokensForIndex = {}; // buffer for tokens waiting to be inserted 
   let blocks = new TokenStack();
   let currentBlock;
   let fixedTokens = [];
