@@ -1,5 +1,6 @@
 /* global describe, it, expect */
 import { setTokensForIndex, getTokensForIndex, parseBlocks } from '../utils';
+import { tokensToString } from '../lexer';
 import stubs from '../__stubs__/utils.stubs';
 
 function arrayValuesEqual(arr1, arr2) {
@@ -55,23 +56,20 @@ describe('getTokensForIndex()', () => {
 
 describe('parseBlocks()', () => {
   it('fixes improperly nested blocks in text', () => {
-    let input = JSON.stringify(parseBlocks(stubs.badNesting.input));
+    let results = JSON.stringify(parseBlocks(stubs.badNesting.input));
     let expected = JSON.stringify(stubs.badNesting.expected);
-    expect(input).toBe(expected);
+    expect(results).toBe(expected);
   });
 
-  // it('does not truncate blocks that span table cells', () => {
-  //   let results = JSON.stringify(parseBlocks(stubs.markUpSpansCells.input));
-  //   let expected = JSON.stringify(stubs.markUpSpansCells.expected);
-  //   expect(results).toBe(expected);
-  // });
+  it('does not truncate blocks that span table cells', () => {
+    let results = JSON.stringify(parseBlocks(stubs.markUpSpansCells.input));
+    let expected = JSON.stringify(stubs.markUpSpansCells.expected);
+    expect(results).toBe(expected);
+  });
 
-  // it('blah', () => {
-  //   let results = JSON.stringify(parseBlocks(stubs.badNesting.input));
-  //   let expected = JSON.stringify(parseBlocks(stubs.markUpSpansCells.input));
-  //   expect(stubs.badNesting.input).not.toBe(stubs.markUpSpansCells.input);
-  // });
-  
+  it('closes any improperly nested tags before it leaves a table cell', () => {});
+  // it('removes an', () => {});
+
   // it('truncates blocks that span table cells', () => {
   //   expect(
   //     JSON.stringify(parseBlocks(stubs.overlappingMarkUpInCell.input))
