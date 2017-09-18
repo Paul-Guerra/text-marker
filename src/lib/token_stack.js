@@ -31,8 +31,13 @@ export default class TokenStack {
   get length() {
     return this.stack.all.length;
   }
+
+  get last() {
+    let index = this.stack.all.length - 1;
+    return this.stack.all[index];
+  }
 }
 
-export function isInTable(blocks) {
-  return blocks.contains('TABLE') || blocks.contains('TABLE_ROW') || blocks.contains('TABLE_CELL');
+export function isInTable(stack) {
+  return stack.contains('TABLE') || stack.contains('TABLE_ROW') || stack.contains('TABLE_CELL');
 }
