@@ -1,4 +1,4 @@
-import { parseBlocks } from './utils';
+import { normalize } from './utils';
 import PatternBuffer from './pattern_buffer';
 import Scanner from './scanner';
 
@@ -18,6 +18,7 @@ export function tokensToString(tokens) {
   let content;
   tokens.forEach((token) => {
     content = token.type === 'LITERAL' ? `, ${token.chars}` : '';
+    content = content.replace('\n', '\\n').replace('\t', '\\t');
     output += `${token.index}, ${token.type}, ${token.name}${content}\n`;
   });
   return output;
@@ -35,12 +36,8 @@ export default function lex(text, patterns) {
     findPatterns(text, buffer, patterns[count]);
   }
   let tokens = new Scanner(text, buffer).scan();
-  // printTokens(tokens);
-  // printTokens(parseBlocks(tokens));
-  window.input = tokens;
-  console.log(window.input);
-  window.expected = parseBlocks(tokens);
-  console.log(window.expected);
-  // return tokens;
-  return parseBlocks(tokens);
+  printTokens(tokens);
+  let fixedTokens = normalize(tokens);
+  printTokens(fixedTokens);
+  return fixedTokens;
 }

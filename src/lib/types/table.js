@@ -23,7 +23,7 @@ export default function (seperator, priority = 100) {
             name: 'TABLE_CELL',
             type: 'RANGE_START',
             index: cellData.index + match.index,
-            chars: null,
+            chars: seperator,
             handle: 'before',
             priority: (priority + 0.01) * -1,
             delimiters: { open: null, close: null }
@@ -53,4 +53,12 @@ export default function (seperator, priority = 100) {
       return tokens;
     }
   };
+}
+
+export function newTableStartToken() {
+  return { name: 'TABLE', type: 'RANGE_START' };
+}
+
+export function newTableEndToken() {
+  return { name: 'TABLE', type: 'RANGE_END' };
 }

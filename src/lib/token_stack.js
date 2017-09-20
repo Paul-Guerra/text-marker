@@ -41,3 +41,11 @@ export default class TokenStack {
 export function isInTable(stack) {
   return stack.contains('TABLE') || stack.contains('TABLE_ROW') || stack.contains('TABLE_CELL');
 }
+
+export function isInTableCell(stack) {
+  return stack.contains('TABLE_CELL');
+}
+
+export function isInTableRow(stack) {
+  return stack.contains('TABLE_ROW');
+}

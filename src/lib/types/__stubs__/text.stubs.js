@@ -6,7 +6,7 @@ export default {
   largeText,
   text: 'yar bar foo baz',
   markupNoWhiteSpace: 'yar b*a*r foo baz',
-  mismatchedMarkup: 'i am *bold _and underline* and _ ?',
+  mismatchedMarkup: 'i am *bold _and underline* and _',
   linkInMarkup: 'i am *bold http://www.google.com underline* and ?',
   markUp: '*foo bar foo baz*',
   multiMarkUp: 'foo *-bar foo-* baz',

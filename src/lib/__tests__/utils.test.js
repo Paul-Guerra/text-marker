@@ -91,8 +91,13 @@ describe('normalize()', () => {
     expect(results).toBe(expected);
   });
 
-  // it('closes any improperly nested tags before it leaves a table cell', () => {
-  //   expect(true).toBe(false);
-  // });
+  it('blocks can wrap tables', () => {
+    let results = JSON.stringify(normalize(stubs.blockWrapsTable.input));
+    let expected = JSON.stringify(stubs.blockWrapsTable.expected);
+    expect(results).toBe(expected);
+  });
 
+  it('closes any improperly nested tags before it leaves a table cell', () => {
+    // expect(true).toBe(false);
+  });
 });
