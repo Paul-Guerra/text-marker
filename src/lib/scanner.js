@@ -1,5 +1,6 @@
 import newLiteral from './types/literal';
 import charIndex from './char_index';
+import newLineParser from './line_parser';
 
 export function getTokenLength(token) {
   let length = 0;
@@ -22,7 +23,6 @@ export default class Scanner {
   constructor(text, patternMatches) {
     this.text = text;
     this.patternMatches = patternMatches;
-    this.newLineIndex = charIndex(/\n/);
   }
 
   /**
@@ -43,8 +43,7 @@ export default class Scanner {
     let before;
     let after;
     let at;
-    let lines = this.newLineIndex.length;
-    let lineCursor = 0;
+    let lineParser = newLineParser(this.text);
 
     // add the beginning and end of string to the offsets the text literla substrings are based on
     if (offsets[0] !== 0) offsets.unshift(0);
