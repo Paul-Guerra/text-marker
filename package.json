@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "mkdir -p dist/",
-    "start": "nodemon --delay index",
+    "start": "nodemon --delay 1.5 index",
     "test": "jest src/ --coverage",
     "build": "rm -rf dist/* && babel src/ --out-dir dist/ && webpack",
     "dev": "npm run build && npm run webpack:watch & babel src/ --out-dir dist/ --watch",

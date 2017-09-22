@@ -16,6 +16,12 @@ function isTableCell(token) { return token.name === 'TABLE_CELL'; }
 
 function isTableRow(token) { return token.name === 'TABLE_ROW'; }
 
+function isTable(token) { return token.name === 'TABLE'; }
+
+function isInTableFamily(token) {
+  return isTableCell(token) || isTableRow(token) || isTable(token);
+}
+
 function updateStack(stack, token) {
   // todo: add check to handle dangling end token
   switch (token.type) {
@@ -90,7 +96,6 @@ function createMatch(token) {
 // Returns true if the given token end the most recent token in the stack
 function closesPreviousToken(token, stack) {
   let lastStackToken = stack.at(stack.length - 1);
-  // if (!lastStackToken) return false;
   if (lastStackToken.name === token.name && isStartToken(lastStackToken) && isEndToken(token)) {
     return true;
   }
@@ -101,11 +106,9 @@ function closeOpenTokens(fixedTokens, stack) {
   // push ending tokens until we find a start
   let stackAllIndex = stack.length - 1;
   while (stack.length > 0) {
-    // newMatchingToken = createMatch(token);
     let newMatchingToken = createMatch(stack.at(stackAllIndex));
     fixedTokens.push(newMatchingToken);
     updateStack(stack, newMatchingToken);
-    // buffer starting tokens to be pushed for the next index
     stackAllIndex -= 1;
   }
 }
@@ -150,6 +153,38 @@ function insertTableTokens(tokens) {
   });
   return tokensWithTables;
 }
+function removeTokensBetweenTableRows(tokens) {
+  let scrubbedTokens = [];
+  tokens.forEach((token, index, arr) => {
+    // let prev;
+    // let next;
+    // if (
+    //   !isTableCell(token)
+    // ){}
+  });
+}
+
+const hasVisibleChars = /\S/;
+export function isVisibleToken(token) {
+  if (!token.chars) return false;
+  return !!hasVisibleChars.exec(token.chars);
+}
+
+function test(tokens) {
+  tokens.forEach((token, index, arr) => {
+    // let prev;
+    // let next;
+    // if (
+    //   !isTableCell(token)
+    // ){}
+  });
+}
+
+function handleTableTokens(tokens) {
+  let fixedTokens;
+  fixedTokens = removeTokensBetweenTableRows(tokens);
+  fixedTokens = insertTableTokens(fixedTokens);
+}
 
 export function normalize(tokens) {
   let tokensForIndex = {}; // buffer for tokens waiting to be inserted 
@@ -162,18 +197,12 @@ export function normalize(tokens) {
     handleBufferedTokens(bufferedTokens, stack, fixedTokens);
 
     // no tokens allowed between table cells
-    if (
-      !isTableCell(token) &&
-      !isTableRow(token) &&
-      !isInTableCell(stack) &&
-      isInTableRow(stack)) {
-      return;
-    }
-
-    // if (isTableRow(token) && !isInTable(stack)) {
-    //   let tableStart = newTableStartToken();
-    //   fixedTokens.push(tableStart);
-    //   updateStack(stack, tableStart);
+    // if (
+    //   !isTableCell(token) &&
+    //   !isTableRow(token) &&
+    //   !isInTableCell(stack) &&
+    //   isInTableRow(stack)) {
+    //   return;
     // }
 
     if (!isEndToken(token)) {
@@ -217,7 +246,6 @@ export function normalize(tokens) {
       if (stack.at(stackAllIndex).name === 'TABLE_CELL' && isStartToken(stack.at(stackAllIndex))) {
         return;
       }
-      // newMatchingToken = createMatch(token);
       newMatchingToken = createMatch(stack.at(stackAllIndex));
       setTokensForIndex(index + 1, createVirtualToken(stack.at(stackAllIndex)), tokensForIndex);
       fixedTokens.push(newMatchingToken);
@@ -231,6 +259,8 @@ export function normalize(tokens) {
 
   // if there are any open tokens still left on the tack close them
   closeOpenTokens(fixedTokens, stack);
-  fixedTokens = insertTableTokens(fixedTokens);
+  if (stack.TABLE_ROW) {
+    fixedTokens = handleTableTokens(fixedTokens);
+  }
   return fixedTokens;
 }

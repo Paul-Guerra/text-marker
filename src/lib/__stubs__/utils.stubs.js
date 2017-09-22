@@ -7,10 +7,10 @@ export default {
     expected: [{"type":"LITERAL","name":"TEXT","chars":"foo ","index":0},{"name":"BOLD","type":"BLOCK_START","index":4,"pairedWith":13,"chars":"*","handle":"at","delimiters":{"open":"*","close":"*"}},{"type":"LITERAL","name":"TEXT","chars":"bar ","index":5},{"name":"UNDERLINE","type":"BLOCK_START","index":9,"pairedWith":18,"chars":"_","handle":"at","delimiters":{"open":"_","close":"_"}},{"type":"LITERAL","name":"TEXT","chars":"foo","index":10},{"name":"UNDERLINE","type":"BLOCK_END","index":9,"pairedWith":18,"chars":"_","handle":"at","delimiters":{"open":"_","close":"_"},"_virtual":true},{"name":"BOLD","index":13,"pairedWith":4,"type":"BLOCK_END","chars":"*","handle":"at","delimiters":{"open":"*","close":"*"}},{"name":"UNDERLINE","type":"BLOCK_START","index":9,"pairedWith":18,"chars":"_","handle":"at","delimiters":{"open":"_","close":"_"},"_virtual":true},{"type":"LITERAL","name":"TEXT","chars":" baz","index":14},{"name":"UNDERLINE","index":18,"pairedWith":9,"type":"BLOCK_END","chars":"_","handle":"at","delimiters":{"open":"_","close":"_"}}]
   },
   oneRowTable: {
-    text: "c1r1\tc2r1"
+    text: 'c1r1\tc2r1'
   },
   twoRowTable: {
-    text: "c1r1\tc2r1\nc1r2\tc2r2"
+    text: 'i am a prefix\nc1r1\tc2r1\nc1r2\tc2r2\n I am not in a table\n and neither am I'
   },
   overlappingRanges: {
     text: 'foo bar foo baz',

@@ -129,7 +129,8 @@ describe('TokenStack.length', () => {
 
 
 describe('TokenStack.isInTable', () => {
-  it('returns true if at least one condition is satified', () => {
-    expect(isInTable(stubs.isInTableBlocks)).toBe(true);
+  it('calls stack.contains with "TABLE"', () => {
+    isInTable(stubs.isInTableBlocks);
+    expect(stubs.isInTableBlocks.contains).toBeCalledWith('TABLE');
   });
 });

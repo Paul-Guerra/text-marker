@@ -1,5 +1,5 @@
 /* global describe, it, expect */
-import { setTokensForIndex, getTokensForIndex, normalize } from '../utils';
+import { setTokensForIndex, getTokensForIndex, normalize, isVisibleToken } from '../utils';
 import { tokensToString } from '../lexer';
 import stubs from '../__stubs__/utils.stubs';
 
@@ -54,6 +54,20 @@ describe('getTokensForIndex()', () => {
   });
 });
 
+describe('isVisibleToken()', () => {
+  it('returns false if token.chars is falsey', () => {
+    expect(isVisibleToken({})).toBe(false);
+  });
+
+  it('returns false if token.chars has nothing but whitespace characters', () => {
+    expect(isVisibleToken({ chars: ' \n\t' })).toBe(false);
+  });
+
+  it('returns true if token.chars has a single visible character', () => {
+    expect(isVisibleToken({ chars: '\nQ\t' })).toBe(true);
+  });
+});
+
 describe('normalize()', () => {
   it('fixes improperly nested blocks in text', () => {
     let results = JSON.stringify(normalize(stubs.badBlockNesting.input));
@@ -97,7 +111,7 @@ describe('normalize()', () => {
     expect(results).toBe(expected);
   });
 
-  it('closes any improperly nested tags before it leaves a table cell', () => {
-    // expect(true).toBe(false);
-  });
+  // it('closes any improperly nested tags before it leaves a table cell', () => {
+  //   expect(true).toBe(false);
+  // });
 });

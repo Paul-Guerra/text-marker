@@ -1,17 +1,17 @@
-// Keeps an index of characters and where they can be located in the text for quick lookup
-export default class CharIndex {
-  constructor(chars, text) {
-    this.chars = typeof chars === 'string' ? chars : `${chars}`;
-    this.pattern = new RegExp(chars, 'g');
-    this.index = [];
-    this.buildIndex(text);
+export default function newIndex(symbol, text) {
+  let pattern;
+  let index = [];
+  if (symbol instanceof RegExp) pattern = symbol;
+  if (typeof symbol === 'string') pattern = new RegExp(`${symbol}`, 'gi');
+  if (!pattern) {
+    console.error('Cannot create an index without a string or regex. Cannot use:', typeof symbol);
+    return false;
   }
 
-  buildIndex(text) {
-    let matches = this.pattern.exec(text);
-    while (matches) {
-      this.index.push(matches.index);
-      matches = this.pattern.exec(text);
-    }
+  let matches = pattern.exec(text);
+  while (matches) {
+    index.push(matches.index);
+    matches = this.pattern.exec(text);
   }
+  return index;
 }

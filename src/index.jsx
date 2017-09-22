@@ -5,6 +5,7 @@ import { pattern as urlPattern, name as urlTokenName } from './lib/url';
 import { pattern as newlinePattern, name as newlineTokenName } from './lib/newline';
 import tableTokenizer from './lib/types/table';
 import textRangeSearch from './lib/types/range';
+import specialCharacter from './lib/types/special_character';
 import blockSearch from './lib/types/block';
 import App from './components/app.component';
 import lex, { printTokens } from './lib/lexer';
@@ -18,13 +19,14 @@ let text;
 // text = stubs.tables.markUpBetweenCells;
 // text = stubs.markUp;
 // text = '**foo bar foo baz**';
-text = utilStubs.markUpSpansCells.text;
+text = utilStubs.twoRowTable.text;
 window.text = text;
 
 setTimeout(() => {
   let patterns = [
     blockSearch({ open: '*', close: '*' }, 'BOLD'),
     blockSearch({ open: '_', close: '_' }, 'UNDERLINE'),
+    specialCharacter('\n', 'NEWLINE'),
     // blockSearch({ open: '-', close: '-' }, 'STRIKETHROUGH'),
     tableTokenizer('\t', 0),
     // textRangeSearch('bar baz', 'FIND'),

@@ -10,14 +10,6 @@ function newPopTestStack() {
   };
 }
 
-function* falseFalseTrue() {
-  yield false;
-  yield false;
-  return true;
-}
-
-let lastContainsIsTrue = falseFalseTrue();
-
 export default {
   foo: fooToken,
   bar: barToken,
@@ -32,6 +24,6 @@ export default {
     foo: []
   },
   isInTableBlocks: {
-    contains: () => lastContainsIsTrue.next().value
+    contains: jest.fn()
   }
 };

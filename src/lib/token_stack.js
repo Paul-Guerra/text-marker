@@ -39,7 +39,7 @@ export default class TokenStack {
 }
 
 export function isInTable(stack) {
-  return stack.contains('TABLE') || stack.contains('TABLE_ROW') || stack.contains('TABLE_CELL');
+  return stack.contains('TABLE');
 }
 
 export function isInTableCell(stack) {
