@@ -55,6 +55,7 @@ describe('Scanner scan method', () => {
     let tokens = new Scanner(text, buffer).scan();
     expect(JSON.stringify(tokens)).toBe(expected);
   });
+
   it('replaces characters "at" a specific index with a token', () => {
     let buffer;
     let { text, expected } = stubs.replaceAtTokens;
@@ -67,6 +68,7 @@ describe('Scanner scan method', () => {
     let tokens = new Scanner(text, buffer).scan();
     expect(JSON.stringify(tokens)).toBe(expected);
   });
+
   it('creates a literal tokens', () => {
     let buffer;
     let { text, expected } = stubs.createsLiteralTokens;

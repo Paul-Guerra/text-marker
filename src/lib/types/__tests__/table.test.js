@@ -1,5 +1,5 @@
 /* global jest, describe, it, expect */
-import table from '../table';
+import table, { newTableStartToken, newTableEndToken } from '../table';
 import stubs from '../__stubs__/tables.stubs';
 
 global.console = { error: jest.fn() };
@@ -24,7 +24,7 @@ describe('Table onMatch handler', () => {
     let tokens = table('\t').onMatch(stubs.twoColumnMatch);
     expect(tokens instanceof Array).toBe(true);
   });
-
+  
   it('returns TABLE_ROW ranges', () => {
     let tokens = table('\t').onMatch(stubs.twoColumnMatch);
     expect(tokens[0].name).toBe('TABLE_ROW');
@@ -32,7 +32,7 @@ describe('Table onMatch handler', () => {
     expect(tokens[5].name).toBe('TABLE_ROW');
     expect(tokens[5].type).toBe('RANGE_END');
   });
-
+  
   it('returns TABLE_CELL ranges', () => {
     let tokens = table('\t').onMatch(stubs.twoColumnMatch);
     expect(tokens[1].name).toBe('TABLE_CELL');
@@ -44,19 +44,19 @@ describe('Table onMatch handler', () => {
     expect(tokens[4].name).toBe('TABLE_CELL');
     expect(tokens[4].type).toBe('RANGE_END');
   });
-
-
+  
+  
   it('TABLE_ROW starts have a lower priorirty value than TABLE_CELL starts', () => {
     let tokens = table('\t').onMatch(stubs.twoColumnMatch);
     expect(tokens[0].priority < tokens[1].priority).toBe(true);
   });
-
+  
   it('TABLE_ROW ends have a higher priorirty value than TABLE_CELL ends', () => {
     let tokens = table('\t').onMatch(stubs.twoColumnMatch);
     expect(tokens[5].priority > tokens[4].priority).toBe(true);
   });
-
-
+  
+  
   it('should have negative values for TABLE_ROW starts and TABLE_CELL starts', () => {
     // negative values for the starting tokens ensures that table tokens surround text ranges
     // that may start on the same index since text ranges have positive start values
@@ -64,13 +64,31 @@ describe('Table onMatch handler', () => {
     expect(tokens[0].priority).toBeLessThan(0);
     expect(tokens[1].priority).toBeLessThan(0);
   });
-
-
+  
+  
   it('should have positive values for TABLE_ROW ends and TABLE_CELL ends', () => {
     // negative values for the starting tokens ensures that table tokens surround text ranges
     // that may start on the same index since text ranges have positive start values
     let tokens = table('\t').onMatch(stubs.twoColumnMatch);
     expect(tokens[5].priority).toBeGreaterThan(0);
     expect(tokens[4].priority).toBeGreaterThan(0);
+  });
+});
+
+describe('newTableStartToken()', () => {
+  it('returns a table start token', () => {
+    let token = newTableStartToken();
+    expect(typeof token).toBe('object');
+    expect(token.name).toBe('TABLE');
+    expect(token.type).toBe('RANGE_START');
+  });
+});
+
+describe('newTableEndToken()', () => {
+  it('returns a table end token', () => {
+    let token = newTableEndToken();
+    expect(typeof token).toBe('object');
+    expect(token.name).toBe('TABLE');
+    expect(token.type).toBe('RANGE_END');
   });
 });
