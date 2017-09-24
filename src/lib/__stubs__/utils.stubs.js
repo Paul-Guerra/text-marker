@@ -10,7 +10,7 @@ export default {
     text: 'c1r1\tc2r1'
   },
   twoRowTable: {
-    text: 'i am a prefix\nc1r1\tc2r1\nc1r2\tc2r2\n I am not in a table\n and neither am I'
+    text: 'i am\na prefix\nc1r1\tc2r1\nc1r2\tc2r2\n I am not in a table\n and neither am I'
   },
   overlappingRanges: {
     text: 'foo bar foo baz',

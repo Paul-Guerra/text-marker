@@ -25,7 +25,7 @@ export default class PatternBuffer {
 
   on(when, index) {
     let key = `${index}`;
-    if (!this.atOffset[key]) return;
+    if (!this.atOffset[key]) return [];
     return this.atOffset[key][when].sort(sortByPriority);
   }
 

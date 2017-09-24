@@ -20,6 +20,7 @@ let text;
 // text = stubs.markUp;
 // text = '**foo bar foo baz**';
 text = utilStubs.twoRowTable.text;
+text = '*foo bar foo baz*';
 window.text = text;
 
 setTimeout(() => {
@@ -30,7 +31,7 @@ setTimeout(() => {
     // blockSearch({ open: '-', close: '-' }, 'STRIKETHROUGH'),
     tableTokenizer('\t', 0),
     // textRangeSearch('bar baz', 'FIND'),
-    // textRangeSearch('foo', 'FIND'),
+    // textRangeSearch(' a', 'FIND'),
     // textRangeSearch(urlPattern, urlTokenName),
     // keywordTokenizer('/buzz', 'BUZZ'),
     // textRangeSearch('yar bar', 'FIND'),

@@ -70,9 +70,11 @@ describe('new PatternBuffer()', () => {
 
 
 describe('PatternBuffer.on()', () => {
-  it('returns nothing if the key is not in atOffset object', () => {
+  it('returns empty array if the key is not in atOffset object', () => {
     let pb = new PatternBuffer();
-    expect(pb.on('at', 'foo')).toBeUndefined();
+    let result = pb.on('at', 'foo');
+    expect(result instanceof Array).toBe(true);
+    expect(result.length).toBe(0);
   });
 
   it('returns tokens at the index and handle when defined', () => {
