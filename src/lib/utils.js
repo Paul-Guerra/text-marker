@@ -1,5 +1,4 @@
-import TokenStack, { isInTableCell, isInTableRow, isInTable } from './token_stack';
-import { newTableStartToken, newTableEndToken } from './types/table';
+import TokenStack from './token_stack';
 
 export function setTokensForIndex(index, token, tokens) {
   let key = `${index}`;
@@ -10,16 +9,6 @@ export function setTokensForIndex(index, token, tokens) {
 export function getTokensForIndex(index, tokens) {
   if (!tokens[`${index}`]) return [];
   return tokens[`${index}`].reverse();
-}
-
-function isTableCell(token) { return token.name === 'TABLE_CELL'; }
-
-function isTableRow(token) { return token.name === 'TABLE_ROW'; }
-
-function isTable(token) { return token.name === 'TABLE'; }
-
-function isInTableFamily(token) {
-  return isTableCell(token) || isTableRow(token) || isTable(token);
 }
 
 function updateStack(stack, token) {
@@ -113,77 +102,10 @@ function closeOpenTokens(fixedTokens, stack) {
   }
 }
 
-function insertTableTokens(tokens) {
-  let tokensWithTables = [];
-  tokens.forEach((token, index, arr) => {
-    if (!isTableRow(token)) {
-      tokensWithTables.push(token);
-      return;
-    }
-
-    if (isStartToken(token)) {
-      // if the previous token was not a row end push a table start token
-      if (index === 0) {
-        tokensWithTables.push(newTableStartToken());
-        tokensWithTables.push(token);
-        return;
-      }
-
-      let prev = arr[index - 1];
-      if (!(isTableRow(prev) && isEndToken(prev))) {
-        tokensWithTables.push(newTableStartToken());
-        tokensWithTables.push(token);
-      }
-    }
-
-    if (isEndToken(token)) {
-      // if the next token was not a row start push a table end token
-      if (index === arr.length - 1) {
-        tokensWithTables.push(token);
-        tokensWithTables.push(newTableEndToken());
-        return;
-      }
-
-      let next = arr[index + 1];
-      if (!(isTableRow(next) && isStartToken(next))) {
-        tokensWithTables.push(token);
-        tokensWithTables.push(newTableEndToken());
-      }
-    }
-  });
-  return tokensWithTables;
-}
-function removeTokensBetweenTableRows(tokens) {
-  let scrubbedTokens = [];
-  tokens.forEach((token, index, arr) => {
-    // let prev;
-    // let next;
-    // if (
-    //   !isTableCell(token)
-    // ){}
-  });
-}
-
 const hasVisibleChars = /\S/;
 export function isVisibleToken(token) {
   if (!token.chars) return false;
   return !!hasVisibleChars.exec(token.chars);
-}
-
-function test(tokens) {
-  tokens.forEach((token, index, arr) => {
-    // let prev;
-    // let next;
-    // if (
-    //   !isTableCell(token)
-    // ){}
-  });
-}
-
-function handleTableTokens(tokens) {
-  let fixedTokens;
-  fixedTokens = removeTokensBetweenTableRows(tokens);
-  fixedTokens = insertTableTokens(fixedTokens);
 }
 
 export function normalize(tokens) {
@@ -259,8 +181,5 @@ export function normalize(tokens) {
 
   // if there are any open tokens still left on the tack close them
   closeOpenTokens(fixedTokens, stack);
-  if (stack.TABLE_ROW) {
-    fixedTokens = handleTableTokens(fixedTokens);
-  }
   return fixedTokens;
 }
