@@ -72,10 +72,10 @@ export default function (seperator, priority = 100) {
   };
 }
 
-export function newTableStartToken() {
-  return { name: 'TABLE', type: 'RANGE_START' };
+export function newTableStartToken(props) {
+  return Object.assign({}, { name: 'TABLE', type: 'RANGE_START' }, props);
 }
 
-export function newTableEndToken() {
-  return { name: 'TABLE', type: 'RANGE_END' };
+export function newTableEndToken(props) {
+  return Object.assign({}, { name: 'TABLE', type: 'RANGE_END' }, props);
 }
