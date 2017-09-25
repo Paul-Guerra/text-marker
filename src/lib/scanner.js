@@ -71,6 +71,7 @@ export default class Scanner {
       end = offsets.shift();
 
       if (start >= end) continue;
+      // todo: replace before/at/after with insert/replace
       before = this.patternMatches.on('before', start);
       after = this.patternMatches.on('after', start);
       at = this.patternMatches.on('at', start);
