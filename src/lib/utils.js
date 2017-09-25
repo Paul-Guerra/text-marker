@@ -1,4 +1,5 @@
 import TokenStack from './token_stack';
+import { insertTableTokens } from './table_utils';
 
 export function setTokensForIndex(index, token, tokens) {
   let key = `${index}`;
@@ -11,7 +12,7 @@ export function getTokensForIndex(index, tokens) {
   return tokens[`${index}`].reverse();
 }
 
-function updateStack(stack, token) {
+export function updateStack(stack, token) {
   // todo: add check to handle dangling end token
   switch (token.type) {
     case 'BLOCK_END':
@@ -40,23 +41,23 @@ function handleBufferedTokens(tokens, stack, fixedTokens) {
   }
 }
 
-function isBlock(token) {
+export function isBlock(token) {
   return token.type === 'BLOCK_START' || token.type === 'BLOCK_END';
 }
 
-function isRange(token) {
+export function isRange(token) {
   return token.type === 'RANGE_START' || token.type === 'RANGE_END';
 }
 
-function isEndToken(token) {
+export function isEndToken(token) {
   return token.type === 'RANGE_END' || token.type === 'BLOCK_END';
 }
 
-function isStartToken(token) {
+export function isStartToken(token) {
   return token.type === 'RANGE_START' || token.type === 'BLOCK_START';
 }
 
-function isMatching(t1, t2) {
+export function isMatching(t1, t2) {
   if (t1.name !== t2.name) return false;
 
   if (
@@ -69,11 +70,11 @@ function isMatching(t1, t2) {
   return false;
 }
 
-function createVirtualToken(token) {
+export function createVirtualToken(token) {
   return Object.assign({}, token, { _virtual: true });
 }
 
-function createMatch(token) {
+export function createMatch(token) {
   let type;
   if (isBlock(token) && isStartToken(token)) type = 'BLOCK_END';
   if (isBlock(token) && isEndToken(token)) type = 'BLOCK_START';
@@ -83,7 +84,7 @@ function createMatch(token) {
 }
 
 // Returns true if the given token end the most recent token in the stack
-function closesPreviousToken(token, stack) {
+export function closesPreviousToken(token, stack) {
   let lastStackToken = stack.at(stack.length - 1);
   if (lastStackToken.name === token.name && isStartToken(lastStackToken) && isEndToken(token)) {
     return true;
@@ -91,7 +92,7 @@ function closesPreviousToken(token, stack) {
   return false;
 }
 
-function closeOpenTokens(fixedTokens, stack) {
+export function closeOpenTokens(fixedTokens, stack) {
   // push ending tokens until we find a start
   let stackAllIndex = stack.length - 1;
   while (stack.length > 0) {
@@ -108,6 +109,7 @@ export function isVisibleToken(token) {
   return !!hasVisibleChars.exec(token.chars);
 }
 
+// todo: add middleware to handle tables
 export function normalize(tokens) {
   let tokensForIndex = {}; // buffer for tokens waiting to be inserted 
   let stack = new TokenStack();
@@ -165,6 +167,7 @@ export function normalize(tokens) {
     // push ending tokens until we find a start
     stackAllIndex = stack.length - 1;
     while (!isMatching(token, stack.at(stackAllIndex))) {
+      // drop ending tokens if they are not properly nested in a table cell.
       if (stack.at(stackAllIndex).name === 'TABLE_CELL' && isStartToken(stack.at(stackAllIndex))) {
         return;
       }
@@ -181,5 +184,5 @@ export function normalize(tokens) {
 
   // if there are any open tokens still left on the tack close them
   closeOpenTokens(fixedTokens, stack);
-  return fixedTokens;
+  return insertTableTokens(fixedTokens);
 }
