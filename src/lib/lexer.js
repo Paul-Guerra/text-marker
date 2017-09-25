@@ -1,4 +1,5 @@
 import { normalize } from './utils';
+import { insertTableTokens } from './table.utils';
 import PatternBuffer from './pattern_buffer';
 import Scanner from './scanner';
 
