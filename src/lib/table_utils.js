@@ -12,7 +12,55 @@ export function isInTableFamily(token) {
   return isTableCell(token) || isTableRow(token) || isTable(token);
 }
 
-export default function insertTableTokens(tokens) {
+export function insertTableTokens(tokens) {
+  let tokensWithTables = [];
+  let rowAtLine = {};
+  tokens.forEach((token, index, arr) => {
+    if (!isTableRow(token)) {
+      // if (rowEndsAtStringIndex[token.index - 1]) {
+      //   tokensWithTables.push(newTableEndToken())
+      // };
+      tokensWithTables.push(token);
+      return;
+    }
+    rowAtLine[token.line] = true;
+    if (index === 0) {
+      tokensWithTables.push(newTableStartToken({ index: token.index }));
+      tokensWithTables.push(token);
+      return;
+    }
+
+    if (isStartToken(token)) {
+      // if the previous token was not a row end push a table start token
+      if (index === 0) {
+        tokensWithTables.push(newTableStartToken({ index: token.index }));
+        tokensWithTables.push(token);
+        return;
+      }
+
+      // let prev = arr[index - 1];
+      // if (!(isTableRow(prev) && isEndToken(prev))) {
+      //   tokensWithTables.push(newTableStartToken());
+      //   tokensWithTables.push(token);
+      // }
+      if (!rowAtLine[token.index - 1]) {
+        tokensWithTables.push(newTableStartToken({ index: token.index, line: token.line }));
+        tokensWithTables.push(token);
+        return;
+      }
+    }
+    if (isEndToken(token)) {
+      // if (index === arr.length - 1) {
+      //   tokensWithTables.push(token);
+      //   tokensWithTables.push(newTableEndToken());
+      //   return;
+      // } 
+      tokensWithTables.push(token);
+    }
+  });
+  return tokensWithTables;
+}
+export function xinsertTableTokens(tokens) {
   let tokensWithTables = [];
   tokens.forEach((token, index, arr) => {
     if (!isTableRow(token)) {
