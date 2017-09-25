@@ -14,100 +14,50 @@ export function isInTableFamily(token) {
 
 export function insertTableTokens(tokens) {
   let tokensWithTables = [];
-  let rowAtLine = {};
+  let tableTokenAtLine = {};
+  let lastLineProcessed;
   tokens.forEach((token, index, arr) => {
     if (!isTableRow(token)) {
-      // if (rowEndsAtStringIndex[token.index - 1]) {
-      //   tokensWithTables.push(newTableEndToken())
-      // };
+       
+      if (
+        !tableTokenAtLine[token.line] && // if the previous line had a table element
+        tableTokenAtLine[token.line - 1] && // and the this line does not and
+        token.line !== lastLineProcessed // and I haven't handled this line already
+      ) {
+        tokensWithTables.push(newTableEndToken({ index: token.index, line: token.line }));
+      }
       tokensWithTables.push(token);
+      lastLineProcessed = token.line;
       return;
     }
-    rowAtLine[token.line] = true;
+    tableTokenAtLine[token.line] = true;
     if (index === 0) {
-      tokensWithTables.push(newTableStartToken({ index: token.index }));
+      tokensWithTables.push(newTableStartToken({ index: token.index, line: token.line }));
       tokensWithTables.push(token);
+      lastLineProcessed = token.line;
       return;
     }
-
+    
     if (isStartToken(token)) {
       // if the previous token was not a row end push a table start token
       if (index === 0) {
-        tokensWithTables.push(newTableStartToken({ index: token.index }));
-        tokensWithTables.push(token);
-        return;
-      }
-
-      // let prev = arr[index - 1];
-      // if (!(isTableRow(prev) && isEndToken(prev))) {
-      //   tokensWithTables.push(newTableStartToken());
-      //   tokensWithTables.push(token);
-      // }
-      if (!rowAtLine[token.index - 1]) {
         tokensWithTables.push(newTableStartToken({ index: token.index, line: token.line }));
         tokensWithTables.push(token);
+        lastLineProcessed = token.line;
+        return;
+      }
+      
+      if (!tableTokenAtLine[token.line - 1]) {
+        tokensWithTables.push(newTableStartToken({ index: token.index, line: token.line }));
+        tokensWithTables.push(token);
+        lastLineProcessed = token.line;
         return;
       }
     }
     if (isEndToken(token)) {
-      // if (index === arr.length - 1) {
-      //   tokensWithTables.push(token);
-      //   tokensWithTables.push(newTableEndToken());
-      //   return;
-      // } 
       tokensWithTables.push(token);
     }
+    lastLineProcessed = token.line;
   });
   return tokensWithTables;
-}
-export function xinsertTableTokens(tokens) {
-  let tokensWithTables = [];
-  tokens.forEach((token, index, arr) => {
-    if (!isTableRow(token)) {
-      tokensWithTables.push(token);
-      return;
-    }
-
-    if (isStartToken(token)) {
-      // if the previous token was not a row end push a table start token
-      if (index === 0) {
-        tokensWithTables.push(newTableStartToken());
-        tokensWithTables.push(token);
-        return;
-      }
-
-      let prev = arr[index - 1];
-      if (!(isTableRow(prev) && isEndToken(prev))) {
-        tokensWithTables.push(newTableStartToken());
-        tokensWithTables.push(token);
-      }
-    }
-
-    if (isEndToken(token)) {
-      // if the next token was not a row start push a table end token
-      if (index === arr.length - 1) {
-        tokensWithTables.push(token);
-        tokensWithTables.push(newTableEndToken());
-        return;
-      }
-
-      let next = arr[index + 1];
-      if (!(isTableRow(next) && isStartToken(next))) {
-        tokensWithTables.push(token);
-        tokensWithTables.push(newTableEndToken());
-      }
-    }
-  });
-  return tokensWithTables;
-}
-
-export function removeTokensBetweenTableRows(tokens) {
-  let scrubbedTokens = [];
-  tokens.forEach((token, index, arr) => {});
-}
-
-export function handleTableTokens(tokens) {
-  let fixedTokens;
-  fixedTokens = removeTokensBetweenTableRows(tokens);
-  fixedTokens = insertTableTokens(fixedTokens);
 }
