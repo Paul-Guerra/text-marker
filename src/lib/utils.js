@@ -1,6 +1,9 @@
 import TokenStack from './token_stack';
 import { insertTableTokens } from './table_utils';
 
+export function escapeStringForRegex(s) {
+  return s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
 export function setTokensForIndex(index, token, tokens) {
   let key = `${index}`;
   if (tokens[key] instanceof Array === false) tokens[key] = [];

@@ -9,7 +9,7 @@ describe('makeBlockRegex', () => {
   });
 
   it('has a default close delimiter', () => {
-    let pattern = makeBlockRegex(stubs.delimiter);
+    let pattern = makeBlockRegex(stubs.openOnlyDelimiters);
     expect(pattern instanceof RegExp).toBe(true);
   });
 
@@ -20,12 +20,20 @@ describe('makeBlockRegex', () => {
     expect(result[0]).toBe('***bar***');
   });
 
-
-  it('block starts where at the location of the first delimiter', () => {
+  it('returns a block that starts at the location of the first delimiter', () => {
     let result;
     let pattern = makeBlockRegex(stubs.mismatchedDelimiters);
     result = pattern.exec(stubs.text.mismatchedDelimiters);
     expect(result[0]).toBe('*bar-');
+  });
+
+  it('can match delimeters with multiple characters', () => {
+    let result;
+    let pattern = makeBlockRegex(stubs.multiCharDelimiters);
+    result = pattern.exec(stubs.text.multiCharDelimiters);
+    expect(result[0]).toBe('<b>bold</b>');
+    expect(result[1]).toBe('<b>');
+    expect(result[2]).toBe('</b>');
   });
 });
 
