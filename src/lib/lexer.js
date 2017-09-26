@@ -37,8 +37,8 @@ export default function lex(text, patterns) {
     findPatterns(text, buffer, patterns[count]);
   }
   let tokens = new Scanner(text, buffer).scan();
-  printTokens(tokens);
+  // printTokens(tokens);
   let fixedTokens = normalize(tokens);
-  printTokens(fixedTokens);
+  // printTokens(fixedTokens);
   return fixedTokens;
 }
