@@ -120,15 +120,6 @@ export function normalize(tokens) {
     let bufferedTokens = getTokensForIndex(index, tokensForIndex);
     handleBufferedTokens(bufferedTokens, stack, fixedTokens);
 
-    // no tokens allowed between table cells
-    // if (
-    //   !isTableCell(token) &&
-    //   !isTableRow(token) &&
-    //   !isInTableCell(stack) &&
-    //   isInTableRow(stack)) {
-    //   return;
-    // }
-
     if (!isEndToken(token)) {
       fixedTokens.push(token);
       updateStack(stack, token);
@@ -150,6 +141,7 @@ export function normalize(tokens) {
     }
 
     // if closing a table cell close any open tokens
+    // blocks / ranges are not allowed to span multiple table cells
     if (token.name === 'TABLE_CELL') {
       // push ending tokens until we find a TABLE_CELL start
       stackAllIndex = stack.length - 1;
@@ -184,5 +176,6 @@ export function normalize(tokens) {
 
   // if there are any open tokens still left on the tack close them
   closeOpenTokens(fixedTokens, stack);
-  return insertTableTokens(fixedTokens);
+  return fixedTokens;
+  // return insertTableTokens(fixedTokens);
 }
