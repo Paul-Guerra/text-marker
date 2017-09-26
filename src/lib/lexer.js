@@ -29,7 +29,21 @@ export function printTokens(tokens) {
   console.log(tokensToString(tokens));
 }
 
-export default function lex(text, patterns) {
+export function applyMiddleware(text, middleware) {
+  try {
+    let result = text;
+    middleware.forEach((func) => {
+      result = func.apply(null, [result]);
+    });
+    return result;
+  } catch (e) {
+    console.error(`[Middleware] ${e.message}`);
+  }
+  return text;
+
+}
+export default function lex(inputText, patterns, middleware = []) {
+  let text = applyMiddleware(inputText, middleware);
   let count = patterns.length;
   // initialize buffer
   let buffer = new PatternBuffer();
