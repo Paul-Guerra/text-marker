@@ -1,6 +1,14 @@
+function makeRowPattern(seperator) {
+  return `^.+?${seperator}.+?$`;
+}
+
+function makeCellPattern(seperator) {
+  return `[^${seperator}]+`;
+}
+
 export default function (seperator, priority = 100) {
-  const row = new RegExp(`^.+?${seperator}.+?$`, 'gm'); // matches a row containing tab seperated values. 
-  const cellsInRow = new RegExp(`[^${seperator}]+`, 'g'); // for a given row string find the cell contents
+  const row = new RegExp(makeRowPattern(seperator), 'gm'); // matches a row containing tab seperated values. 
+  const cellsInRow = new RegExp(makeCellPattern(seperator), 'g'); // for a given row string find the cell contents
   return {
     pattern: row,
     onMatch: function onMatch(match) {
@@ -70,6 +78,32 @@ export default function (seperator, priority = 100) {
       return tokens;
     }
   };
+}
+
+const rowStart = '[[TABLE_ROW]]';
+const rowEnd = '[[/TABLE_ROW]]';
+
+const cellStart = '[[TABLE_CELL]]';
+const cellEnd = '[[/TABLE_CELL]]';
+export function middleware(seperator, text) {
+  if (!seperator) return text;
+  if (text.indexOf(seperator) === -1) return text;
+  let result;
+  let lines = text.split('\n');
+  let tabPattern = /\t/g;
+  result = lines.map((line, index, arr) => {
+    let match = tabPattern.exec(line);
+    let newLine = '';
+    let lastMatchIndex = 0;
+    if (!match) return line;
+    while (match) {
+      newLine += cellStart + line.substr(lastMatchIndex, match.index) + cellEnd;
+      lastMatchIndex = match.index;
+      match = tabPattern.exec(line);
+    }
+    return rowStart + newLine + rowEnd;
+  });
+  return result.join('\n');
 }
 
 export function newTableStartToken(props) {
