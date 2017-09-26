@@ -3,10 +3,14 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { pattern as urlPattern, name as urlTokenName } from './lib/url';
 import { pattern as newlinePattern, name as newlineTokenName } from './lib/newline';
+<<<<<<< HEAD
 import tableTokenizer, {middleware as tableware} from './lib/types/table';
+=======
+import tableTokenizer, { middleware as tware } from './lib/types/table';
+>>>>>>> master
 import textRangeSearch from './lib/types/range';
 import specialCharacter from './lib/types/special_character';
-import blockSearch from './lib/types/block';
+import blockSearch, { makeBlockRegex } from './lib/types/block';
 import App from './components/app.component';
 import lex, { printTokens } from './lib/lexer';
 import stubs from './lib/types/__stubs__/text.stubs';
@@ -14,8 +18,9 @@ import utilStubs from './lib/__stubs__/utils.stubs';
 
 let text;
 // text = 'foo *bar _foo* baz_';
+text = 'foo <i>*****bar*****</i> foo baz\n **bar**';
 // text = stubs.tables.twoColumn;
-// text = stubs.largeText;
+// text = stubs.largeText + '\n' + stubs.largeText;
 // text = stubs.tables.markUpBetweenCells;
 // text = stubs.markUp;
 // text = '**foo bar foo baz**';
@@ -24,6 +29,7 @@ text = '*foo bar foo baz*';
 // text = utilStubs.twoRowTable.text;
 // text = utilStubs.blockSpansCells.text;
 text = 'foo2 *bar2 baz2\tlorem2 ipsum2*';
+// text = 'foo bar foo baz';
 window.text = text;
 
 setTimeout(() => {
@@ -34,6 +40,11 @@ setTimeout(() => {
     // specialCharacter('\n', 'NEWLINE'),
     // blockSearch({ open: '-', close: '-' }, 'STRIKETHROUGH'),
     tableTokenizer('\t'),
+    blockSearch({ open: '<i>', close: '</i>' }, 'UNDERLINE'),
+    // blockSearch({ open: '_', close: '_' }, 'UNDERLINE'),
+    // specialCharacter('\n', 'NEWLINE'),
+    // blockSearch({ open: '-', close: '-' }, 'STRIKETHROUGH'),
+    // tableTokenizer('\t', 0),
     // textRangeSearch('bar baz', 'FIND'),
     // textRangeSearch(' a', 'FIND'),
     // textRangeSearch(urlPattern, urlTokenName),
@@ -41,7 +52,7 @@ setTimeout(() => {
     // textRangeSearch('yar bar', 'FIND'),
     // textRangeSearch('bar foo', 'HIGHLIGHT'),
     // textRangeSearch('foo baz', 'MARK'),
-    // textRangeSearch('foo', 'MARK'),
+    // textRangeSearch('foo', 'FIND'),
     // textRangeSearch('Aenean', 'IPSUM')
   ];
   let sample = text;
@@ -62,6 +73,13 @@ setTimeout(() => {
   });
   console.log('parsing average over', count, 'times:', sum / count, 'ms');
   console.log('tokens: ', tokens);
+  // console.log('tware', tware('\t', sample));
+  let bRegex = makeBlockRegex({ open: '**', close: '**' });
+  let match = bRegex.exec(sample)
+  while (match) {
+    console.log('makeBlockRegex', match);
+    match = bRegex.exec(sample);
+  }
 }, 0);
 
 

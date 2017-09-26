@@ -76,6 +76,7 @@ export default class Scanner {
       after = this.patternMatches.on('after', start);
       at = this.patternMatches.on('at', start);
 
+      // todo: remove line number if no longer needed
       lineNumber = lineParser(getCharIndexFromTokens(before, at, after));
 
       if (at && at.length) {
