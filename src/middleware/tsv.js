@@ -1,6 +1,6 @@
 
 const tableStart = '[[TABLE]]';
-const tableEnd = '[[TABLE]]';
+const tableEnd = '[[/TABLE]]';
 const rowStart = '[[TABLE_ROW]]';
 const rowEnd = '[[/TABLE_ROW]]';
 const cellStart = '[[TABLE_CELL]]';
