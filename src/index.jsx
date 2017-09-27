@@ -3,11 +3,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { pattern as urlPattern, name as urlTokenName } from './lib/url';
 import { pattern as newlinePattern, name as newlineTokenName } from './lib/newline';
-<<<<<<< HEAD
-import tableTokenizer, {middleware as tableware} from './lib/types/table';
-=======
-import tableTokenizer, { middleware as tware } from './lib/types/table';
->>>>>>> master
+import tableTokenizer from './lib/types/table';
+import tsv from './middleware/tsv';
 import textRangeSearch from './lib/types/range';
 import specialCharacter from './lib/types/special_character';
 import blockSearch, { makeBlockRegex } from './lib/types/block';
@@ -28,7 +25,7 @@ text = 'foo <i>*****bar*****</i> foo baz\n **bar**';
 text = '*foo bar foo baz*';
 // text = utilStubs.twoRowTable.text;
 // text = utilStubs.blockSpansCells.text;
-text = 'foo2 *bar2 baz2\tlorem2 ipsum2*';
+text = 'foo2 *bar2 baz2\tlorem2 ipsum2*\n and done!';
 // text = 'foo bar foo baz';
 window.text = text;
 
@@ -63,7 +60,7 @@ setTimeout(() => {
   for (let i = 0; i < count; i++) {
     // console.profile('parse');
     performance.mark('parse-start');
-    tokens = lex(sample, patterns, [tableware]);
+    tokens = lex(sample, patterns, [tsv]);
     performance.mark('parse-end');
     // console.profileEnd('parse');
     performance.measure('parse', 'parse-start', 'parse-end');
