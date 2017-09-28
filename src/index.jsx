@@ -15,48 +15,53 @@ import utilStubs from './lib/__stubs__/utils.stubs';
 
 let text;
 // text = 'foo *bar _foo* baz_';
-text = 'foo <i>*****bar*****</i> foo baz\n **bar**';
+// text = 'foo <i>*****bar*****</i> foo baz\n **bar**';
 // text = stubs.tables.twoColumn;
 // text = stubs.largeText + '\n' + stubs.largeText;
+// text = '**foo bar\n\nfoo baz**';
 // text = stubs.tables.markUpBetweenCells;
 // text = stubs.markUp;
-// text = '**foo bar foo baz**';
+// text = '*foo bar foo baz*';
 // text = utilStubs.twoRowTable.text;
-text = '*foo bar foo baz*';
 // text = utilStubs.twoRowTable.text;
 // text = utilStubs.blockSpansCells.text;
-text = 'foo2 *bar2 baz2\tlorem2 ipsum2*\n and done!';
+
+// text = 'not a table\nc1r1\tc2r1\nc1r2\tc2r2\nc1r3\tc2r3\nnot a table';
+// text = 'c1r1\tc2r1';
 // text = 'foo bar foo baz';
+text = 'c1r1\tc2r1\n';
+console.log(tsv(text));
 window.text = text;
 
 setTimeout(() => {
   let patterns = [
-    blockSearch({ open: '*', close: '*' }, 'BOLD'),
-    // blockSearch({ open: '<i>', close: '</i>' }, 'UNDERLINE'),
+    blockSearch({ open: '**', close: '**' }, 'BOLD'),
+    blockSearch({ open: '<i>', close: '</i>' }, 'UNDERLINE'),
     // blockSearch({ open: '_', close: '_' }, 'UNDERLINE'),
     // specialCharacter('\n', 'NEWLINE'),
-    // blockSearch({ open: '-', close: '-' }, 'STRIKETHROUGH'),
-    tableTokenizer('\t'),
-    blockSearch({ open: '<i>', close: '</i>' }, 'UNDERLINE'),
+    blockSearch({ open: '-', close: '-' }, 'STRIKETHROUGH'),
+    // tableTokenizer('\t'),
+    // blockSearch({ open: '<i>', close: '</i>' }, 'UNDERLINE'),
     // blockSearch({ open: '_', close: '_' }, 'UNDERLINE'),
     // specialCharacter('\n', 'NEWLINE'),
     // blockSearch({ open: '-', close: '-' }, 'STRIKETHROUGH'),
     // tableTokenizer('\t', 0),
     // textRangeSearch('bar baz', 'FIND'),
-    // textRangeSearch(' a', 'FIND'),
+    // textRangeSearch('a', 'FIND'),
     // textRangeSearch(urlPattern, urlTokenName),
     // keywordTokenizer('/buzz', 'BUZZ'),
     // textRangeSearch('yar bar', 'FIND'),
     // textRangeSearch('bar foo', 'HIGHLIGHT'),
-    // textRangeSearch('foo baz', 'MARK'),
-    // textRangeSearch('foo', 'FIND'),
+    textRangeSearch('foo baz', 'MARK'),
+    textRangeSearch('foo', 'FIND'),
     // textRangeSearch('Aenean', 'IPSUM')
   ];
   let sample = text;
   console.log('parsing ', sample.length, 'characters');
+  // lex(sample, patterns, [tsv]);
   let sum = 0;
   let tokens;
-  let count = 1;
+  let count = 0;
   for (let i = 0; i < count; i++) {
     // console.profile('parse');
     performance.mark('parse-start');
@@ -70,13 +75,6 @@ setTimeout(() => {
   });
   console.log('parsing average over', count, 'times:', sum / count, 'ms');
   console.log('tokens: ', tokens);
-  // console.log('tware', tware('\t', sample));
-  let bRegex = makeBlockRegex({ open: '**', close: '**' });
-  let match = bRegex.exec(sample)
-  while (match) {
-    console.log('makeBlockRegex', match);
-    match = bRegex.exec(sample);
-  }
 }, 0);
 
 
