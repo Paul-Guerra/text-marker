@@ -15,6 +15,10 @@ describe('tsv()', () => {
     expect(tsv(stubs.threeRows.input)).toBe(stubs.threeRows.output);
   });
 
+  it('handles multiple lines of plain text before and after tables', () => {
+    expect(tsv(stubs.multipleLinesAround.input)).toBe(stubs.multipleLinesAround.output);
+  });
+
   it('handles a trailing line break', () => {
     expect(tsv(stubs.trailingLineBreak.input)).toBe(stubs.trailingLineBreak.output);
   });
