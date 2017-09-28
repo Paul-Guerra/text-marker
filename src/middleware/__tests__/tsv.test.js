@@ -22,4 +22,8 @@ describe('tsv()', () => {
   it('inserts custom placeholder text', () => {
     expect(tsv(stubs.custom.input, stubs.custom.placeholder)).toBe(stubs.custom.output);
   });
+
+  it('ends table when the next line has no tabs', () => {
+    expect(tsv(stubs.textAfter.input)).toBe(stubs.textAfter.output);
+  });
 });

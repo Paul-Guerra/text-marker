@@ -22,12 +22,19 @@ export default function tsv(text, placeholders = placeholderText) {
   let lines = text.split('\n');
   let cellPattern = /[^\t]+/g;
   let inTable = false;
-  lines.forEach((line, index, arr) => {
+  lines.forEach((chars, index, arr) => {
+    let line = chars;
+    if (!line) line = '\n';
     if (line.indexOf('\t') === -1) {
       if (inTable) {
         inTable = false;
       }
-      result += `${line}\n`;
+      if (index === arr.length - 1) {
+        result += line;
+      } else {
+        result += `${line}\n`;
+      }
+
       return;
     }
     let newLine = '';
@@ -48,6 +55,5 @@ export default function tsv(text, placeholders = placeholderText) {
     if (arr[index + 1] && arr[index + 1].indexOf('\t') === -1) newLine += `${tableEnd}\n`;
     result += newLine;
   });
-  // console.log('tsv', result);
   return result;
 }
