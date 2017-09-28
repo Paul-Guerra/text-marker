@@ -10,7 +10,7 @@ export function makeBlockRegex({ open, close = open }) {
   let escOpen = escapeStringForRegex(open);
   let escClose = escapeStringForRegex(close);
   // return new RegExp(`(${escOpen})(${escOpen})*[^${escOpen}]+(${escClose})*(${escClose})`, 'g');
-  return new RegExp(`(${escOpen}).+(${escClose})`, 'g');
+  return new RegExp(`(${escOpen})+[\\s\\S]+?(${escClose})+`, 'g');
 }
 
 export default function block(delimiters, name = 'DEFAULT') {

@@ -20,6 +20,13 @@ describe('makeBlockRegex', () => {
     expect(result[0]).toBe('***bar***');
   });
 
+  it('matches across lines', () => {
+    let result;
+    let pattern = makeBlockRegex(stubs.delimiters);
+    result = pattern.exec(stubs.text.multiline);
+    expect(result[0]).toBe(stubs.text.multiline);
+  });
+
   it('returns a block that starts at the location of the first delimiter', () => {
     let result;
     let pattern = makeBlockRegex(stubs.mismatchedDelimiters);
