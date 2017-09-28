@@ -3,7 +3,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { pattern as urlPattern, name as urlTokenName } from './lib/url';
 import { pattern as newlinePattern, name as newlineTokenName } from './lib/newline';
-import tableTokenizer, { middleware as tware } from './lib/types/table';
+import tableTokenizer from './lib/types/table';
+import tsv from './middleware/tsv';
 import textRangeSearch from './lib/types/range';
 import specialCharacter from './lib/types/special_character';
 import blockSearch, { makeBlockRegex } from './lib/types/block';
@@ -14,14 +15,22 @@ import utilStubs from './lib/__stubs__/utils.stubs';
 
 let text;
 // text = 'foo *bar _foo* baz_';
-text = 'foo <i>*****bar*****</i> foo baz\n **bar**';
+// text = 'foo <i>*****bar*****</i> foo baz\n **bar**';
 // text = stubs.tables.twoColumn;
 // text = stubs.largeText + '\n' + stubs.largeText;
+// text = '**foo bar\n\nfoo baz**';
 // text = stubs.tables.markUpBetweenCells;
 // text = stubs.markUp;
-// text = '**foo bar foo baz**';
+// text = '*foo bar foo baz*';
 // text = utilStubs.twoRowTable.text;
+// text = utilStubs.twoRowTable.text;
+// text = utilStubs.blockSpansCells.text;
+
+// text = 'not a table\nc1r1\tc2r1\nc1r2\tc2r2\nc1r3\tc2r3\nnot a table';
+// text = 'c1r1\tc2r1';
 // text = 'foo bar foo baz';
+text = 'c1r1\tc2r1\n';
+console.log(tsv(text));
 window.text = text;
 
 setTimeout(() => {
@@ -30,27 +39,33 @@ setTimeout(() => {
     blockSearch({ open: '<i>', close: '</i>' }, 'UNDERLINE'),
     // blockSearch({ open: '_', close: '_' }, 'UNDERLINE'),
     // specialCharacter('\n', 'NEWLINE'),
+    blockSearch({ open: '-', close: '-' }, 'STRIKETHROUGH'),
+    // tableTokenizer('\t'),
+    // blockSearch({ open: '<i>', close: '</i>' }, 'UNDERLINE'),
+    // blockSearch({ open: '_', close: '_' }, 'UNDERLINE'),
+    // specialCharacter('\n', 'NEWLINE'),
     // blockSearch({ open: '-', close: '-' }, 'STRIKETHROUGH'),
     // tableTokenizer('\t', 0),
     // textRangeSearch('bar baz', 'FIND'),
-    // textRangeSearch(' a', 'FIND'),
+    // textRangeSearch('a', 'FIND'),
     // textRangeSearch(urlPattern, urlTokenName),
     // keywordTokenizer('/buzz', 'BUZZ'),
     // textRangeSearch('yar bar', 'FIND'),
     // textRangeSearch('bar foo', 'HIGHLIGHT'),
-    // textRangeSearch('foo baz', 'MARK'),
-    // textRangeSearch('foo', 'FIND'),
+    textRangeSearch('foo baz', 'MARK'),
+    textRangeSearch('foo', 'FIND'),
     // textRangeSearch('Aenean', 'IPSUM')
   ];
   let sample = text;
   console.log('parsing ', sample.length, 'characters');
+  // lex(sample, patterns, [tsv]);
   let sum = 0;
   let tokens;
-  let count = 1;
+  let count = 0;
   for (let i = 0; i < count; i++) {
     // console.profile('parse');
     performance.mark('parse-start');
-    tokens = lex(sample, patterns);
+    tokens = lex(sample, patterns, [tsv]);
     performance.mark('parse-end');
     // console.profileEnd('parse');
     performance.measure('parse', 'parse-start', 'parse-end');
@@ -60,13 +75,6 @@ setTimeout(() => {
   });
   console.log('parsing average over', count, 'times:', sum / count, 'ms');
   console.log('tokens: ', tokens);
-  // console.log('tware', tware('\t', sample));
-  let bRegex = makeBlockRegex({ open: '**', close: '**' });
-  let match = bRegex.exec(sample)
-  while (match) {
-    console.log('makeBlockRegex', match);
-    match = bRegex.exec(sample);
-  }
 }, 0);
 
 

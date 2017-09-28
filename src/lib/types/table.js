@@ -28,14 +28,6 @@ export default function (seperator, priority = 100) {
             priority: (priority + 0.01) * -1,
             delimiters: { open: null, close: null }
           },
-          // {
-          //   name: 'TABLE_SEP_VALUE',
-          //   type: 'SPECIAL_CHAR',
-          //   chars: seperator,
-          //   index: match.index + cellData.index + cellData[0].length,
-          //   priority,
-          //   handle: 'at',
-          // },
           {
             name: 'TABLE_CELL',
             type: 'RANGE_END',
@@ -56,14 +48,6 @@ export default function (seperator, priority = 100) {
         handle: 'before',
         priority: (priority + 0.02),
         delimiters: { open: null, close: null }
-      },
-      {
-        name: 'TABLE_TEST',
-        type: 'SPECIAL_CHAR',
-        chars: '\n',
-        index: match.index + match[0].length,
-        priority,
-        handle: 'at',
       }
       );
 

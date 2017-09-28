@@ -1,0 +1,53 @@
+
+const tableStart = '[[TABLE]]';
+const tableEnd = '[[/TABLE]]';
+const rowStart = '[[TABLE_ROW]]';
+const rowEnd = '[[/TABLE_ROW]]';
+const cellStart = '[[TABLE_CELL]]';
+const cellEnd = '[[/TABLE_CELL]]';
+
+export const placeholderText = {
+  tableStart,
+  tableEnd,
+  rowStart,
+  rowEnd,
+  cellStart,
+  cellEnd
+};
+
+export default function tsv(text, placeholders = placeholderText) {
+  let { tableStart, tableEnd, rowStart, rowEnd, cellStart, cellEnd } = placeholders;
+  if (text.indexOf('\t') === -1) return text;
+  let result = '';
+  let lines = text.split('\n');
+  let cellPattern = /[^\t]+/g;
+  let inTable = false;
+  lines.forEach((line, index, arr) => {
+    if (line.indexOf('\t') === -1) {
+      if (inTable) {
+        inTable = false;
+      }
+      result += `${line}\n`;
+      return;
+    }
+    let newLine = '';
+    let match = cellPattern.exec(line);
+    while (match) {
+      newLine += cellStart + match[0] + cellEnd;
+      match = cellPattern.exec(line);
+    }
+    newLine = `${rowStart}${newLine}${rowEnd}`;
+
+    if (!inTable) {
+      newLine = tableStart + newLine;
+      inTable = true;
+    }
+    // if this is the last line close the table
+    if (index === arr.length - 1) newLine += tableEnd;
+    if (arr[index + 1] === '' && arr[index + 1].length === 0) newLine += tableEnd;
+    if (arr[index + 1] && arr[index + 1].indexOf('\t') === -1) newLine += `${tableEnd}\n`;
+    result += newLine;
+  });
+  // console.log('tsv', result);
+  return result;
+}
