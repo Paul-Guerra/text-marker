@@ -6,8 +6,8 @@ import { pattern as newlinePattern, name as newlineTokenName } from './lib/newli
 import tableTokenizer from './lib/types/table';
 import tsv from './middleware/tsv';
 import textRangeSearch from './lib/types/range';
-import specialCharacter from './lib/types/special_character';
-import blockSearch, { makeBlockRegex } from './lib/types/block';
+import keyword from './lib/types/keyword';
+import registerBlock, { makeBlockRegex } from './lib/types/block';
 import App from './components/app.component';
 import lex, { printTokens } from './lib/lexer';
 import stubs from './lib/types/__stubs__/text.stubs';
@@ -35,16 +35,21 @@ window.text = text;
 
 setTimeout(() => {
   let patterns = [
-    blockSearch({ open: '**', close: '**' }, 'BOLD'),
-    blockSearch({ open: '<i>', close: '</i>' }, 'UNDERLINE'),
-    // blockSearch({ open: '_', close: '_' }, 'UNDERLINE'),
+    // registerBlock({ open: '**', close: '**' }, 'BOLD'),
+    // registerBlock({ open: '<i>', close: '</i>' }, 'UNDERLINE'),
+    // registerBlock({ open: '_', close: '_' }, 'UNDERLINE'),
     // specialCharacter('\n', 'NEWLINE'),
-    blockSearch({ open: '-', close: '-' }, 'STRIKETHROUGH'),
+    // registerBlock({ open: '-', close: '-' }, 'STRIKETHROUGH'),
     // tableTokenizer('\t'),
-    // blockSearch({ open: '<i>', close: '</i>' }, 'UNDERLINE'),
-    // blockSearch({ open: '_', close: '_' }, 'UNDERLINE'),
-    // specialCharacter('\n', 'NEWLINE'),
-    // blockSearch({ open: '-', close: '-' }, 'STRIKETHROUGH'),
+    // registerBlock({ open: '[[TABLE]]', close: '[[/TABLE]]' }, 'TABLE'),
+    // registerBlock({ open: '[[TABLE_ROW]]', close: '[[/TABLE_ROW]]' }, 'TABLE_ROW'),
+    // registerBlock({ open: '[[TABLE_CELL]]', close: '[[/TABLE_CELL]]' }, 'TABLE_CELL'),
+    // registerBlock({ open: '<i>', close: '</i>' }, 'UNDERLINE'),
+    // registerBlock({ open: '_', close: '_' }, 'UNDERLINE'),
+    // keyword('/buzz', 'BUZZ'),
+    // keyword('*', 'AST'),
+    // keyword('\n', 'NEWLINE'),
+    // registerBlock({ open: '-', close: '-' }, 'STRIKETHROUGH'),
     // tableTokenizer('\t', 0),
     // textRangeSearch('bar baz', 'FIND'),
     // textRangeSearch('a', 'FIND'),
@@ -61,11 +66,11 @@ setTimeout(() => {
   // lex(sample, patterns, [tsv]);
   let sum = 0;
   let tokens;
-  let count = 0;
+  let count = 1;
   for (let i = 0; i < count; i++) {
     // console.profile('parse');
     performance.mark('parse-start');
-    tokens = lex(sample, patterns, [tsv]);
+    // tokens = lex(sample, patterns, [tsv]);
     performance.mark('parse-end');
     // console.profileEnd('parse');
     performance.measure('parse', 'parse-start', 'parse-end');
