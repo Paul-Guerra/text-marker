@@ -1,5 +1,4 @@
 import TokenStack from './token_stack';
-import { insertTableTokens } from './table_utils';
 
 export function escapeStringForRegex(s) {
   return s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -180,5 +179,4 @@ export function normalize(tokens) {
   // if there are any open tokens still left on the tack close them
   closeOpenTokens(fixedTokens, stack);
   return fixedTokens;
-  // return insertTableTokens(fixedTokens);
 }
