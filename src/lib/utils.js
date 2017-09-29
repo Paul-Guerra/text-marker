@@ -34,7 +34,7 @@ export function updateStack(stack, token) {
   }
 }
 
-function handleBufferedTokens(tokens, stack, fixedTokens) {
+export function handleBufferedTokens(tokens, stack, fixedTokens) {
   if (tokens.length > 0) {
     tokens.forEach((token) => {
       fixedTokens.push(token);

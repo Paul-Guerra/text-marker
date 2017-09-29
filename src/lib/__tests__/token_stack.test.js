@@ -1,5 +1,5 @@
 /* global describe, it, expect, jest */
-import TokenStack, { isInTable } from '../token_stack';
+import TokenStack, { isInTable, isInTableCell, isInTableRow } from '../token_stack';
 import stubs from '../__stubs__/token_stack.stubs';
 
 describe('new TokenStack()', () => {
@@ -127,10 +127,31 @@ describe('TokenStack.length', () => {
   });
 });
 
+describe('TokenStack.last', () => {
+  it('returna the last entry of the stack.all array', () => {
+    let ts = new TokenStack();
+    ts.stack.all = [1, 2, 3, 4, 5];
+    expect(ts.last).toBe(5);
+  });
+});
 
 describe('TokenStack.isInTable', () => {
   it('calls stack.contains with "TABLE"', () => {
     isInTable(stubs.isInTableBlocks);
     expect(stubs.isInTableBlocks.contains).toBeCalledWith('TABLE');
+  });
+});
+
+describe('TokenStack.isInTableCell', () => {
+  it('calls stack.contains with "TABLE"', () => {
+    isInTableCell(stubs.isInTableBlocks);
+    expect(stubs.isInTableBlocks.contains).toBeCalledWith('TABLE_CELL');
+  });
+});
+
+describe('TokenStack.isInTableRow', () => {
+  it('calls stack.contains with "TABLE"', () => {
+    isInTableRow(stubs.isInTableBlocks);
+    expect(stubs.isInTableBlocks.contains).toBeCalledWith('TABLE_ROW');
   });
 });
