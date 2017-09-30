@@ -3,7 +3,7 @@ import PatternBuffer from './pattern_buffer';
 import Scanner from './scanner';
 
 export function findPatterns(text, buffer, { pattern, onMatch }) {
-  if (!text || !pattern || !onMatch) return;
+  if (!text || !pattern || !onMatch || !buffer) return;
   let tokens;
   let match = pattern.exec(text);
   while (match) {
@@ -43,6 +43,9 @@ export function applyMiddleware(text, middleware) {
 
 export default function lex(inputText, patterns, middleware = []) {
   let text = applyMiddleware(inputText, middleware);
+  if (!text && inputText) {
+    return inputText;
+  }
   let count = patterns.length;
   // initialize buffer
   let buffer = new PatternBuffer();
@@ -50,8 +53,6 @@ export default function lex(inputText, patterns, middleware = []) {
     findPatterns(text, buffer, patterns[count]);
   }
   let tokens = new Scanner(text, buffer).scan();
-  // printTokens(tokens);
   let fixedTokens = normalize(tokens);
-  // printTokens(fixedTokens);
   return fixedTokens;
 }

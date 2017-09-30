@@ -17,12 +17,40 @@ describe('findPatterns()', () => {
     findPatterns(text, buffer, notFoundHandler);
     expect(buffer.push.mock.calls.length).toBe(0);
   });
+
+  it('does nothing if text is falsey', () => {
+    let { buffer, notFoundHandler } = stubs;
+    buffer.push.mockClear();
+    notFoundHandler.onMatch.mockClear();
+    findPatterns('', buffer, notFoundHandler);
+    expect(buffer.push.mock.calls.length).toBe(0);
+    expect(notFoundHandler.onMatch.mock.calls.length).toBe(0);
+  });
+
+  it('does nothing if buffer is falsey', () => {
+    let { notFoundHandler } = stubs;
+    notFoundHandler.onMatch.mockClear();
+    findPatterns('text', false, notFoundHandler);
+    expect(notFoundHandler.onMatch.mock.calls.length).toBe(0);
+  });
+
+  it('does nothing if matchHandler is falsey', () => {
+    let { buffer } = stubs;
+    buffer.push.mockClear();
+    findPatterns('text', buffer, false);
+    expect(buffer.push.mock.calls.length).toBe(0);
+  });
 });
 
 describe('tokensToString()', () => {
   it('returns a string', () => {
     const output = tokensToString(stubs.sampleTokens);
     expect(typeof output).toBe('string');
+  });
+
+  it('include literal token content a string', () => {
+    const output = tokensToString([stubs.literalToken]);
+    expect(output).toBe('0, LITERAL, TEXT, foo\n');
   });
 });
 
@@ -68,13 +96,28 @@ describe('applyMiddleware()', () => {
       (text) => { throw({ name: 'test', message: 'oops' }); },
     ]);
     expect(result).toBe('foo');
+  });  
+});
+
+describe('lex()', () => {
+  it('returns an array', () => {
+    let tokens = lex('foo', [], []);
+    expect(tokens instanceof Array).toBe(true);
   });
 
-  // it('passes the result of one middleware to the input of the next', () => {
-  //   applyMiddleware('foo', stubs.middleware);
-  //   expect(stubs.middleware[1].mock.calls.length).toBe(1);
-  //   expect(stubs.middleware[1]).toBeCalledWith(expect.stringContaining('first'));
-  //   stubs.middleware[0].mockReset();
-  //   stubs.middleware[1].mockReset();
-  // });
+  it('looks for patterns', () => {
+    let tokens = lex('foo', [stubs.fooAsRange.range]);
+    expect(JSON.stringify(tokens)).toBe(JSON.stringify(stubs.fooAsRange.expected));
+  });
+
+  it('calls middleware', () => {
+    let middle = jest.fn(() => 'text');
+    lex('foo', [], [middle]);
+    expect(middle.mock.calls.length).toBe(1);
+  });
+
+  it('return original text if middleware truncates text', () => {
+    let output = lex('foo', [], [() => '']);
+    expect(output).toBe('foo');
+  });
 });
