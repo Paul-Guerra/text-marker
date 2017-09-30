@@ -3,6 +3,7 @@ import lex, { findPatterns, tokensToString, printTokens, applyMiddleware } from 
 import stubs from '../__stubs__/lexer.stubs';
 
 global.console = { log: jest.fn(), error: jest.fn() };
+
 describe('findPatterns()', () => {
   it('pushes found patterns onto the buffer', () => {
     let { text, buffer, handler } = stubs;

@@ -45,7 +45,7 @@ describe('Scanner scan method', () => {
   // technically I suppose these are really more integrations tests than they are unit tests
   it('pushes "before" and "after" tokens', () => {
     let buffer;
-    let { text, expected } = stubs.insertBeforeAndAfterTokens;
+    let { text, expected } = stubs.insertBeforeTokens;
     let patterns = [textRangeSearch('foo', 'FIND')];
     let count = patterns.length;
     buffer = new PatternBuffer();
@@ -73,6 +73,19 @@ describe('Scanner scan method', () => {
     let buffer;
     let { text, expected } = stubs.createsLiteralTokens;
     let patterns = [blockSearch({ open: '*', close: '*' }, 'BOLD')];
+    let count = patterns.length;
+    buffer = new PatternBuffer();
+    while (count--) {
+      findPatterns(text, buffer, patterns[count]);
+    }
+    let tokens = new Scanner(text, buffer).scan();
+    expect(JSON.stringify(tokens)).toBe(expected);
+  });
+
+  it('range can wrap all text', () => {
+    let buffer;
+    let { text, expected } = stubs.foo;
+    let patterns = [textRangeSearch('foo', 'FIND')];
     let count = patterns.length;
     buffer = new PatternBuffer();
     while (count--) {

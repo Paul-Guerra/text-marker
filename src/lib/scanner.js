@@ -21,7 +21,7 @@ export function getTokenLength(token) {
 export function getCharIndexFromTokens(before, at, after) {
   if (before[0]) return before[0].index;
   if (at[0]) return at[0].index;
-  if (after[0]) return after[0].index;
+  // if (after[0]) return after[0].index;
   return false;
 }
 
@@ -70,7 +70,6 @@ export default class Scanner {
       let lineNumber;
       end = offsets.shift();
 
-      if (start >= end) continue;
       // todo: replace before/at/after with insert/replace
       before = this.patternMatches.on('before', start);
       after = this.patternMatches.on('after', start);
@@ -89,10 +88,10 @@ export default class Scanner {
       if (literalStart < this.text.length) {
         // there are no literals after the end of the string.
         literal = newLiteral(this.text.substring(literalStart, end), literalStart);
-        if (literal.chars) tokens.push(...appendLineData([literal], lineParser(literal.index)));
+        tokens.push(...appendLineData([literal], lineParser(literal.index)));
       }
 
-      if (after && after.length) tokens.push(...appendLineData(after, lineNumber));
+      // if (after && after.length) tokens.push(...appendLineData(after, lineNumber));
 
       start = end;
     }

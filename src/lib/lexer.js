@@ -39,8 +39,8 @@ export function applyMiddleware(text, middleware) {
     console.error(`[Middleware] ${e.message}`);
   }
   return text;
-
 }
+
 export default function lex(inputText, patterns, middleware = []) {
   let text = applyMiddleware(inputText, middleware);
   let count = patterns.length;

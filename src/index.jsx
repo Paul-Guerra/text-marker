@@ -29,7 +29,7 @@ let text;
 // text = 'not a table\nc1r1\tc2r1\nc1r2\tc2r2\nc1r3\tc2r3\nnot a table';
 // text = 'c1r1\tc2r1';
 // text = 'foo bar foo baz';
-text = 'c1r1\tc2r1\n';
+text = 'foo';
 console.log(tsv(text));
 window.text = text;
 
@@ -51,14 +51,14 @@ setTimeout(() => {
     // keyword('\n', 'NEWLINE'),
     // registerBlock({ open: '-', close: '-' }, 'STRIKETHROUGH'),
     // tableTokenizer('\t', 0),
-    // textRangeSearch('bar baz', 'FIND'),
+    textRangeSearch('foo', 'FIND'),
     // textRangeSearch('a', 'FIND'),
     // textRangeSearch(urlPattern, urlTokenName),
     // keywordTokenizer('/buzz', 'BUZZ'),
     // textRangeSearch('yar bar', 'FIND'),
     // textRangeSearch('bar foo', 'HIGHLIGHT'),
-    textRangeSearch('foo baz', 'MARK'),
-    textRangeSearch('foo', 'FIND'),
+    // textRangeSearch('foo baz', 'MARK'),
+    // textRangeSearch('foo', 'FIND'),
     // textRangeSearch('Aenean', 'IPSUM')
   ];
   let sample = text;
@@ -70,7 +70,7 @@ setTimeout(() => {
   for (let i = 0; i < count; i++) {
     // console.profile('parse');
     performance.mark('parse-start');
-    // tokens = lex(sample, patterns, [tsv]);
+    tokens = lex(sample, patterns, [tsv]);
     performance.mark('parse-end');
     // console.profileEnd('parse');
     performance.measure('parse', 'parse-start', 'parse-end');
