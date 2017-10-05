@@ -1,5 +1,5 @@
 {
-  "name": "Text Marker",
+  "name": "TextMarker",
   "version": "1.0.0",
   "description": "A lexical analyzer for parsing text",
   "main": "index.js",
