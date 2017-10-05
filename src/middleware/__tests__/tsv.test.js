@@ -11,6 +11,10 @@ describe('tsv()', () => {
     expect(tsv(stubs.singleRow.input)).toBe(stubs.singleRow.output);
   });
 
+  it('handles empty table cells', () => {
+    expect(tsv(stubs.emptyCells.input)).toBe(stubs.emptyCells.output);
+  });
+
   it('handles multiple row tables', () => {
     expect(tsv(stubs.threeRows.input)).toBe(stubs.threeRows.output);
   });

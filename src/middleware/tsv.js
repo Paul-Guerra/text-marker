@@ -20,7 +20,7 @@ export default function tsv(text, placeholders = placeholderText) {
   if (text.indexOf('\t') === -1) return text;
   let result = '';
   let lines = text.split('\n');
-  let cellPattern = /[^\t]+/g;
+  let delimiter = /\t/g;
   let inTable = false;
   lines.forEach((chars, index, arr) => {
     let line = chars;
@@ -34,15 +34,14 @@ export default function tsv(text, placeholders = placeholderText) {
       } else {
         result += `${line}\n`;
       }
-
       return;
     }
+
     let newLine = '';
-    let match = cellPattern.exec(line);
-    while (match) {
-      newLine += cellStart + match[0] + cellEnd;
-      match = cellPattern.exec(line);
-    }
+    line.split(delimiter).forEach((content) => {
+      newLine += cellStart + content + cellEnd;
+    });
+
     newLine = `${rowStart}${newLine}${rowEnd}`;
 
     if (!inTable) {
