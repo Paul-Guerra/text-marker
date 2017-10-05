@@ -1,7 +1,7 @@
 {
-  "name": "Otis",
+  "name": "Text Marker",
   "version": "1.0.0",
-  "description": "A lexical analyzer for parsing user text input",
+  "description": "A lexical analyzer for parsing text",
   "main": "index.js",
   "scripts": {
     "postinstall": "mkdir -p dist/",
