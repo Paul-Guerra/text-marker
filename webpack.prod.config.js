@@ -1,17 +1,13 @@
+const merge = require('webpack-merge');
 const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const common = require('./webpack.common.config');
 const version = require('./package.json').version;
 
-module.exports = {
+const prod = {
   devtool: 'cheap-module-source-map',
-  entry: './dist/lib/text_marker.js',
   output: {
-    library: 'textMarker',
-    libraryTarget: 'umd',
-    libraryExport: 'default',
-    path: __dirname,
     auxiliaryComment: { root: `Text Marker Library version ${version}` },
-    filename: `./dist/text_marker_v${version}.js`
   },
   plugins: [
     new UglifyJSPlugin(),
@@ -22,3 +18,5 @@ module.exports = {
     })
   ],
 };
+
+module.exports = merge(common, prod);

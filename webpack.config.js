@@ -1,11 +1,12 @@
-module.exports = {
+const merge = require('webpack-merge');
+const common = require('./webpack.common.config');
+
+const dev = {
   devtool: 'source-map',
-  entry: './dist/lib/text_marker.js',
   output: {
-    library: 'textMarker',
-    libraryTarget: 'umd',
-    libraryExport: 'default',
-    path: __dirname,
-    filename: './dist/text_marker.js'
+    filename: './dist/text_marker.js',
+    auxiliaryComment: { root: 'Text Marker Library DEVELOPMENT version' },
   }
 };
+
+module.exports = merge(common, dev);
