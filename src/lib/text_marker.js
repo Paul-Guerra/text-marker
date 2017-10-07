@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import parse, { tokensToString } from './lexer';
 import range from './types/range';
 import keyword from './types/keyword';
