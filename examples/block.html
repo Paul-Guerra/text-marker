@@ -5,9 +5,12 @@
   <body>
     <pre id="output"></div>
     <script src='../dist/text_marker.js'></script>
+    <h2>Block</h2>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        console.log('hi');
+        let markup = [textMarker.block({ open: '*', close: '*' }, 'BOLD')];
+        let tokens = textMarker.parse('I have *bold* tokens', markup);
+        document.getElementById('output').innerText = JSON.stringify(tokens, null, '  ');
       });
     </script>
   </body>
