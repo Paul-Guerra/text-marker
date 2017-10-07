@@ -3,7 +3,7 @@ Text marker is a lexical analysis library for idenifying regions of text accordi
 
 ## Use Cases
 Text marker is flexible enough to allow you to use it to:
-- Idenitfy links
+- Identify links
 - Highlight words
 - Define a simple markup language. 
 
@@ -26,7 +26,7 @@ Accessible via the textMarker.block method, blocks are visible characters that s
 
 ````javascript
 let openAndCloseTags = {open: '*', close: '*'};
-let name = 'MyBlock;
+let name = 'MyBlock';
 let blockRule = textMarker.block(openAndCloseTags, name);
 let tokens = textMarker.parse('I have a *block* token', [blockRule]);
 ````
@@ -36,7 +36,7 @@ By default blocks will only detect a match if it finds both and opening AND matc
 
 ````javascript
 let openAndCloseTags = {open: '*', close: '*'};
-let name = 'MyBlock;
+let name = 'MyBlock';
 let blockRule = textMarker.block(openAndCloseTags, name);
 let tokens = textMarker.parse('I have a * no block tokens', [blockRule]);
 ````
@@ -93,5 +93,3 @@ Middleware is an array of functions applied prior to searching for any tokens. E
 
 If any middleware throws and error Text Marker will stop executing all middleware and apply the provided token rules using the **original** text supplied to the parse function.
 
-## Custom Regular Expressions
-The block and range methods
