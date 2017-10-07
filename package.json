@@ -11,7 +11,7 @@
     "postinstall": "mkdir -p dist/",
     "start": "npm run build && npm run webpack:watch & babel src/ --out-dir dist/ --watch",
     "test": "jest src/ --coverage",
-    "compile": "rm -rf dist/* && babel src/ --out-dir dist/ ",
+    "compile": "rm -rf dist/* && babel src/ --out-dir dist/",
     "build": "npm run compile && webpack",
     "build:prod": "npm run compile && webpack --config ./webpack.prod.config.js",
     "webpack:watch": "webpack --watch",
