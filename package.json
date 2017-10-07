@@ -1,6 +1,6 @@
 {
   "name": "text-marker",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "description": "A lexical analyzer for parsing text",
   "main": "index.js",
   "scripts": {
