@@ -1,15 +1,15 @@
 <html>
   <head>
-    <title>Text Marker Block Example</title>
+    <title>Text Marker Keyword Example</title>
   </head>
   <body>
-    <h2>Block</h2>
+    <h2>Keyword</h2>
     <pre id="output"></div>
     <script src='../dist/text_marker.js'></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        let markup = textMarker.block({ open: '*', close: '*' }, 'BOLD');
-        let tokens = textMarker.parse('I have *bold* tokens', [markup]);
+        let doFoo = textMarker.keyword('foo', 'DO_FOO');
+        let tokens = textMarker.parse('I have foo keywords', [doFoo]);
 
         document.getElementById('output').innerText = JSON.stringify(tokens, null, '  ');
       });

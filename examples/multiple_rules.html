@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <title>Text Marker Keyword Example</title>
+  </head>
+  <body>
+    <h2>Keyword</h2>
+    <pre id="output"></div>
+    <script src='../dist/text_marker.js'></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        let doFoo = textMarker.keyword('foo', 'DO_FOO');
+        let bold = textMarker.block({ open: '*', close: '*' }, 'BOLD');
+        let highlight = textMarker.range('multiple', 'HIGHLIGHT');
+        let rules = [doFoo, bold, highlight];
+        let tokens = textMarker.parse('I have *multiple* rules being applied', rules);
+
+        document.getElementById('output').innerText = JSON.stringify(tokens, null, '  ');
+      });
+    </script>
+  </body>
+</html>
