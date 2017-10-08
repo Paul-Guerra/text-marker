@@ -9,7 +9,8 @@
   },
   "scripts": {
     "postinstall": "npm run mkdirs",
-    "mkdirs": "mkdir -p dist/ && mkdir -p tmp/",
+    "mkdirs": "mkdir -p tmp/",
+    "rmdirs": "rm -rf tmp/",
     "start": "npm run build && npm run webpack:watch & babel src/ --out-dir tmp/ --watch",
     "build": "npm run compile && webpack",
     "compile": "rm -rf tmp/* && babel src/ --out-dir tmp/",
