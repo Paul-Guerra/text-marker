@@ -103,3 +103,5 @@ Text Marker supports CommonJS, AMD and good old fashioned script tags.
 Middleware is an array of functions applied prior to searching for any tokens. Each middleware function will receive a text string as an argument and is expected to return a text string. The test provided in the argument may be the original text supplied or the output of the middleware that executed earlier.
 
 If any middleware throws and error Text Marker will stop executing all middleware and apply the provided token rules using the **original** text supplied to the parse function.
+
+See the (middleware example)[https://github.com/Paul-Guerra/text-marker/blob/master/examples/middleware.html] for more details
