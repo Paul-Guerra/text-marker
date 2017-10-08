@@ -15,6 +15,7 @@
     "webpack:watch": "webpack --watch",
     "build:prod": "npm run compile && webpack --config ./webpack.prod.config.js",
     "test": "jest",
+    "test:config": "jest --showConfig",
     "lint": "eslint src/**/*.js"
   },
   "author": "",
