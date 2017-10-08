@@ -85,7 +85,7 @@ export default class Scanner {
 
       if (before && before.length) tokens.push(...appendLineData(before, lineNumber));
       if (tokenAt) tokens.push(...appendLineData([tokenAt], lineNumber));
-      if (literalStart < this.text.length) {
+      if (literalStart < this.text.length && literalStart < end) {
         // there are no literals after the end of the string.
         literal = newLiteral(this.text.substring(literalStart, end), literalStart);
         tokens.push(...appendLineData([literal], lineParser(literal.index)));

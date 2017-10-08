@@ -13,7 +13,7 @@
         let bold = textMarker.block({ open: '*', close: '*' }, 'BOLD');
         let highlight = textMarker.range('multiple', 'HIGHLIGHT');
         let rules = [doFoo, bold, highlight];
-        let tokens = textMarker.parse('I have *multiple* rules being applied', rules);
+        let tokens = textMarker.parse('I have *multiple* rules being applied . . . foo', rules);
 
         document.getElementById('output').innerText = JSON.stringify(tokens, null, '  ');
       });
