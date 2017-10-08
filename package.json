@@ -6,7 +6,6 @@
     "type": "git",
     "url": "https://github.com/Paul-Guerra/text-marker.git"
   },
-  "main": "lib/text_marker.js",
   "scripts": {
     "postinstall": "npm run mkdirs",
     "mkdirs": "mkdir -p dist/.tmp",
