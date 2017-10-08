@@ -8,7 +8,8 @@
   },
   "main": "lib/text_marker.js",
   "scripts": {
-    "postinstall": "mkdir -p dist/",
+    "postinstall": "npm run mkdirs",
+    "mkdirs": "mkdir -p dist/.tmp",
     "start": "npm run build && npm run webpack:watch & babel src/ --out-dir dist/ --watch",
     "test": "jest src/ --coverage",
     "compile": "rm -rf dist/* && babel src/ --out-dir dist/",
