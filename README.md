@@ -104,4 +104,4 @@ Middleware is an array of functions applied prior to searching for any tokens. E
 
 If any middleware throws and error Text Marker will stop executing all middleware and apply the provided token rules using the **original** text supplied to the parse function.
 
-See the (middleware example)[https://github.com/Paul-Guerra/text-marker/blob/master/examples/middleware.html] for more details
+See the [middleware example](https://github.com/Paul-Guerra/text-marker/blob/master/examples/middleware.html) for more details
