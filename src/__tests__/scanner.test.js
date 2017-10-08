@@ -1,8 +1,8 @@
 /* global describe, it, expect */
 import Scanner, { getTokenLength } from '../scanner';
 import PatternBuffer from '../pattern_buffer';
-import blockSearch from '../../lib/types/block';
-import textRangeSearch from '../../lib/types/range';
+import blockSearch from '../types/block';
+import textRangeSearch from '../types/range';
 import { findPatterns } from '../lexer';
 import stubs from '../__stubs__/scanner.stubs';
 

@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './tmp/lib/text_marker.js',
+  entry: './tmp/text_marker.js',
   output: {
     library: 'textMarker',
     libraryTarget: 'umd',
