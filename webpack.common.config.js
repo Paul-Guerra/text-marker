@@ -5,6 +5,5 @@ module.exports = {
     libraryTarget: 'umd',
     libraryExport: 'default',
     path: __dirname,
-    filename: './dist/text_marker.js',
   }
 };
