@@ -8,13 +8,13 @@
   },
   "scripts": {
     "postinstall": "npm run mkdirs",
-    "mkdirs": "mkdir -p dist/.tmp",
-    "start": "npm run build && npm run webpack:watch & babel src/ --out-dir dist/ --watch",
-    "test": "jest src/ --coverage",
-    "compile": "rm -rf dist/* && babel src/ --out-dir dist/",
+    "mkdirs": "mkdir -p dist/ && mkdir -p tmp/",
+    "start": "npm run build && npm run webpack:watch & babel src/ --out-dir tmp/ --watch",
     "build": "npm run compile && webpack",
-    "build:prod": "npm run compile && webpack --config ./webpack.prod.config.js",
+    "compile": "rm -rf tmp/* && babel src/ --out-dir tmp/",
     "webpack:watch": "webpack --watch",
+    "build:prod": "npm run compile && webpack --config ./webpack.prod.config.js",
+    "test": "jest src/ --coverage",
     "lint": "eslint src/**/*.js"
   },
   "author": "",
