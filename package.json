@@ -14,7 +14,7 @@
     "compile": "rm -rf tmp/* && babel src/ --out-dir tmp/",
     "webpack:watch": "webpack --watch",
     "build:prod": "npm run compile && webpack --config ./webpack.prod.config.js",
-    "test": "jest src/ --coverage",
+    "test": "jest",
     "lint": "eslint src/**/*.js"
   },
   "author": "",
