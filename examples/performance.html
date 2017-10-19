@@ -15,7 +15,7 @@
           textMarker.range('vitae', 'VWORD'),
           textMarker.range('id', 'IWORD'),
           textMarker.block({ open: '*', close: '*' }, 'BOLD'),
-          textMarker.block({ open: '_', close: '_' }, 'UNDERLINE')
+          textMarker.block({ open: '_', close: '_' }, 'UNDERLINE'),
         ];
         let testcount = 100;
         let tokens;
@@ -23,7 +23,8 @@
 
         for (let i = 0; i < testcount; i++) {
           performance.mark('parse-start');
-          tokens = textMarker.parse( window.largeText, rules);
+          tokens = textMarker.parse( 'foo *bold and _underline* bar_', rules);
+          // tokens = textMarker.parse( window.largeText, rules);
           performance.mark('parse-end');
           performance.measure('parse', 'parse-start', 'parse-end');
         }
