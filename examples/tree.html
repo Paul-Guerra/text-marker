@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>Text Marker Tree Example</title>
+    <link href="style.css" rel="stylesheet" />    
+  </head>
+  <body>
+    <h2>Tree</h2>
+    <pre id="output"></div>
+    <script src='../dist/text_marker.js'></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        let bold = textMarker.block({ open: '*', close: '*' }, 'BOLD');
+        let underline = textMarker.block({ open: '_', close: '_' }, 'UNDERLINE');
+        let tokens = textMarker.parse('I have *bold and _underline_* tokens', [bold, underline]);
+
+        document.getElementById('output').innerText = JSON.stringify(tokens, null, '  ');
+      });
+    </script>
+  </body>
+</html>

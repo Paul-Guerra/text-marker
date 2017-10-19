@@ -22,10 +22,6 @@ describe('Text Marker', () => {
     expect(typeof tm.block).toBe('function');
   });
 
-  it('has a tokensToString function', () => {
-    expect(typeof tm.tokensToString).toBe('function');
-  });
-
   it('has a version string', () => {
     expect(typeof tm.version).toBe('string');
   });

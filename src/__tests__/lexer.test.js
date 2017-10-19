@@ -100,9 +100,9 @@ describe('applyMiddleware()', () => {
 });
 
 describe('lex()', () => {
-  it('returns an array', () => {
+  it('returns an object', () => {
     let tokens = lex('foo', [], []);
-    expect(tokens instanceof Array).toBe(true);
+    expect(typeof tokens).toBe('object');
   });
 
   it('looks for patterns', () => {
