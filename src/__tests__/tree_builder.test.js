@@ -1,6 +1,5 @@
 /* global describe, it, expect, jest */
 import TreeBuilder from '../tree_builder';
-import stubs from '../__stubs__/tree_builder.stubs';
 
 describe('new TreeBuilder()', () => {
   it('has a tree object', () => {

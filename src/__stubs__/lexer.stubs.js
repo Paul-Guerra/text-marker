@@ -18,7 +18,7 @@ let fooAsRange = {
     pattern: /foo/gi,
     onMatch: jest.fn(() => [{"name":"FIND","type":"RANGE_START","chars":null,"index":0,"pairedWith":3,"delimiters":{"open":null,"close":null},"priority":3,"handle":"before"},{"name":"FIND","type":"RANGE_END","chars":null,"index":3,"pairedWith":0,"delimiters":{"open":null,"close":null},"priority":-3,"handle":"before"}])
   },
-  expected: [{"name":"FIND","type":"RANGE_START","chars":null,"index":0,"pairedWith":3,"delimiters":{"open":null,"close":null},"priority":3,"handle":"before","line":1},{"type":"LITERAL","name":"TEXT","chars":"foo","index":0,"line":1},{"name":"FIND","type":"RANGE_END","chars":null,"index":3,"pairedWith":0,"delimiters":{"open":null,"close":null},"priority":-3,"handle":"before","line":1}]
+  expected: {"name":"root","children":[{"name":"FIND","children":[{"name":"TEXT","text":"foo"}]}]}
 };
 
 export default {
