@@ -10,6 +10,5 @@ export default {
   range,
   keyword,
   block,
-  tokensToString,
   version
 };
