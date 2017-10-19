@@ -1,6 +1,7 @@
 import { normalize } from './utils';
 import PatternBuffer from './pattern_buffer';
 import Scanner from './scanner';
+import treeify from './tree';
 
 export function findPatterns(text, buffer, { pattern, onMatch }) {
   if (!text || !pattern || !onMatch || !buffer) return;
@@ -54,5 +55,6 @@ export default function lex(inputText, patterns, middleware = []) {
   }
   let tokens = new Scanner(text, buffer).scan();
   let fixedTokens = normalize(tokens);
-  return fixedTokens;
+  
+  return treeify(fixedTokens);
 }

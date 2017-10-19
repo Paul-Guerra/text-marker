@@ -6,16 +6,14 @@
   <body>
     <h2>Tree</h2>
     <pre id="output"></div>
-    <script src='../tmp/text_marker_devbuild.js'></script>
+    <script src='../dist/text_marker.js'></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         let bold = textMarker.block({ open: '*', close: '*' }, 'BOLD');
         let underline = textMarker.block({ open: '_', close: '_' }, 'UNDERLINE');
-        let tokens = textMarker.parse('I have *bold and _under*line_ tokens', [bold, underline]);
-        let tree = textMarker.tree(tokens);
-        console.log(tree);
+        let tokens = textMarker.parse('I have *bold and _underline_* tokens', [bold, underline]);
 
-        document.getElementById('output').innerText = JSON.stringify(tree, null, '  ');
+        document.getElementById('output').innerText = JSON.stringify(tokens, null, '  ');
       });
     </script>
   </body>
