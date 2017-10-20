@@ -4,7 +4,7 @@ Text Marker is a lexical analysis library for identifying regions of text accord
 ## Use Cases
 Since the library only returns regular javascript objects it is not tied to a specific rendering framework. While this introduces a requirement to implement your own view component to render the tokens, it leaves the library flexible enough so that you can apply the same rules to parsing text when you eventually need to swap out your view library or have to operate in a mixed environment that uses multiple rendering frameworks.
 
-Since Text Marker only outputs plain javascript objects the tokens can be parsed & cached before a view render is called. This can allow you to render more efficiently since you dont have to parse your tokens again every time you are asked to render your text. For an example please see [Rendering Example](./examples/render.html)
+Since Text Marker only outputs plain javascript objects the tokens can be parsed & cached before a view render is called. This can allow you to render more efficiently since you dont have to parse your tokens again every time you are asked to render your text. For an example please see **[the rendering example](./examples/render.html)**
 
 Pros:
   - Flexible and extensible via middleware and plain javascript.
@@ -13,7 +13,7 @@ Pros:
 
  Cons:
   - Probably overkill if all you need is a simple word highlighter.
-  - You need to write you own view to render the array of tokens.
+  - You need to write you own view to render the array of tokens. You can refer to **[the rendering example](./examples/render.html)**
 
 ## Basic usage
 Text Marker exposes an object with methods that provides basic functionality. See below to get started and the [examples](https://github.com/Paul-Guerra/text-marker/tree/master/examples) page for more details.
