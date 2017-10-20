@@ -49,9 +49,7 @@
         }
         
         function renderChildren(node, components) {
-          return node.children.map((branch) => {
-            return components[branch.name](branch, components);
-          });
+          return node.children.map((branch) => components[branch.name](branch, components));
         }
 
         document.getElementById('output').innerHTML = render(tree, components);
