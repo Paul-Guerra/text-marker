@@ -50,7 +50,6 @@
         
         function renderChildren(node, components) {
           let children = node.children ? node.children : node;
-          if (children.length === 0) return '';
           return children.map((branch) => {
             if (branch.children) {
               return components[branch.name](branch.children, components);
