@@ -25,8 +25,7 @@
         }
 
         function render(node, components) {
-          let children = node.children ? node.children : node;
-          return `<div class="my-text">${renderChildren(node.children, components).join('')}</div>`;
+          return `<div class="my-text">${renderChildren(node, components).join('')}</div>`;
         }
 
         function renderText(node) {
@@ -34,32 +33,29 @@
         }
 
         function renderBold(node, components) {
-          let children = node.children ? node.children : node;
-          return `<strong>${renderChildren(children, components).join('')}</strong>`;
+          return `<strong>${renderChildren(node, components).join('')}</strong>`;
         }
 
         function renderHighlight(node, components) {
-          let children = node.children ? node.children : node;
-          return `<span class="highlight" style="border: dashed 1px red">${renderChildren(children, components).join('')}</span>`;
+          return `<span class="highlight" style="border: dashed 1px red">${renderChildren(node, components).join('')}</span>`;
           }
           
         function renderSearch(node, components) {
-          let children = node.children ? node.children : node;
-          return `<span class="search" style="border: dashed 1px blue">${renderChildren(children, components).join('')}</span>`;
+          return `<span class="search" style="border: dashed 1px blue">${renderChildren(node, components).join('')}</span>`;
         }
 
         function renderUnderline(node, components) {
-          let children = node.children ? node.children : node;
-          return `<u>${renderChildren(children, components).join('')}</u>`;
+          return `<u>${renderChildren(node, components).join('')}</u>`;
         }
-
-        function renderChildren(nodes, components) {
-          if (nodes.length === 0) return '';
-          return nodes.map((node) => {
-            if (node.children) {
-              return components[node.name](node.children, components);
+        
+        function renderChildren(node, components) {
+          let children = node.children ? node.children : node;
+          if (children.length === 0) return '';
+          return children.map((branch) => {
+            if (branch.children) {
+              return components[branch.name](branch.children, components);
             } else {
-              return components[node.name](node);
+              return components[branch.name](branch);
             }
           });
         }
