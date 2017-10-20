@@ -14,7 +14,7 @@
         let highlight = textMarker.range('foo bar', 'HIGHLIGHT');
         let search = textMarker.range('bar baz', 'SEARCH');
         let rules = [bold, underline, highlight, search];
-        let tree = textMarker.parse('I have *bold _words* in my_ text foo bar baz', rules);
+        let tree = textMarker.parse('I have *bold _ and underline words* in my_ text foo bar baz', rules);
 
         let components = {
           TEXT: renderText,
