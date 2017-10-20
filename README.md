@@ -73,14 +73,6 @@ let keywordRule = textMarker.keyword('foo', name);
 let tokens = textMarker.parse('I have a foo keyword token', [keywordRule]);
 ````
 
-###  textMarker.tokensToString
-Utility function that outputs your tokens as a string.
-````javascript
-let tokens = textMarker.parse('foo bar baz', [rules]);
-let output = textMarker.tokensToString(tokens);
-console.log(output);
-````
-
 ## Overlapping blocks and ranges
 Text Marker will also ensure the generated tokens are properly nested and do not overlap with each other. If it does detect overlapping blocks or ranges of text it will attempt insert tokens that create a valid tree. It makes it easier to work with libraries like React that require a component to be valid html. The inserted tokens created to correct the tree have a _virtual property set to true.
 
