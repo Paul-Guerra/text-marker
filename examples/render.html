@@ -5,7 +5,7 @@
   </head>
   <body>
     <h2>Render</h2>
-    <pre id="output"></div>
+    <pre id="output"></pre>
     <script src='../dist/text_marker.js'></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -14,13 +14,12 @@
         let highlight = textMarker.range('foo bar', 'HIGHLIGHT');
         let search = textMarker.range('bar baz', 'SEARCH');
         let rules = [bold, underline, highlight, search];
-        let tree = textMarker.parse('I have *bold _ and underline words* in my_ text foo bar baz', rules);
+        let tree = textMarker.parse('I have *bold _and underline words* in my_ text foo bar baz', rules);
 
         let components = {
           TEXT: renderText,
           BOLD: renderBold,
           UNDERLINE: renderUnderline,
-          KEYWORD: renderKeyword,
           HIGHLIGHT: renderHighlight,
           SEARCH: renderSearch,
         }
@@ -31,10 +30,6 @@
         }
 
         function renderText(node) {
-          return node.text;
-        }
-
-        function renderKeyword(node) {
           return node.text;
         }
 
