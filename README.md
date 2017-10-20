@@ -16,7 +16,7 @@ Pros:
   - You need to write you own view to render the array of tokens.
 
 ## Basic usage
-Text Marker exposes an object with methods that provides basic functionality. See below to get started and the [examples](https://github.com/Paul-Guerra/text-marker/tree/master/examples) page for more details.
+Text Marker exposes an object with methods that provides basic functionality. See below to get started and the **[examples](https://github.com/Paul-Guerra/text-marker/tree/master/examples)** page for more details.
 
 ### textMarker.parse
 Accepts accepts a string and arrays of rules and middleware and returns an array of tokens.
