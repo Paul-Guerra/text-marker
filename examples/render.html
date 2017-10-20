@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <title>Text Marker Render Example</title>
+    <link href="style.css" rel="stylesheet" />    
+  </head>
+  <body>
+    <h2>Render</h2>
+    <pre id="output"></div>
+    <script src='../dist/text_marker.js'></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        let bold = textMarker.block({ open: '*', close: '*' }, 'BOLD');
+        let underline = textMarker.block({ open: '_', close: '_' }, 'UNDERLINE');
+        let highlight = textMarker.range('foo bar', 'HIGHLIGHT');
+        let search = textMarker.range('bar baz', 'SEARCH');
+        let rules = [bold, underline, highlight, search];
+        let tree = textMarker.parse('I have *bold _words* in my_ text foo bar baz', rules);
+
+        let components = {
+          TEXT: renderText,
+          BOLD: renderBold,
+          UNDERLINE: renderUnderline,
+          KEYWORD: renderKeyword,
+          HIGHLIGHT: renderHighlight,
+          SEARCH: renderSearch,
+        }
+
+        function render(node, components) {
+          let children = node.children ? node.children : node;
+          return `<div class="my-text">${renderChildren(node.children, components)}</div>`;
+        }
+
+        function renderText(node) {
+          return node.text;
+        }
+
+        function renderKeyword(node) {
+          return node.text;
+        }
+
+        function renderBold(node, components) {
+          let children = node.children ? node.children : node;
+          return `<strong>${renderChildren(children, components)}</strong>`;
+        }
+
+        function renderHighlight(node, components) {
+          let children = node.children ? node.children : node;
+          return `<span class="highlight" style="border: dashed 1px red">${renderChildren(children, components)}</span>`;
+          }
+          
+        function renderSearch(node, components) {
+          let children = node.children ? node.children : node;
+          return `<span class="search" style="border: dashed 1px blue">${renderChildren(children, components)}</span>`;
+        }
+
+        function renderUnderline(node, components) {
+          let children = node.children ? node.children : node;
+          return `<u>${renderChildren(children, components)}</u>`;
+        }
+
+        function renderChildren(nodes, components) {
+          let results = [];
+          if (nodes.length === 0) return '';
+          nodes.forEach((node) => {
+            if (node.children) {
+              results.push(components[node.name](node.children, components));
+            } else {
+              results.push(components[node.name](node));
+            }
+          });
+          return results.join('');
+        }
+
+        document.getElementById('output').innerHTML = render(tree, components);
+      });
+    </script>
+  </body>
+</html>
