@@ -49,6 +49,8 @@ The block function can also accept a regular expression, instead of a string as 
 - The regular expression MUST wrap the open match as the first group and close match as the second group.
 - An unoptimized regular expression MAY have adverse performance affects based on the size of the text being parsed and how greedy the regular expression match is.
 
+in most cases it would be advisable to [simply write a new rule](#making-your-own-rules).
+
 
 #### Reserved Block Names
 When giving your block a name please note that "TABLE", "TABLE_ROW" and "TABLE_CELL" have a special meaning. See [Nesting in Tables](#nesting-in-tables)
@@ -72,6 +74,19 @@ let name = 'MyKeyword';
 let keywordRule = textMarker.keyword('foo', name);
 let tokens = textMarker.parse('I have a foo keyword token', [keywordRule]);
 ````
+## Making your own Rules
+The rules above are functions that return rule objects. In theory you can make your own by writing a function that returns an object with the following properties.
+
+| Property    | Description     |
+|-------------|-----------------|
+| pattern     | regular expression to detect relevant text.|
+| onMatch     | handler that will will be called for every match on the pattern. It MUST return an array of objects with specific properties. see below.  |
+
+onMatch array objects
+| Property    | Description     |
+| name        | This will be  |
+| type        |   |
+| handle      | either 'at' or 'before'. 'at' will replace the characters in the string with your tokens   |
 
 ## Overlapping blocks and ranges
 Text Marker will also ensure the generated tokens are properly nested and do not overlap with each other. If it does detect overlapping blocks or ranges of text it will attempt insert tokens that create a valid tree. It makes it easier to work with libraries like React that require a component to be valid html. The inserted tokens created to correct the tree have a _virtual property set to true.
