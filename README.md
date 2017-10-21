@@ -1,5 +1,5 @@
 # Text Marker
-Text Marker is a lexical analysis library for identifying regions of text according to the custom rules supplied.  It accepts a string and array of rules as input and produces an array of token objects for output.
+Text Marker is a lexical analysis library for identifying regions of text according to the custom rules supplied.  It accepts a string and array of rules as input and produces an tree of token objects for output.
 
 ## Use Cases
 Since the library only returns regular javascript objects it is not tied to a specific rendering framework. While this introduces a requirement to implement your own view component to render the tokens, it leaves the library flexible enough so that you can apply the same rules to parsing text when you eventually need to swap out your view library or have to operate in a mixed environment that uses multiple rendering frameworks.
@@ -13,13 +13,13 @@ Pros:
 
  Cons:
   - Probably overkill if all you need is a simple word highlighter.
-  - You need to write you own view to render the array of tokens. You can refer to **[the rendering example](./examples/render.html)**
+  - You need to write you own view to render the token tree. You can refer to **[the rendering example](./examples/render.html)**
 
 ## Basic usage
 Text Marker exposes an object with methods that provides basic functionality. See below to get started and the **[examples](https://github.com/Paul-Guerra/text-marker/tree/master/examples)** page for more details.
 
 ### textMarker.parse
-Accepts accepts a string and arrays of rules and middleware and returns an array of tokens.
+Accepts accepts a string and arrays of rules and middleware and returns an tree of tokens.
 ````javascript
   let tokens = textMarker.parse('I have a *block* token', [rules], [middleware]);
 ````
@@ -76,7 +76,7 @@ let tokens = textMarker.parse('I have a foo keyword token', [keywordRule]);
 ## Overlapping blocks and ranges
 Text Marker will also ensure the generated tokens are properly nested and do not overlap with each other. If it does detect overlapping blocks or ranges of text it will attempt insert tokens that create a valid tree. It makes it easier to work with libraries like React that require a component to be valid html. The inserted tokens created to correct the tree have a _virtual property set to true.
 
-Basically, it will provide an array of tokens to help prevent you from rendering this
+Basically, it will provide a token tree to help prevent you from rendering this
 ````
 <b>foo <u>bar</b> baz</u>
 ````
