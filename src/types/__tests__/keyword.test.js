@@ -6,6 +6,12 @@ describe('keyword()', () => {
     let result = keyword('TEST', 'NAME');
     expect(typeof result).toBe('object');
   });
+
+  it('accepts a regex as an arguement', () => {
+    let dummyRegex = /hello/
+    let result = keyword(dummyRegex, 'NAME');
+    expect(result.pattern).toBe(dummyRegex);
+  });
 });
 
 describe('keyword().pattern', () => {

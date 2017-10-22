@@ -1,9 +1,15 @@
 import { escapeStringForRegex } from '../utils';
 
 export default function keyword(symbol, name) {
-  let search = escapeStringForRegex(`${symbol}`);
+  let pattern;
+  if (symbol instanceof RegExp) pattern = symbol;
+  if (typeof symbol === 'string') pattern = new RegExp(escapeStringForRegex(`${symbol}`), 'gi');
+  if (!pattern) {
+    console.error('Cannot create a text range token without a string or regex. Cannot use:', typeof symbol);
+    return false;
+  }
   return {
-    pattern: new RegExp(search, 'gi'),
+    pattern,
     onMatch: function onMatch(match) {
       let start = match.index;
       return {
