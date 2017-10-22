@@ -1,6 +1,8 @@
 /* global jest, describe, it, expect */
 import keyword from '../keyword';
 
+global.console = { error: jest.fn() };
+
 describe('keyword()', () => {
   it('returns an object', () => {
     let result = keyword('TEST', 'NAME');
@@ -11,6 +13,11 @@ describe('keyword()', () => {
     let dummyRegex = /hello/
     let result = keyword(dummyRegex, 'NAME');
     expect(result.pattern).toBe(dummyRegex);
+  });
+
+  it('it returns false if it cannot create a pattern', () => {
+    let result = keyword(0, 'NAME');
+    expect(result).toBe(false);
   });
 });
 
