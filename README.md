@@ -73,6 +73,14 @@ let keywordRule = textMarker.keyword('foo', name);
 let tokens = textMarker.parse('I have a foo keyword token', [keywordRule]);
 ````
 
+you can also pass in an array of strings. This may be useful if, for example, you want both :) and :P to resolve as an emoticon token but you dont want to make a separate rule for each string.
+
+````javascript
+let name = 'MyKeyword';
+let keywordRules = textMarker.keyword(['foo', 'bar'], name);
+let tokens = textMarker.parse('I have a foo bar keyword tokens', [keywordRules]);
+````
+
 ## Overlapping blocks and ranges
 Text Marker will also ensure the generated tokens are properly nested and do not overlap with each other. If it does detect overlapping blocks or ranges of text it will attempt insert tokens that create a valid tree. It makes it easier to work with libraries like React that require a component to be valid html. The inserted tokens created to correct the tree have a _virtual property set to true.
 
