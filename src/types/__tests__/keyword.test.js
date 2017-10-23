@@ -8,13 +8,19 @@ describe('keyword()', () => {
     let result = keyword('TEST', 'NAME');
     expect(typeof result).toBe('object');
   });
-
-  it('accepts a regex as an arguement', () => {
-    let dummyRegex = /hello/
+  
+  it('accepts a regex as an argument', () => {
+    let dummyRegex = /hello/;
     let result = keyword(dummyRegex, 'NAME');
     expect(result.pattern).toBe(dummyRegex);
   });
 
+  it('accepts an array of strings an argument', () => {
+    let strings = ['foo, barr'];
+    let result = keyword(strings, 'NAME');
+    expect(typeof result).toBe('object');    
+  });
+    
   it('it returns false if it cannot create a pattern', () => {
     let result = keyword(0, 'NAME');
     expect(result).toBe(false);
@@ -23,18 +29,40 @@ describe('keyword()', () => {
 
 describe('keyword().pattern', () => {
   it('exists', () => {
-    let result = keyword('TEST', 'NAME');
-    expect(result.pattern).toBeTruthy();
+    let {pattern} = keyword('TEST', 'NAME');
+    expect(pattern).toBeTruthy();
   });
 
   it('is a regex', () => {
-    let result = keyword('TEST', 'NAME');
-    expect(result.pattern instanceof RegExp).toBe(true);
+    let {pattern} = keyword('TEST', 'NAME');
+    expect(pattern instanceof RegExp).toBe(true);
   });
 
   it('has gi flags', () => {
-    let result = keyword('TEST', 'NAME');
-    expect(result.pattern.flags).toBe('gi');
+    let {pattern} = keyword('TEST', 'NAME');
+    expect(pattern.flags).toBe('gi');
+  });
+  
+  it('matches the keyword with a preceeding space', () => {
+    let {pattern} = keyword('TEST', 'NAME');
+    expect(pattern.exec('spaces before TEST')).toBeTruthy();
+  });
+
+  it('matches the keyword with a following space', () => {
+    let {pattern} = keyword('TEST', 'NAME');
+    expect(pattern.exec('TEST spaces after')).toBeTruthy();
+  });
+
+  it('matches the keyword surounded by spaces', () => {
+    let {pattern} = keyword('TEST', 'NAME');
+    expect(pattern.exec('spaces before TEST spaces after')).toBeTruthy();
+  });
+  
+  it('can detect more than one keyword', () => {
+    let strings = ['foo', 'bar'];
+    let {pattern} = keyword(strings, 'NAME');    
+    expect(pattern.exec('aaa foo bbb bar').index).toBe(3);
+    expect(pattern.exec('aaa foo bbb bar').index).toBe(11);
   });
 });
 
@@ -67,7 +95,8 @@ describe('keyword().onMatch', () => {
   });
 
   it('has chars string', () => {
-    let result = keyword('TEST', 'NAME').onMatch({ index: 0 });
+    let rule = keyword('TEST', 'NAME');
+    let result = rule.onMatch(rule.pattern.exec('foo TEST bar'));
     expect(result.chars).toBe('TEST');
   });
 

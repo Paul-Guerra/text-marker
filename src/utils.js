@@ -3,6 +3,15 @@ import TokenStack from './token_stack';
 export function escapeStringForRegex(s) {
   return s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 }
+
+export function makeRegexOrPattern(strings) {
+  if (!strings.length) return '';
+  if (strings.length === 1) return strings[0];
+  return strings.reduce(function(output, current) {
+    return `${output}|${escapeStringForRegex(current)}`;
+  });
+}
+
 export function setTokensForIndex(index, token, tokens) {
   let key = `${index}`;
   if (tokens[key] instanceof Array === false) tokens[key] = [];

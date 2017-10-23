@@ -15,6 +15,27 @@ describe('escapeStringForRegex()', () => {
     );
   });
 });
+
+describe('makeRegexOrPattern()', () => {
+  it('returns a string', () => {
+    expect(
+      typeof utils.makeRegexOrPattern(['foo', 'bar'])
+    ).toBe('string');
+  });
+
+  it('returns empty string if array is empty string', () => {
+    expect(utils.makeRegexOrPattern([])).toBe('');
+  });
+
+  it('returns first sring if array has only one member', () => {
+    expect(utils.makeRegexOrPattern(['foo'])).toBe('foo');
+  });
+
+  it('returns separates array member by | character', () => {
+    expect(utils.makeRegexOrPattern(['foo', 'bar'])).toBe('foo|bar');
+  });
+});
+
 describe('setTokensForIndex()', () => {
   it('creates the index if it does not exist', () => {
     let tokens = {};

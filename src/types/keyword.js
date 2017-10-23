@@ -1,9 +1,17 @@
-import { escapeStringForRegex } from '../utils';
+import { escapeStringForRegex, makeRegexOrPattern } from '../utils';
 
 export default function keyword(symbol, name) {
   let pattern;
   if (symbol instanceof RegExp) pattern = symbol;
-  if (typeof symbol === 'string') pattern = new RegExp(escapeStringForRegex(`${symbol}`), 'gi');
+
+  if (typeof symbol === 'string') {
+    pattern = new RegExp(`(^|\\s)(${escapeStringForRegex(symbol)})(\\s|$)`, 'gi');
+  }
+
+  if (symbol instanceof Array) {
+    pattern = new RegExp(`(^|\\s)(${makeRegexOrPattern(symbol)})(\\s|$)`, 'gi');
+  }
+
   if (!pattern) {
     console.error('Cannot create a keyword token without a string or regex. Cannot use:', typeof symbol);
     return false;
@@ -15,7 +23,7 @@ export default function keyword(symbol, name) {
       return {
         name,
         type: 'KEYWORD',
-        chars: `${symbol}`,
+        chars: match[2],
         index: start,
         handle: 'at',
       };
