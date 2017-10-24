@@ -1,5 +1,6 @@
 /* global jest, describe, it, expect */
 import keyword from '../keyword';
+import stubs from '../__stubs__/keyword.stubs';
 
 global.console = { error: jest.fn() };
 
@@ -80,33 +81,33 @@ describe('keyword().onMatch', () => {
 
   it('returns an object', () => {
     let result = keyword('TEST', 'NAME');
-    expect(typeof result.onMatch({ index: 0 })).toBe('object');
+    expect(typeof result.onMatch(stubs.matchResult)).toBe('object');
   });
 
   it('uses name provided', () => {
-    let result = keyword('TEST', 'FOO').onMatch({ index: 0 });
+    let result = keyword('TEST', 'FOO').onMatch(stubs.matchResult);
     let name = result.name;
     expect(name).toBe('FOO');
   });
 
   it('has type \'KEYWORD\'', () => {
-    let result = keyword('TEST', 'NAME').onMatch({ index: 0 });
+    let result = keyword('TEST', 'NAME').onMatch(stubs.matchResult);
     expect(result.type).toBe('KEYWORD');
   });
 
-  it('has chars string', () => {
+  it('has chars string that matches 2nd regex group', () => {
     let rule = keyword('TEST', 'NAME');
-    let result = rule.onMatch(rule.pattern.exec('foo TEST bar'));
-    expect(result.chars).toBe('TEST');
+    let result = rule.onMatch(stubs.matchResult);
+    expect(result.chars).toBe(stubs.matchResult[2]);
   });
 
   it('has an index', () => {
-    let result = keyword('TEST', 'NAME').onMatch({ index: 5 });
-    expect(result.index).toBe(5);
+    let result = keyword('TEST', 'NAME').onMatch(stubs.matchResult);
+    expect(result.index).toBe(19);
   });
 
   it('handle is  \'at\'', () => {
-    let result = keyword('TEST', 'NAME').onMatch({ index: 0 });
+    let result = keyword('TEST', 'NAME').onMatch(stubs.matchResult);
     expect(result.handle).toBe('at');
   });
 });
