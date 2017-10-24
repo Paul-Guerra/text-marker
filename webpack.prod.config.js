@@ -5,7 +5,7 @@ const common = require('./webpack.common.config');
 const version = require('./package.json').version;
 
 const prod = {
-  devtool: 'cheap-module-source-map',
+  devtool: 'hidden-source-map',
   output: {
     filename: './dist/text_marker.js',    
     auxiliaryComment: { root: `Text Marker Library version ${version}` },

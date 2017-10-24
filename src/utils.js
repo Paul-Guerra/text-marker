@@ -7,7 +7,9 @@ export function escapeStringForRegex(s) {
 export function makeRegexOrPattern(strings) {
   if (!strings.length) return '';
   if (strings.length === 1) return strings[0];
-  return strings.reduce(function(output, current) {
+  return strings.reduce(function(previous, current, index) {
+    let output = previous;
+    if (index === 1) output = escapeStringForRegex(output);
     return `${output}|${escapeStringForRegex(current)}`;
   });
 }
