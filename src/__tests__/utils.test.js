@@ -32,7 +32,7 @@ describe('makeRegexOrPattern()', () => {
   });
 
   it('returns separates array member by | character', () => {
-    expect(utils.makeRegexOrPattern(['foo', 'bar'])).toBe('foo|bar');
+    expect(utils.makeRegexOrPattern(['foo', 'bar', 'baz'])).toBe('foo|bar|baz');
   });
 });
 
