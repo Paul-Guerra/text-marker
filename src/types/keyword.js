@@ -19,7 +19,7 @@ export default function keyword(symbol, name) {
   return {
     pattern,
     onMatch: function onMatch(match) {
-      let start = match.index;
+      let start = match.index + match[1].length;
       return {
         name,
         type: 'KEYWORD',
