@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>Text Marker Range with Regex Example</title>
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <h2>Range with Regex</h2>
+    <pre id="output"></div>
+    <script src='../dist/text_marker.js'></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        let pattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?/gim
+        let links = textMarker.range(pattern, 'LINK', { setAttributes: (match)=>{ return {href: match[0]} } });
+        let tokens = textMarker.parse('foo https://www.google.com bar https://developer.mozilla.org/', [links]);
+
+        document.getElementById('output').innerText = JSON.stringify(tokens, null, '  ');
+      });
+    </script>
+  </body>
+</html>
