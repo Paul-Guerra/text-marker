@@ -11,10 +11,15 @@
       document.addEventListener('DOMContentLoaded', function() {
         let bold = textMarker.block({ open: '*', close: '*' }, 'BOLD');
         let underline = textMarker.block({ open: '_', close: '_' }, 'UNDERLINE');
+        let link = textMarker.range(
+          /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?/gim, 
+          'LINK',
+          { setAttributes: function (match) { return { href: match[0] }; } }
+        );
         let highlight = textMarker.range('foo bar', 'HIGHLIGHT');
         let search = textMarker.range('bar baz', 'SEARCH');
-        let rules = [bold, underline, highlight, search];
-        let tree = textMarker.parse('I have *bold _and underline words* in my_ text foo bar baz', rules);
+        let rules = [bold, underline, link, highlight, search];
+        let tree = textMarker.parse('I have *bold _and underline words* in my_ text foo bar baz. I link to http://www.google.com', rules);
 
         let components = {
           TEXT: renderText,
@@ -22,6 +27,7 @@
           UNDERLINE: renderUnderline,
           HIGHLIGHT: renderHighlight,
           SEARCH: renderSearch,
+          LINK: renderLink,
         }
 
         function render(node, components) {
@@ -35,7 +41,11 @@
         function renderBold(node, components) {
           return `<strong>${renderChildren(node, components).join('')}</strong>`;
         }
-
+        
+        function renderLink(node, components) {
+          return `<a href=${node.attributes.href}>${renderChildren(node, components).join('')}</a>`;
+        }
+                  
         function renderHighlight(node, components) {
           return `<span class="highlight" style="border: dashed 1px red">${renderChildren(node, components).join('')}</span>`;
           }

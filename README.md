@@ -24,7 +24,6 @@ Accepts accepts a string and arrays of rules and middleware and returns an tree 
   let tokens = textMarker.parse('I have a *block* token', [rules], [middleware]);
 ````
 
-
 ### textMarker.block
 Blocks are visible characters that should be REPLACED by tokens. It accepts an object with open and close string properties and a name for the token. If a close property is not provided it will default to the same value as the open property. By default blocks will only detect a match if it finds both and opening AND matching closing string. Blocks are case insensitive.
 
@@ -105,3 +104,6 @@ Middleware is an array of functions applied prior to searching for any tokens. E
 If any middleware throws and error Text Marker will stop executing all middleware and apply the provided token rules using the **original** text supplied to the parse function.
 
 See the [middleware example](https://github.com/Paul-Guerra/text-marker/blob/master/examples/middleware.html) for more details
+
+## Custom Attributes
+The keyword, block and range rule functions accept an optional third arguments. It is expected to be an object. If the setAttributes property is a function, it will be passed a regular expression match result. The return value of that function will be assigned to the node attributes property. This can be useful for relating metadata to a node.
