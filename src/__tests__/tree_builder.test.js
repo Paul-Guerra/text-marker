@@ -20,9 +20,10 @@ describe('new TreeBuilder()', () => {
 describe('treeBuilder.tokenToLeaf()', () => {
   it('returns a leaf using token name and chars', () => {
     let tb = new TreeBuilder();
-    let leaf = tb.tokenToLeaf({ name: 'foo', chars: 'bar' });
+    let leaf = tb.tokenToLeaf({ name: 'foo', chars: 'bar', attributes: 'baz' });
     expect(leaf.name).toBe('foo');
     expect(leaf.text).toBe('bar');
+    expect(leaf.attributes).toBe('baz');
   });
   
   it('returns false if token is falsey', () => {
@@ -46,12 +47,12 @@ describe('treeBuilder.addLeaf()', () => {
   });
 });
 
-
 describe('treeBuilder.tokenToBranch()', () => {
   it('returns a branch using token name', () => {
     let tb = new TreeBuilder();
-    let branch = tb.tokenToBranch({ name: 'foo' });
+    let branch = tb.tokenToBranch({ name: 'foo', attributes: 'baz' });
     expect(branch.name).toBe('foo');
+    expect(branch.attributes).toBe('baz');
     expect(branch.children instanceof Array).toBe(true);
     expect(branch.children.length).toBe(0);
   });

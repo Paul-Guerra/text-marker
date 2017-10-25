@@ -9,6 +9,7 @@ export default class TreeBuilder {
     if (!token) return false;
     return {
       name: token.name,
+      attributes: token.attributes,      
       text: token.chars
     };
   }
@@ -22,6 +23,7 @@ export default class TreeBuilder {
     if (!token) return false;
     return {
       name: token.name,
+      attributes: token.attributes,
       children: []
     };
   }
