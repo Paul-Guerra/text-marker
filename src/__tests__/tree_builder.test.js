@@ -25,6 +25,12 @@ describe('treeBuilder.tokenToLeaf()', () => {
     expect(leaf.text).toBe('bar');
     expect(leaf.attributes).toBe('baz');
   });
+
+  it('omits node attribute property if none is provided', () => {
+    let tb = new TreeBuilder();
+    let leaf = tb.tokenToLeaf({ name: 'foo', chars: 'bar'});
+    expect(typeof leaf.attributes).toBe('undefined');
+  });
   
   it('returns false if token is falsey', () => {
     let tb = new TreeBuilder();
@@ -55,6 +61,12 @@ describe('treeBuilder.tokenToBranch()', () => {
     expect(branch.attributes).toBe('baz');
     expect(branch.children instanceof Array).toBe(true);
     expect(branch.children.length).toBe(0);
+  });
+
+  it('omits node attribute property if none is provided', () => {
+    let tb = new TreeBuilder();
+    let branch = tb.tokenToBranch({ name: 'foo'});
+    expect(typeof branch.attributes).toBe('undefined');
   });
   
   it('returns false if token is falsey', () => {

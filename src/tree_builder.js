@@ -7,11 +7,16 @@ export default class TreeBuilder {
 
   tokenToLeaf(token) {
     if (!token) return false;
-    return {
-      name: token.name,
-      attributes: token.attributes || {},      
+    let leaf = {
+      name: token.name,  
       text: token.chars
     };
+
+    if (token.attributes) {
+      leaf.attributes = token.attributes;
+    }
+
+    return leaf;
   }
   
   addLeaf(token) {
@@ -21,11 +26,16 @@ export default class TreeBuilder {
   
   tokenToBranch(token) {
     if (!token) return false;
-    return {
+    let branch = {
       name: token.name,
-      attributes: token.attributes || {},
       children: []
     };
+
+    if (token.attributes) {
+      branch.attributes = token.attributes;
+    }
+
+    return branch;
   }
 
   startBranch(token) {
