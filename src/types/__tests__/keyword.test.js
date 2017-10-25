@@ -54,9 +54,19 @@ describe('keyword().pattern', () => {
     expect(pattern.exec('TEST spaces after')).toBeTruthy();
   });
 
+  it('matches trimmed keyword', () => {
+    let {pattern} = keyword('TEST', 'NAME');
+    expect(pattern.exec('TEST spaces after')).toBeTruthy();
+  });
+
   it('matches the keyword surounded by spaces', () => {
     let {pattern} = keyword('TEST', 'NAME');
-    expect(pattern.exec('spaces before TEST spaces after')).toBeTruthy();
+    expect(pattern.exec('TEST')).toBeTruthy();
+  });
+
+  it('does not match the keyword when embedded in another word', () => {
+    let {pattern} = keyword('TEST', 'NAME');
+    expect(pattern.exec('FOOTESTBAR')).toBe(null);
   });
   
   it('can detect more than one keyword', () => {
@@ -109,5 +119,14 @@ describe('keyword().onMatch', () => {
   it('handle is  \'at\'', () => {
     let result = keyword('TEST', 'NAME').onMatch(stubs.matchResult);
     expect(result.handle).toBe('at');
+  });
+
+  it('it can set custom attributes on returned tokens', () => {
+    let attr = { foo: 'bar' };
+    let setAttr = jest.fn(() => attr);
+    let result = keyword('TEST', 'NAME', { setAttributes: setAttr }).onMatch(stubs.matchResult);
+    
+    expect(setAttr.mock.calls.length).toBe(1);
+    expect(result.attributes).toBe(attr);
   });
 });

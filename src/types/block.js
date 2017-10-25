@@ -13,35 +13,43 @@ export function makeBlockRegex({ open, close = open }) {
   return new RegExp(`(${escOpen})+[\\s\\S]+?(${escClose})+`, 'gi');
 }
 
-export default function block(delimiters, name = 'DEFAULT') {
+export default function block(delimiters, name = 'DEFAULT',  options = {}) {
   let start;
   let end;
-
+  let { setAttributes } = options;
+  
   return {
     pattern: delimiters instanceof RegExp ? delimiters : makeBlockRegex(delimiters),
     onMatch: function onMatch(match) {
       start = match.index;
       end = match.index + match[0].length - match[2].length;
-      return [
-        {
-          name,
-          type: 'BLOCK_START',
-          index: start,
-          pairedWith: end,
-          chars: match[1],
-          handle: 'at',
-          delimiters
-        },
-        {
-          name,
-          index: end,
-          pairedWith: start,
-          type: 'BLOCK_END',
-          chars: match[2],
-          handle: 'at',
-          delimiters
-        }
-      ];
+      let blockStart = {
+        name,
+        type: 'BLOCK_START',
+        index: start,
+        pairedWith: end,
+        chars: match[1],
+        handle: 'at',
+        delimiters
+      };
+
+      let blockEnd = {
+        name,
+        index: end,
+        pairedWith: start,
+        type: 'BLOCK_END',
+        chars: match[2],
+        handle: 'at',
+        delimiters
+      };
+
+      if (typeof setAttributes === 'function') {
+        let attributes = setAttributes(match);
+        blockStart.attributes = attributes;
+        blockEnd.attributes = attributes;
+      }
+
+      return [blockStart, blockEnd];
     }
   };
 }

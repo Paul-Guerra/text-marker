@@ -76,11 +76,19 @@ describe('Range onMatch handler', () => {
     expect(result[1].priority).toBe(-23);
   });
 
-
-  it('has a positive priority value', () => {
+  it('has a positive and negative priority values', () => {
     let result = range('foo').onMatch(stubs.matchResult);
     expect(result[0].priority).toBeGreaterThan(0);
     expect(result[1].priority).toBeLessThan(0);
+  });
+
+  it('it can set custom attributes on returned tokens', () => {
+    let attr = { foo: 'bar' };
+    let setAttr = jest.fn(() => attr);
+    let result = range('foo', 'NAME', { setAttributes: setAttr }).onMatch(stubs.matchResult);
+    expect(setAttr.mock.calls.length).toBe(1);
+    expect(result[0].attributes).toBe(attr);
+    expect(result[1].attributes).toBe(attr);
   });
 
 });

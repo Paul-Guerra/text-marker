@@ -1,7 +1,9 @@
 import { escapeStringForRegex, makeRegexOrPattern } from '../utils';
 
-export default function keyword(symbol, name) {
+export default function keyword(symbol, name, options ={}) {
   let pattern;
+  let { setAttributes } = options;
+  
   if (symbol instanceof RegExp) pattern = symbol;
 
   if (typeof symbol === 'string') {
@@ -20,13 +22,18 @@ export default function keyword(symbol, name) {
     pattern,
     onMatch: function onMatch(match) {
       let start = match.index + match[1].length;
-      return {
+      let keyword = {
         name,
         type: 'KEYWORD',
         chars: match[2],
         index: start,
         handle: 'at',
       };
+
+      if (typeof setAttributes === 'function') {
+        keyword.attributes = setAttributes(match);
+      }
+      return keyword
     }
   };
 }

@@ -101,4 +101,13 @@ describe('Block onMatch handler', () => {
     let result = block(stubs.delimiters).onMatch(stubs.matchData);
     expect(result[1].index).toBe(16);
   });
+
+  it('it can set custom attributes on returned tokens', () => {
+    let attr = { foo: 'bar' };
+    let setAttr = jest.fn(() => attr);
+    let result = block(stubs.delimiters, 'BLOCK', { setAttributes: setAttr }).onMatch(stubs.matchData);
+    expect(setAttr.mock.calls.length).toBe(1);
+    expect(result[0].attributes).toBe(attr);
+    expect(result[1].attributes).toBe(attr);
+  });
 });
