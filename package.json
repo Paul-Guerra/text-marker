@@ -1,6 +1,6 @@
 {
   "name": "text-marker",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "A lexical analyzer for parsing text",
   "main": "dist/text_marker.js",
   "repository": {
