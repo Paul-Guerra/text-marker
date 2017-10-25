@@ -80,6 +80,24 @@ let keywordRules = textMarker.keyword(['foo', 'bar'], name);
 let tokens = textMarker.parse('I have a foo bar keyword tokens', [keywordRules]);
 ````
 
+Keywords must be words separated by spaces from their neighbors or by themselves on a line. They will not match if embedded in another word. The following example will not match a keyword
+
+
+````javascript
+let name = 'MyKeyword';
+let keywordRules = textMarker.keyword(['FOO', name);
+let tokens = textMarker.parse('I have no match forFOObecause it was not a standalone word', [keywordRules]);
+````
+
+### textMarker.symbol
+Symbols are VERY similar to keywords except on how they match. A symbol will match anywhere it is found, even if it is part of a larger word.
+
+````javascript
+let name = 'MySymbol';
+let symbolRule = textMarker.symbol('FOO', name);
+let tokens = textMarker.parse('I have aFOOsymbol token', [symbolRule]);
+````
+
 ## Overlapping blocks and ranges
 Text Marker will also ensure the generated tokens are properly nested and do not overlap with each other. If it does detect overlapping blocks or ranges of text it will attempt insert tokens that create a valid tree. It makes it easier to work with libraries like React that require a component to be valid html. The inserted tokens created to correct the tree have a _virtual property set to true.
 

@@ -22,6 +22,12 @@ describe('makeTree()', () => {
     expect(sb.addLeaf.mock.calls.length).toBe(1);
   });
 
+  it('treats a SYMBOL token like a leaf', () => {
+    let root = makeTree([{type: 'SYMBOL'}], StubBuilder);
+    let sb = new StubBuilder();
+    expect(sb.addLeaf.mock.calls.length).toBe(1);
+  });
+
   it('treats a KEYWORD token like a leaf', () => {
     let root = makeTree([{type: 'KEYWORD', name: 'FOO'}], StubBuilder);
     let sb = new StubBuilder();

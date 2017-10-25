@@ -5,9 +5,8 @@ export default function makeTree(tokens, Builder = TreeBuilder) {
 
   tokens.forEach((token)=>{
     switch (token.type) {
+      case 'SYMBOL':
       case 'LITERAL':
-        treeBuilder.addLeaf(token);
-        break;
       case 'KEYWORD':
         treeBuilder.addLeaf(token);
         break;
