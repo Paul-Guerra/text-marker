@@ -122,7 +122,6 @@ export function isVisibleToken(token) {
   return !!hasVisibleChars.exec(token.chars);
 }
 
-// todo: add middleware to handle tables
 export function normalize(tokens) {
   let tokensForIndex = {}; // buffer for tokens waiting to be inserted 
   let stack = new TokenStack();
@@ -169,6 +168,8 @@ export function normalize(tokens) {
       return;
     }
 
+    // at this point we know we have an ending token, that does not match the current 
+    // opening token in the stak and we and are not in a table
     // push ending tokens until we find a start
     stackAllIndex = stack.length - 1;
     while (!isMatching(token, stack.at(stackAllIndex))) {
@@ -187,7 +188,7 @@ export function normalize(tokens) {
     updateStack(stack, token);
   });
 
-  // if there are any open tokens still left on the tack close them
+  // if there are any open tokens still left on the stack close them
   closeOpenTokens(fixedTokens, stack);
   return fixedTokens;
 }
