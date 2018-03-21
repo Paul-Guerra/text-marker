@@ -99,7 +99,7 @@ let tokens = textMarker.parse('I have aFOOsymbol token', [symbolRule]);
 ````
 
 ## Overlapping blocks and ranges
-Text Marker will also ensure the generated tokens are properly nested and do not overlap with each other. If it does detect overlapping blocks or ranges of text it will attempt insert tokens that create a valid tree. It makes it easier to work with libraries like React that require a component to be valid html. The inserted tokens created to correct the tree have a _virtual property set to true.
+Text Marker will also ensure the generated tokens are properly nested and do not overlap with each other. If it does detect overlapping blocks or ranges of text it will attempt insert tokens that create a valid tree. It makes it easier to work with libraries like React that require a component to be valid html.
 
 Basically, it will provide a token tree to help prevent you from rendering this
 ````

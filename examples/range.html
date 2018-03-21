@@ -6,10 +6,12 @@
   <body>
     <h2>Range</h2>
     <pre id="output"></div>
-    <script src='../dist/text_marker.js'></script>
+    <!-- <script src='../dist/text_marker.js'></script> -->
+    <script src='../tmp/text_marker_devbuild.js'></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        let highlight = textMarker.range('foo', 'HIGHLIGHT');
+        let setAttr = function(){ return { foo: 'bar' }};
+        let highlight = textMarker.range('foo', 'HIGHLIGHT', {setAttributes: setAttr});
         let tokens = textMarker.parse('I have foo ranges', [highlight]);
 
         document.getElementById('output').innerText = JSON.stringify(tokens, null, '  ');

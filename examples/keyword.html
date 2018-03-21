@@ -6,11 +6,12 @@
   <body>
     <h2>Keyword</h2>
     <pre id="output"></div>
-    <script src='../dist/text_marker.js'></script>
+    <script src='../tmp/text_marker_devbuild.js'></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         let doFoo = textMarker.keyword('foo', 'DO_FOO');
-        let tokens = textMarker.parse('I have foo keywords', [doFoo]);
+        // friendly link matcher /<.+?>\s*?\S+\s*/g
+        let tokens = textMarker.parse('I have <http://www.google.com> Google foo keywords', [doFoo]);
 
         document.getElementById('output').innerText = JSON.stringify(tokens, null, '  ');
       });
