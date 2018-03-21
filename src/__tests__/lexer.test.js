@@ -82,7 +82,7 @@ describe('applyMiddleware()', () => {
   });
 
   it('logs an error if a middleware throws an error', () => {
-    console.error.mockReset();
+    console.error.mockClear();
     applyMiddleware('foo', [
       (text) => { throw({ name: 'test', message: 'oops' }); }
     ]);

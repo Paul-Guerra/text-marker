@@ -4,11 +4,11 @@ import StubBuilder from '../__stubs__/tree.stubs';
 
 describe('makeTree()', () => {
   afterEach(() => {
-    StubBuilder.prototype.addLeaf.mockReset();
-    StubBuilder.prototype.startBranch.mockReset();
-    StubBuilder.prototype.endBranch.mockReset();
-    StubBuilder.prototype.tokenToLeaf.mockReset();
-    StubBuilder.prototype.tokenToBranch.mockReset();
+    StubBuilder.prototype.addLeaf.mockClear();
+    StubBuilder.prototype.startBranch.mockClear();
+    StubBuilder.prototype.endBranch.mockClear();
+    StubBuilder.prototype.tokenToLeaf.mockClear();
+    StubBuilder.prototype.tokenToBranch.mockClear();
   });
 
   it('returns an tree object', () => {
